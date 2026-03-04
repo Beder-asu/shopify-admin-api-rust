@@ -1,6 +1,19 @@
 # Shopify REST Admin API - Rust SDK
 
-A Rust port of the Shopify REST Admin API SDK (API version 2026-01).
+🚧 **Work in Progress** 🚧
+
+A Rust port of the Shopify REST Admin API SDK (API version 2026-01). This is an **ongoing project** under active development. Features, APIs, and documentation are being continuously improved and expanded.
+
+## Project Status
+
+This SDK is currently in development. While core functionality is implemented, we are actively working on:
+- Comprehensive test coverage
+- Additional documentation and examples
+- Performance optimizations
+- Error handling improvements
+- Community feedback integration
+
+Contributions, suggestions, and bug reports are welcome!
 
 ## Features
 
