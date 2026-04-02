@@ -1,8 +1,0 @@
-C:\Users\mobed\Desktop\shopify-app-js-main\shopify-app-js-main\packages\apps\shopify-api\rest\admin\2026-01\graphql-port\target\debug\deps\icu_normalizer-64f6da7a001354cd.d: C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.2.0\src\lib.rs C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.2.0\src\properties.rs C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.2.0\src\provider.rs C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.2.0\src\uts46.rs
-
-C:\Users\mobed\Desktop\shopify-app-js-main\shopify-app-js-main\packages\apps\shopify-api\rest\admin\2026-01\graphql-port\target\debug\deps\libicu_normalizer-64f6da7a001354cd.rmeta: C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.2.0\src\lib.rs C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.2.0\src\properties.rs C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.2.0\src\provider.rs C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.2.0\src\uts46.rs
-
-C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.2.0\src\lib.rs:
-C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.2.0\src\properties.rs:
-C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.2.0\src\provider.rs:
-C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\icu_normalizer-2.2.0\src\uts46.rs:
