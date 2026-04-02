@@ -1,0 +1,57 @@
+DISPUTE RESOURCE
+================
+
+DESCRIPTION:
+The Dispute resource represents a payment dispute (chargeback) in Shopify Payments. Disputes occur when a customer questions a charge with their bank, and the merchant must provide evidence to resolve the dispute.
+
+PURPOSE:
+- View payment disputes
+- Track dispute status
+- Manage chargeback responses
+- Monitor financial risk
+
+KEY FIELDS:
+- id: Unique identifier for the dispute
+- order_id: Associated order ID
+- type: Dispute type (chargeback, inquiry)
+- currency: Currency of the disputed amount
+- amount: Disputed amount
+- reason: Reason for the dispute
+- network_reason_code: Card network's reason code
+- status: Current dispute status
+- evidence_due_by: Deadline to submit evidence
+- evidence_sent_on: When evidence was submitted
+- finalized_on: When dispute was resolved
+- initiated_at: When dispute was initiated
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific dispute
+- List All: Get all disputes with filters
+
+DISPUTE STATUSES:
+- needs_response: Awaiting merchant evidence
+- under_review: Bank reviewing evidence
+- charge_refunded: Resolved in customer's favor
+- accepted: Merchant accepted the dispute
+- won: Resolved in merchant's favor
+- lost: Customer won the dispute
+
+DISPUTE REASONS:
+- bank_not_process: Bank processing error
+- credit_not_processed: Expected credit not received
+- customer_initiated: Customer disputes charge
+- duplicate: Duplicate charge
+- fraudulent: Unauthorized transaction
+- general: Unspecified reason
+- incorrect_account_details: Wrong account
+- insufficient_funds: Insufficient funds
+- product_not_received: Item not delivered
+- product_unacceptable: Product quality issue
+- subscription_cancelled: Unexpected charge
+- unrecognized: Customer doesn't recognize charge
+
+USE CASES:
+1. Dispute Management: Track and respond to chargebacks
+2. Risk Analysis: Identify dispute patterns
+3. Evidence Submission: Prepare dispute responses
+4. Financial Reporting: Monitor chargeback costs

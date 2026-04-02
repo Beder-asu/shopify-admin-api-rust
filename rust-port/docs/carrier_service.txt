@@ -1,0 +1,49 @@
+CARRIER SERVICE RESOURCE
+========================
+
+DESCRIPTION:
+The Carrier Service resource represents a custom shipping carrier integration. It allows apps to provide real-time shipping rates by registering a callback URL that Shopify will query during checkout to get available shipping options.
+
+PURPOSE:
+- Integrate custom shipping providers
+- Provide real-time shipping rate calculations
+- Offer specialized shipping options
+- Enable location-based shipping rates
+
+KEY FIELDS:
+- id: Unique identifier for the carrier service
+- name: Display name shown to merchants and customers
+- active: Whether the carrier service is enabled
+- service_discovery: Whether to show in carrier service discovery
+- carrier_service_type: "api" for callback-based or "legacy" for older integrations
+- callback_url: URL Shopify calls to get shipping rates
+- format: Response format ("json" or "xml")
+- admin_graphql_api_id: GraphQL API identifier
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific carrier service by ID
+- List All: Get all carrier services for the shop
+- Create: Register a new carrier service
+- Update: Modify an existing carrier service
+- Delete: Remove a carrier service
+
+CALLBACK REQUEST:
+When checkout needs rates, Shopify POSTs to your callback_url with:
+- Origin address (fulfillment location)
+- Destination address
+- Items (products, quantities, weights)
+- Currency
+
+CALLBACK RESPONSE:
+Your service returns available shipping rates including:
+- Service name
+- Description
+- Price
+- Estimated delivery time
+
+USE CASES:
+1. Custom Carriers: Integrate regional or specialized carriers
+2. Dynamic Pricing: Calculate rates based on real-time factors
+3. Multi-carrier Support: Aggregate rates from multiple services
+4. Location-based Rates: Offer rates based on delivery zones
+5. Special Handling: Provide rates for oversized or fragile items

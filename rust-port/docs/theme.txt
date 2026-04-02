@@ -1,0 +1,58 @@
+THEME RESOURCE
+==============
+
+DESCRIPTION:
+The Theme resource represents a store's visual template. Themes control the look and feel of the online store, including layout, styling, and functionality through Liquid templates.
+
+PURPOSE:
+- Manage store themes
+- Access theme configuration
+- Support theme development
+- Handle theme deployment
+
+KEY FIELDS:
+- id: Unique identifier
+- name: Theme name
+- role: Theme role/status
+- theme_store_id: App store theme ID
+- previewable: Can be previewed
+- processing: Currently being processed
+- created_at / updated_at: Timestamps
+- admin_graphql_api_id: GraphQL identifier
+
+THEME ROLES:
+- main: Currently published theme
+- unpublished: Available but not live
+- development: Development theme
+- demo: Demo/trial theme
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific theme
+- List All: Get all themes
+- Create: Create/install a theme
+- Update: Modify theme properties
+- Delete: Remove a theme
+
+THEME CREATION:
+When creating, provide:
+- name: Theme name
+- src: ZIP URL of theme files
+- role: unpublished or development
+
+RELATED RESOURCES:
+- Asset: Individual theme files
+- Access via /themes/{id}/assets
+
+DEVELOPMENT WORKFLOW:
+1. Create development theme
+2. Upload/modify assets
+3. Preview changes
+4. Publish when ready
+5. Old main becomes unpublished
+
+USE CASES:
+1. Theme Management: Install/remove themes
+2. Theme Development: Build custom themes
+3. Theme Switching: Change active theme
+4. Backup: Export theme before changes
+5. Staging: Test in development role

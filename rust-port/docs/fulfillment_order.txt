@@ -1,0 +1,53 @@
+FULFILLMENT ORDER RESOURCE
+==========================
+
+DESCRIPTION:
+The Fulfillment Order resource represents the intention to fulfill a set of items from an order at a specific location. It manages the fulfillment workflow, including assignment to fulfillment services and tracking of fulfillment status.
+
+PURPOSE:
+- Manage fulfillment workflow
+- Assign fulfillments to locations/services
+- Track fulfillment progress
+- Enable modern fulfillment operations
+
+KEY FIELDS:
+- id: Unique identifier
+- shop_id: Shop ID
+- order_id: Associated order ID
+- assigned_location_id: Where items will be fulfilled
+- request_status: Fulfillment request status
+- status: Overall fulfillment order status
+- supported_actions: Available operations
+- destination: Shipping destination
+- line_items: Items to fulfill
+- fulfill_at: Scheduled fulfillment date
+- fulfill_by: Fulfillment deadline
+- international_duties: Duty payment info
+- fulfillment_holds: Any holds on fulfillment
+- delivery_method: How items will be delivered
+- assigned_location: Location details
+- merchant_requests: Associated requests
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific fulfillment order
+- List for Order: Get all fulfillment orders for an order
+- Cancel: Cancel a fulfillment order
+- Close: Close a fulfillment order
+- Move: Transfer to another location
+- Hold: Place a hold on fulfillment
+- Release Hold: Remove a fulfillment hold
+- Reschedule: Change fulfillment date
+- Set Deadline: Set fulfill-by date
+
+STATUSES:
+- open: Ready for fulfillment
+- in_progress: Being fulfilled
+- closed: Completed
+- cancelled: Cancelled
+
+USE CASES:
+1. Multi-location Fulfillment: Route to correct warehouse
+2. Fulfillment Apps: Process assigned orders
+3. Order Splitting: Handle split shipments
+4. Scheduling: Plan fulfillment timing
+5. Hold Management: Pause fulfillment when needed

@@ -1,0 +1,61 @@
+WEBHOOK RESOURCE
+================
+
+DESCRIPTION:
+The Webhook resource represents event subscriptions that notify your app when specific events occur in a shop. Webhooks enable real-time reactions to store events without polling.
+
+PURPOSE:
+- Subscribe to store events
+- Enable real-time updates
+- Trigger app workflows
+- Sync data changes
+
+KEY FIELDS:
+- id: Unique identifier
+- address: Callback URL (https required)
+- topic: Event type to subscribe
+- format: json or xml
+- fields: Specific fields to include
+- metafield_namespaces: Include metafields
+- private_metafield_namespaces: Private metafields
+- api_version: API version for payloads
+- created_at / updated_at: Timestamps
+
+COMMON TOPICS:
+- orders/create, orders/updated, orders/cancelled
+- products/create, products/update, products/delete
+- customers/create, customers/update
+- carts/create, carts/update
+- checkouts/create, checkouts/update
+- fulfillments/create, fulfillments/update
+- inventory_levels/update
+- app/uninstalled
+- shop/update
+- themes/create, themes/update
+(Many more available)
+
+WEBHOOK DELIVERY:
+- POST request to your address
+- Includes HMAC signature header
+- Payload in chosen format
+- Retries on failure
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific webhook
+- List All: Get all webhooks
+- Count: Count webhooks
+- Create: Subscribe to an event
+- Update: Modify subscription
+- Delete: Unsubscribe
+
+VERIFICATION:
+- X-Shopify-Hmac-SHA256 header
+- Verify with app secret
+- Ensures authentic payloads
+
+USE CASES:
+1. Order Processing: React to new orders
+2. Inventory Sync: Track stock changes
+3. Customer Updates: Sync customer data
+4. Fulfillment: Trigger shipping workflows
+5. App Cleanup: Handle uninstallation

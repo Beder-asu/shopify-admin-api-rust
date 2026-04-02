@@ -1,0 +1,44 @@
+LOCATIONS FOR MOVE RESOURCE
+===========================
+
+DESCRIPTION:
+The Locations For Move resource provides information about which locations a fulfillment order can be moved to. It helps determine valid destination locations when transferring fulfillment responsibilities.
+
+PURPOSE:
+- Identify valid move destinations
+- Check location eligibility
+- Support fulfillment order transfers
+- Validate move operations
+
+KEY FIELDS:
+- location: Location details
+  - id: Location ID
+  - name: Location name
+- available: Whether items can ship from here
+- message: Explanation if unavailable
+- locations_for_move: Array of valid locations
+
+AVAILABLE OPERATIONS:
+- List: Get all possible move locations for a fulfillment order
+
+AVAILABILITY REASONS:
+A location may be unavailable if:
+- It doesn't stock the required items
+- It's not configured for fulfillment
+- It lacks necessary inventory
+- It's deactivated
+- Region restrictions apply
+
+MOVE WORKFLOW:
+1. Fetch locations_for_move for fulfillment order
+2. Check available=true locations
+3. Select destination location
+4. Execute move on fulfillment order
+5. New location handles fulfillment
+
+USE CASES:
+1. Order Routing: Find best fulfillment location
+2. Stock-outs: Transfer to location with stock
+3. Shipping Optimization: Move to closer location
+4. Load Balancing: Redistribute fulfillment work
+5. Fulfillment Apps: Enable location selection UI

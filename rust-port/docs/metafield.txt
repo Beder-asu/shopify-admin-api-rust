@@ -1,0 +1,54 @@
+METAFIELD RESOURCE
+==================
+
+DESCRIPTION:
+The Metafield resource allows storing additional custom data on Shopify resources. Metafields extend the platform by attaching arbitrary key-value data to products, variants, customers, orders, and other resources.
+
+PURPOSE:
+- Store custom data on resources
+- Extend Shopify's data model
+- Enable app-specific functionality
+- Support custom integrations
+
+KEY FIELDS:
+- id: Unique identifier
+- namespace: Grouping identifier (e.g., app name)
+- key: Field name within namespace
+- value: The stored value
+- type: Data type (string, integer, json, etc.)
+- owner_id: Resource the metafield belongs to
+- owner_resource: Type of owner resource
+- description: Human-readable description
+- created_at / updated_at: Timestamps
+- admin_graphql_api_id: GraphQL identifier
+
+METAFIELD TYPES:
+- single_line_text_field, multi_line_text_field
+- number_integer, number_decimal
+- date, date_time
+- json, boolean, color
+- url, file_reference
+- product_reference, variant_reference
+- collection_reference, page_reference
+- list.* types for arrays
+
+OWNER RESOURCES:
+- product, variant, collection
+- customer, order, draft_order
+- page, blog, article
+- shop, and more
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific metafield
+- List All: Get metafields for a resource
+- Count: Count metafields
+- Create: Create a new metafield
+- Update: Modify metafield value
+- Delete: Remove a metafield
+
+USE CASES:
+1. Custom Fields: Add fields not in Shopify
+2. App Data: Store app-specific information
+3. Integration Data: Sync external system IDs
+4. Product Details: Add specifications, care info
+5. Customer Data: Store preferences, membership

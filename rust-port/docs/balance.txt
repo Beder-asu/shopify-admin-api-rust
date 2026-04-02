@@ -1,0 +1,31 @@
+BALANCE RESOURCE
+================
+
+DESCRIPTION:
+The Balance resource represents the current balance in a merchant's Shopify Payments account. It shows the available funds that can be paid out to the merchant's bank account. This is a Shopify Payments specific resource.
+
+PURPOSE:
+- View available Shopify Payments balance
+- Monitor funds available for payout
+- Track pending transactions
+- Financial reporting and reconciliation
+
+KEY FIELDS:
+- currency: Currency code (e.g., "USD", "EUR")
+- amount: Balance amount (as string, e.g., "1234.56")
+
+AVAILABLE OPERATIONS:
+- List All: Get the current balance (returns array for multi-currency)
+
+IMPORTANT NOTES:
+- Only available for stores using Shopify Payments
+- Balance reflects processed transactions minus fees and refunds
+- May include multiple currencies if the store handles international sales
+- Balance updates as transactions are processed
+
+USE CASES:
+1. Financial Dashboard: Display available funds to merchants
+2. Cash Flow Management: Monitor incoming funds
+3. Payout Predictions: Estimate upcoming payouts
+4. Multi-currency Reporting: Track balances across currencies
+5. Accounting Integration: Sync balance data with accounting systems

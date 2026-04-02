@@ -1,0 +1,46 @@
+ASSET RESOURCE
+==============
+
+DESCRIPTION:
+The Asset resource represents individual files within a Shopify theme, including Liquid templates, CSS files, JavaScript files, images, and other static assets. Assets are always associated with a specific theme.
+
+PURPOSE:
+- Manage theme files programmatically
+- Customize store appearance
+- Deploy theme changes
+- Backup and restore theme assets
+
+KEY FIELDS:
+- key: Asset path/filename (e.g., "templates/index.liquid")
+- public_url: CDN URL for the asset
+- content_type: MIME type of the file
+- size: File size in bytes
+- checksum: MD5 checksum for integrity verification
+- theme_id: ID of the theme this asset belongs to
+- value: Text content for editable assets
+- attachment: Base64-encoded content for binary files
+- created_at: When the asset was created
+- updated_at: When the asset was last modified
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific asset by theme ID and key
+- List All: Get all assets in a theme
+- Create/Update: Create or update an asset
+- Delete: Remove an asset from a theme
+
+ASSET TYPES:
+1. Templates: .liquid files for page layouts
+2. Sections: Reusable page sections
+3. Snippets: Reusable code fragments
+4. Locales: Translation JSON files
+5. Config: Theme settings JSON
+6. Stylesheets: CSS/SCSS files
+7. JavaScript: JS files
+8. Assets folder: Images, fonts, and other static files
+
+USE CASES:
+1. Theme Development: Deploy theme changes via API
+2. White-label Solutions: Customize themes per client
+3. A/B Testing: Swap templates for testing
+4. Backup/Restore: Create theme backups
+5. Multi-store Sync: Keep themes consistent across stores

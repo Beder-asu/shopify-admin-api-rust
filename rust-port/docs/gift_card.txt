@@ -1,0 +1,49 @@
+GIFT CARD RESOURCE
+==================
+
+DESCRIPTION:
+The Gift Card resource represents a store gift card that can be used as a payment method. Gift cards hold a balance that customers can use for purchases, and they can be created, sold, or issued to customers.
+
+PURPOSE:
+- Create and manage gift cards
+- Track gift card balances
+- Enable gift card purchases
+- Handle gift card redemption
+
+KEY FIELDS:
+- id: Unique identifier
+- code: Gift card code (masked after creation)
+- last_characters: Last 4 characters of code
+- balance: Current remaining balance
+- initial_value: Original gift card value
+- currency: Currency code
+- customer_id: Associated customer
+- order_id: Order where card was purchased
+- line_item_id: Line item for purchased card
+- note: Staff notes
+- expires_on: Expiration date
+- disabled_at: When card was disabled
+- template_suffix: Custom template
+- created_at / updated_at: Timestamps
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific gift card
+- List All: Get all gift cards
+- Search: Search gift cards
+- Count: Count gift cards
+- Create: Create a new gift card
+- Update: Modify gift card details
+- Disable: Disable a gift card
+
+IMPORTANT NOTES:
+- Gift card code is only shown at creation
+- Balance decreases as card is used
+- Can be disabled but not deleted
+- May have expiration dates (jurisdiction-dependent)
+
+USE CASES:
+1. Gift Card Sales: Sell digital gift cards
+2. Promotions: Issue promotional credits
+3. Refund Alternative: Issue store credit
+4. Loyalty Programs: Reward customers
+5. Corporate Gifts: Bulk gift card creation

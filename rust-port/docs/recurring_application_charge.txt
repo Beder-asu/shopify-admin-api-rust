@@ -1,0 +1,58 @@
+RECURRING APPLICATION CHARGE RESOURCE
+=====================================
+
+DESCRIPTION:
+The Recurring Application Charge resource represents monthly subscription charges that apps bill to merchants. It enables the app subscription model where merchants pay recurring fees for app functionality.
+
+PURPOSE:
+- Create monthly subscriptions
+- Bill merchants recurring fees
+- Handle subscription lifecycle
+- Support tiered pricing
+
+KEY FIELDS:
+- id: Unique identifier
+- name: Charge description
+- price: Monthly charge amount
+- status: Charge status
+- return_url: URL after acceptance
+- test: Whether test charge
+- trial_days: Free trial period
+- capped_amount: Usage cap (if applicable)
+- terms: Terms displayed to merchant
+- activated_on: When charge activated
+- billing_on: Next billing date
+- cancelled_on: Cancellation date
+- created_at / updated_at: Timestamps
+- confirmation_url: Merchant approval URL
+- decorated_return_url: Return with params
+
+CHARGE STATUSES:
+- pending: Awaiting merchant approval
+- accepted: Merchant accepted (needs activation)
+- active: Currently billing
+- declined: Merchant rejected
+- expired: Never activated in time
+- frozen: Store frozen
+- cancelled: Cancelled
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific charge
+- List All: Get all recurring charges
+- Create: Create subscription request
+- Delete: Cancel a subscription
+- Customize: Adjust capped amount
+
+BILLING WORKFLOW:
+1. Create charge → pending status
+2. Redirect merchant to confirmation_url
+3. Merchant approves → accepted status
+4. Activate charge → active status
+5. Monthly billing begins
+
+USE CASES:
+1. App Subscriptions: Monthly app fees
+2. Tiered Plans: Different pricing levels
+3. Free Trials: Trial before billing
+4. Usage Caps: Limits on usage charges
+5. Upgrade/Downgrade: Plan changes

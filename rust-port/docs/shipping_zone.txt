@@ -1,0 +1,57 @@
+SHIPPING ZONE RESOURCE
+======================
+
+DESCRIPTION:
+The Shipping Zone resource represents a group of countries or regions that share the same shipping rates. Shipping zones define where a shop ships and what carriers/rates are available.
+
+PURPOSE:
+- Define shipping regions
+- Configure shipping rates
+- Set carrier services
+- Manage delivery options
+
+KEY FIELDS:
+- id: Unique identifier
+- name: Zone name
+- profile_id: Associated profile
+- location_group_id: Location group
+- countries: Countries in zone
+- provinces: Provinces in zone
+- carrier_shipping_rate_providers: Carrier rates
+- price_based_shipping_rates: Price-based rates
+- weight_based_shipping_rates: Weight-based rates
+- admin_graphql_api_id: GraphQL identifier
+
+COUNTRY FIELDS:
+- id: Country ID
+- code: ISO country code
+- name: Country name
+- tax: Tax rate
+- provinces: Subdivisions
+
+RATE TYPES:
+1. Price-based: Rates by order subtotal
+2. Weight-based: Rates by order weight
+3. Carrier-calculated: Live carrier rates
+
+RATE FIELDS:
+- name: Rate display name
+- price: Rate cost
+- min_order_subtotal/max_order_subtotal
+- min_order_weight/max_order_weight
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific shipping zone
+- List All: Get all shipping zones
+
+READ-ONLY VIA REST:
+- Shipping zones configured in admin
+- Settings > Shipping and delivery
+- API provides read access
+
+USE CASES:
+1. Shipping Display: Show available methods
+2. Rate Calculation: Compute shipping costs
+3. Delivery Options: Present choices
+4. International: Configure global shipping
+5. Local Delivery: Set up regional options

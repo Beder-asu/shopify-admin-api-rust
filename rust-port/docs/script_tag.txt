@@ -1,0 +1,55 @@
+SCRIPT TAG RESOURCE
+===================
+
+DESCRIPTION:
+The Script Tag resource represents JavaScript files that are loaded on storefront pages. Script tags allow apps to inject custom JavaScript into the online store without modifying theme files.
+
+PURPOSE:
+- Inject JavaScript into storefront
+- Add app functionality to store
+- Customize store behavior
+- Enable dynamic features
+
+KEY FIELDS:
+- id: Unique identifier
+- src: JavaScript file URL
+- event: When to load (onload)
+- display_scope: Where to load script
+- cache: Whether to enable caching
+- created_at / updated_at: Timestamps
+
+DISPLAY SCOPES:
+- online_store: Regular store pages
+- order_status: Thank you/order status
+- all: Both scopes
+
+EVENT:
+- onload: Load after page load (only option)
+
+SRC REQUIREMENTS:
+- Must be HTTPS URL
+- Must be accessible publicly
+- Should be fast-loading
+- Hosted on reliable server
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific script tag
+- List All: Get all script tags
+- Count: Count script tags
+- Create: Add a new script tag
+- Update: Modify script tag
+- Delete: Remove a script tag
+
+BEST PRACTICES:
+- Minimize script size
+- Use async loading
+- Cache appropriately
+- Handle errors gracefully
+- Don't block page render
+
+USE CASES:
+1. Analytics: Custom tracking scripts
+2. Widgets: Add interactive elements
+3. Chat: Customer chat widgets
+4. Personalization: Dynamic content
+5. Integration: Third-party services

@@ -1,0 +1,49 @@
+COLLECTION RESOURCE
+===================
+
+DESCRIPTION:
+The Collection resource represents a generic collection endpoint that can retrieve both custom collections and smart collections. It provides a unified way to access collection data regardless of the collection type.
+
+PURPOSE:
+- Retrieve collection information by ID
+- Access collection products
+- Support unified collection handling
+- Simplify collection-agnostic operations
+
+KEY FIELDS:
+- id: Unique identifier for the collection
+- handle: URL-friendly slug
+- title: Collection display name
+- body_html: Collection description (HTML)
+- published_at: When the collection was published
+- sort_order: How products are sorted
+- template_suffix: Custom template suffix
+- published_scope: Publishing scope (web, global)
+- image: Collection image
+- updated_at: Last modification time
+- admin_graphql_api_id: GraphQL identifier
+
+AVAILABLE OPERATIONS:
+- Find: Get a collection by ID (works for both types)
+- Products: Get products in the collection
+
+COLLECTION TYPES:
+1. Custom Collections: Manually curated product groupings
+2. Smart Collections: Rule-based automatic groupings
+
+SORT ORDER OPTIONS:
+- alpha-asc: Alphabetically A-Z
+- alpha-desc: Alphabetically Z-A
+- best-selling: By sales volume
+- created: By creation date
+- created-desc: Newest first
+- manual: Custom order
+- price-asc: Price low to high
+- price-desc: Price high to low
+
+USE CASES:
+1. Collection Display: Fetch collection data for storefronts
+2. Product Discovery: Get products in a collection
+3. Navigation: Build collection-based navigation
+4. SEO: Access collection metadata
+5. Search: Find collections by handle

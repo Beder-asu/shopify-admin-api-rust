@@ -1,0 +1,49 @@
+PRODUCT LISTING RESOURCE
+========================
+
+DESCRIPTION:
+The Product Listing resource represents products that have been published to your app's sales channel. It provides product data specifically formatted for external sales channels and marketplaces.
+
+PURPOSE:
+- Access channel-published products
+- Enable external sales channels
+- Sync products to marketplaces
+- Support headless commerce
+
+KEY FIELDS:
+- product_id: The product's ID
+- title: Product name
+- body_html: Description HTML
+- vendor: Product vendor
+- product_type: Category
+- handle: URL slug
+- published_at: Channel publish date
+- created_at / updated_at: Timestamps
+- variants: Published variants
+- images: Product images
+- options: Variant options
+
+LISTING-SPECIFIC:
+- Only includes published products
+- Optimized for channel consumption
+- May differ from admin product data
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific product listing
+- List All: Get all product listings
+- Count: Count product listings
+- Product IDs: Get all published product IDs
+
+PUBLISHING WORKFLOW:
+1. Product created in Shopify
+2. Merchant publishes to your channel
+3. Product appears in listings
+4. Fetch via Product Listing API
+5. Display in your channel
+
+USE CASES:
+1. Sales Channels: Build selling platforms
+2. Marketplaces: Sync to external markets
+3. Mobile Apps: Get published products
+4. Headless Stores: Custom storefronts
+5. Product Feeds: Generate product feeds

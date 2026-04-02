@@ -1,0 +1,52 @@
+RESOURCE FEEDBACK RESOURCE
+==========================
+
+DESCRIPTION:
+The Resource Feedback resource allows apps to signal the state of a shop's configuration as it relates to the app. It communicates whether the shop meets app requirements at the shop level.
+
+PURPOSE:
+- Report shop configuration status
+- Signal setup issues
+- Display shop-level feedback
+- Guide merchant setup
+
+KEY FIELDS:
+- resource_id: Shop ID
+- resource_type: Always "Shop"
+- state: success or requires_action
+- messages: Feedback messages array
+- feedback_generated_at: When created
+- created_at: Feedback creation time
+
+FEEDBACK STATES:
+- success: Shop is properly configured
+- requires_action: Setup needs attention
+
+MESSAGE FORMAT:
+- Array of message strings
+- Human-readable descriptions
+- Displayed in Shopify admin
+
+AVAILABLE OPERATIONS:
+- List All: Get current feedback
+- Create: Submit shop feedback
+
+FEEDBACK DISPLAY:
+- Shows in Shopify admin
+- Associated with your app
+- Helps merchants resolve issues
+
+FEEDBACK LIFECYCLE:
+1. App checks shop configuration
+2. Identifies missing requirements
+3. Creates feedback with issues
+4. Admin shows warning badge
+5. Merchant completes setup
+6. App submits success feedback
+
+USE CASES:
+1. Onboarding: Track setup completion
+2. Requirements: Signal missing config
+3. Integration Status: Show connection state
+4. Compliance: Indicate required actions
+5. User Education: Guide next steps

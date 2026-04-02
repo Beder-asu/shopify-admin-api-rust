@@ -1,0 +1,62 @@
+MARKETING EVENT RESOURCE
+========================
+
+DESCRIPTION:
+The Marketing Event resource represents marketing activities and campaigns tracked within Shopify. It enables attribution of sales and traffic to specific marketing efforts like ads, emails, or social campaigns.
+
+PURPOSE:
+- Track marketing campaigns
+- Enable sales attribution
+- Monitor marketing ROI
+- Integrate marketing platforms
+
+KEY FIELDS:
+- id: Unique identifier
+- event_type: Type of marketing event
+- marketing_channel: Channel category
+- paid: Whether it's paid marketing
+- referring_domain: Traffic source domain
+- remote_id: External campaign ID
+- started_at: Campaign start time
+- ended_at: Campaign end time (optional)
+- scheduled_to_end_at: Planned end time
+- budget: Marketing spend budget
+- budget_type: daily or lifetime
+- currency: Budget currency
+- utm_campaign: UTM campaign parameter
+- utm_source: UTM source parameter
+- utm_medium: UTM medium parameter
+- description: Marketing activity description
+- manage_url: Link to manage campaign
+- preview_url: Link to preview campaign
+- marketing_activity_id: Related activity
+- admin_graphql_api_id: GraphQL identifier
+
+EVENT TYPES:
+- ad, post, message, retargeting
+- transactional, affiliate, loyalty
+- newsletter, search, content, more
+
+MARKETING CHANNELS:
+- search, display, social, email
+- referral, sms, push, more
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific marketing event
+- List All: Get all marketing events
+- Count: Count marketing events
+- Create: Create a new marketing event
+- Update: Modify event details
+- Delete: Remove a marketing event
+
+ENGAGEMENT TRACKING:
+- Create engagements for events
+- Track impressions, clicks, etc.
+- Monitor campaign performance
+
+USE CASES:
+1. Campaign Tracking: Log marketing activities
+2. Attribution: Connect sales to campaigns
+3. ROI Analysis: Track campaign performance
+4. Marketing Apps: Build campaign integrations
+5. Multi-channel: Track across platforms

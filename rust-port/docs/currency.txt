@@ -1,0 +1,40 @@
+CURRENCY RESOURCE
+=================
+
+DESCRIPTION:
+The Currency resource represents the currencies enabled for a Shopify store. It shows which currencies are available for transactions and their current exchange rate update status.
+
+PURPOSE:
+- View enabled currencies for the store
+- Check currency exchange rate status
+- Support multi-currency operations
+- Manage international pricing
+
+KEY FIELDS:
+- currency: ISO 4217 currency code (e.g., "USD", "EUR", "GBP")
+- rate_updated_at: When exchange rates were last updated
+- enabled: Whether the currency is currently active
+
+AVAILABLE OPERATIONS:
+- List All: Get all currencies configured for the store
+
+MULTI-CURRENCY NOTES:
+- Shopify automatically updates exchange rates
+- Merchants can set manual exchange rates or use automatic
+- Some features like Shopify Payments required for multi-currency
+- Currency rounding rules may apply
+
+COMMON CURRENCY CODES:
+- USD: US Dollar
+- EUR: Euro
+- GBP: British Pound
+- CAD: Canadian Dollar
+- AUD: Australian Dollar
+- JPY: Japanese Yen
+
+USE CASES:
+1. Currency Display: Show available currencies to customers
+2. Pricing Tools: Build multi-currency pricing interfaces
+3. Analytics: Track currency usage patterns
+4. Integration: Sync currencies with external systems
+5. Localization: Support regional pricing

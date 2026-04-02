@@ -1,0 +1,48 @@
+REDIRECT RESOURCE
+=================
+
+DESCRIPTION:
+The Redirect resource represents URL redirects from one path to another. Redirects ensure that old URLs forward visitors to the correct destination, preserving SEO and preventing broken links.
+
+PURPOSE:
+- Redirect old URLs to new ones
+- Preserve SEO link value
+- Prevent 404 errors
+- Manage URL changes
+
+KEY FIELDS:
+- id: Unique identifier
+- path: Source path (what to redirect from)
+- target: Destination URL (where to redirect to)
+
+PATH RULES:
+- Must start with "/"
+- Is relative to shop domain
+- Cannot be existing resource path
+- Case-sensitive matching
+
+TARGET OPTIONS:
+- Relative path: /new-page
+- Full URL: https://example.com/page
+- External domains allowed
+
+REDIRECT TYPES:
+All redirects are 301 (permanent) redirects, which:
+- Tell search engines the move is permanent
+- Pass SEO value to new URL
+- Browser caches the redirect
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific redirect
+- List All: Get all redirects
+- Count: Count redirects
+- Create: Create a new redirect
+- Update: Modify redirect paths
+- Delete: Remove a redirect
+
+USE CASES:
+1. URL Changes: Redirect after URL updates
+2. Product Deletion: Point to alternatives
+3. Site Migration: Map old to new URLs
+4. Vanity URLs: Short memorable paths
+5. SEO Preservation: Maintain link value

@@ -1,0 +1,52 @@
+PAGE RESOURCE
+=============
+
+DESCRIPTION:
+The Page resource represents static content pages on the storefront. Pages are used for non-blog content like "About Us", "Contact", "FAQ", "Terms of Service", and other informational pages.
+
+PURPOSE:
+- Create static content pages
+- Manage informational content
+- Build custom landing pages
+- Support store documentation
+
+KEY FIELDS:
+- id: Unique identifier
+- title: Page title
+- body_html: HTML page content
+- handle: URL-friendly handle
+- author: Page author name
+- template_suffix: Custom template
+- published_at: When made visible
+- created_at / updated_at: Timestamps
+- admin_graphql_api_id: GraphQL identifier
+
+VISIBILITY:
+- Published: Has published_at date
+- Hidden: published_at is null
+- Schedule: published_at in future
+
+URL STRUCTURE:
+- /pages/{handle}
+- Handle is auto-generated from title
+- Can be customized
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific page
+- List All: Get all pages
+- Count: Count pages
+- Create: Create a new page
+- Update: Modify page content
+- Delete: Remove a page
+
+TEMPLATE SUFFIXES:
+- Leave null for default page template
+- Set to use page.{suffix}.liquid
+- Enables custom page designs
+
+USE CASES:
+1. About/Contact Pages: Store information
+2. Policy Pages: Terms, privacy, returns
+3. FAQ Pages: Common questions
+4. Landing Pages: Campaign pages
+5. Custom Content: Any informational needs

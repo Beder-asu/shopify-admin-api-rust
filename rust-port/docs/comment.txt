@@ -1,0 +1,51 @@
+COMMENT RESOURCE
+================
+
+DESCRIPTION:
+The Comment resource represents user comments on blog articles in a Shopify store. Comments allow customers and visitors to engage with blog content by leaving feedback, questions, or discussions.
+
+PURPOSE:
+- Manage blog article comments
+- Moderate user-generated content
+- Enable community engagement
+- Spam filtering and approval workflows
+
+KEY FIELDS:
+- id: Unique identifier for the comment
+- body: Plain text comment content
+- body_html: HTML-formatted comment content
+- author: Name of the commenter
+- email: Commenter's email address
+- status: Comment status (pending, published, removed, spam)
+- article_id: ID of the associated article
+- blog_id: ID of the associated blog
+- ip: IP address of the commenter
+- user_agent: Browser information
+- created_at: When the comment was submitted
+- updated_at: When comment was modified
+- published_at: When comment was approved
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific comment
+- List All: Get comments for a blog or article
+- Count: Count comments
+- Create: Create a new comment
+- Update: Modify a comment
+- Delete: Remove a comment
+- Approve: Publish a pending comment
+- Remove: Unpublish a comment (mark as removed)
+- Spam: Mark comment as spam
+- Not Spam: Mark comment as not spam
+
+COMMENT STATUSES:
+- pending: Awaiting moderation
+- published: Visible on the site
+- removed: Hidden by moderator
+- spam: Marked as spam
+
+USE CASES:
+1. Comment Moderation: Approve or reject comments
+2. Spam Management: Filter spam comments
+3. Community Building: Foster article discussions
+4. Content Migration: Import comments from other platforms
+5. Analytics: Track engagement metrics

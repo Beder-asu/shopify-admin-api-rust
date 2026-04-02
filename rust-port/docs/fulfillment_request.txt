@@ -1,0 +1,39 @@
+FULFILLMENT REQUEST RESOURCE
+============================
+
+DESCRIPTION:
+The Fulfillment Request resource manages requests sent to fulfillment services to fulfill orders. It handles the communication between merchants and fulfillment providers for order processing.
+
+PURPOSE:
+- Request fulfillment from services
+- Accept or reject fulfillment requests
+- Manage fulfillment service communication
+- Handle fulfillment workflow
+
+KEY FIELDS:
+- message: Optional message with the request
+- fulfillment_order_line_items: Items and quantities to fulfill
+
+LINE ITEM FIELDS:
+- id: Line item ID
+- quantity: Quantity to fulfill
+
+AVAILABLE OPERATIONS:
+- Send: Submit a fulfillment request to a service
+- Accept: Fulfillment service accepts the request
+- Reject: Fulfillment service rejects the request
+
+REQUEST WORKFLOW:
+1. Merchant sends fulfillment request
+2. Fulfillment service receives notification
+3. Service evaluates capacity and inventory
+4. Service accepts or rejects the request
+5. If accepted, fulfillment proceeds
+6. If rejected, merchant must handle alternatively
+
+USE CASES:
+1. 3PL Integration: Send orders to fulfillment providers
+2. Dropshipping: Request supplier fulfillment
+3. Multi-warehouse: Distribute to fulfillment centers
+4. Fulfillment Apps: Build fulfillment service integrations
+5. Order Routing: Direct orders to appropriate services

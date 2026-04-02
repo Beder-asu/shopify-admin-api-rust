@@ -1,0 +1,56 @@
+STOREFRONT ACCESS TOKEN RESOURCE
+=================================
+
+DESCRIPTION:
+The Storefront Access Token resource provides tokens for accessing the Storefront API. These tokens allow unauthenticated access to product, collection, and checkout data for building custom storefronts.
+
+PURPOSE:
+- Enable Storefront API access
+- Support headless commerce
+- Power custom storefronts
+- Enable mobile/web apps
+
+KEY FIELDS:
+- id: Unique identifier
+- title: Token description
+- access_token: The token value
+- access_scope: Token permissions
+- created_at: Creation timestamp
+
+ACCESS SCOPES:
+- unauthenticated_read_product_listings
+- unauthenticated_read_product_inventory
+- unauthenticated_read_product_pickup_locations
+- unauthenticated_read_product_tags
+- unauthenticated_read_checkouts
+- unauthenticated_write_checkouts
+- unauthenticated_read_customers
+- unauthenticated_read_customer_tags
+- unauthenticated_read_content
+- unauthenticated_read_metaobjects
+- unauthenticated_read_selling_plans
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific token
+- List All: Get all tokens
+- Create: Generate new token
+- Delete: Revoke a token
+
+TOKEN USAGE:
+- Include in X-Shopify-Storefront-Access-Token header
+- Use with Storefront API endpoints
+- Public (can be in client-side code)
+
+STOREFRONT API USE CASES:
+- Product browsing
+- Collection viewing
+- Cart management
+- Customer authentication
+- Checkout creation
+
+USE CASES:
+1. Custom Storefronts: Build headless stores
+2. Mobile Apps: iOS/Android shopping apps
+3. Single Page Apps: React/Vue storefronts
+4. Marketplaces: Embed products elsewhere
+5. Kiosks: In-store displays

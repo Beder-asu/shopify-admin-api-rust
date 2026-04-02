@@ -1,0 +1,62 @@
+TRANSACTION RESOURCE
+====================
+
+DESCRIPTION:
+The Transaction resource represents money movement on an order. Transactions track authorizations, captures, voids, refunds, and other payment operations throughout an order's lifecycle.
+
+PURPOSE:
+- Track payment operations
+- Process payment actions
+- Audit financial activity
+- Manage order payments
+
+KEY FIELDS:
+- id: Unique identifier
+- order_id: Associated order
+- amount: Transaction amount
+- currency: Currency code
+- kind: Transaction type
+- status: Transaction status
+- gateway: Payment gateway
+- source_name: Transaction source
+- message: Gateway message
+- error_code: Error if failed
+- parent_id: Related parent transaction
+- authorization: Auth code
+- device_id: POS device
+- location_id: Location (POS)
+- receipt: Gateway receipt data
+- payment_details: Card details
+- maximum_refundable: Max refund amount
+- processed_at: When processed
+- created_at: Creation time
+- test: Whether test mode
+- user_id: Staff member
+- admin_graphql_api_id: GraphQL identifier
+
+TRANSACTION KINDS:
+- authorization: Holds funds
+- capture: Collects authorized funds
+- sale: Auth + capture together
+- void: Cancels authorization
+- refund: Returns funds
+- pending: Awaiting processing
+
+TRANSACTION STATUSES:
+- pending: In progress
+- success: Completed successfully
+- failure: Failed
+- error: System error
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific transaction
+- List All: Get order transactions
+- Count: Count transactions
+- Create: Create a new transaction
+
+USE CASES:
+1. Payment Capture: Collect authorized funds
+2. Refund Processing: Return customer money
+3. Void Authorization: Cancel holds
+4. Payment History: Audit transactions
+5. Manual Payments: Process offline payments

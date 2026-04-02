@@ -1,0 +1,53 @@
+USAGE CHARGE RESOURCE
+=====================
+
+DESCRIPTION:
+The Usage Charge resource represents metered billing charges against a recurring application charge. Usage charges enable apps to bill merchants based on actual usage beyond a base subscription.
+
+PURPOSE:
+- Bill based on usage
+- Create metered charges
+- Track consumption costs
+- Enable pay-per-use model
+
+KEY FIELDS:
+- id: Unique identifier
+- recurring_application_charge_id: Parent subscription
+- description: Charge description
+- price: Charge amount
+- balance_remaining: Remaining cap balance
+- balance_used: Amount used of cap
+- billing_on: When billed
+- risk_level: Risk assessment
+- created_at / updated_at: Timestamps
+
+USAGE BILLING MODEL:
+1. Create recurring charge with capped_amount
+2. Track merchant usage
+3. Create usage charges as needed
+4. Cannot exceed capped_amount
+5. Resets each billing cycle
+
+CAPPED AMOUNT:
+- Set on recurring application charge
+- Maximum usage charges per period
+- balance_remaining shows headroom
+- Protects merchants from overages
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific usage charge
+- List All: Get charges for a subscription
+- Create: Create a new usage charge
+
+CHARGE CREATION:
+- Must have active recurring charge
+- Include description and price
+- Cannot exceed remaining balance
+- Billing occurs automatically
+
+USE CASES:
+1. API Calls: Charge per request
+2. Data Processing: Per-record fees
+3. Features: Pay-per-use features
+4. Bandwidth: Transfer charges
+5. Transactions: Per-sale fees

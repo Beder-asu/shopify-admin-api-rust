@@ -1,0 +1,42 @@
+APPLICATION CHARGE RESOURCE
+===========================
+
+DESCRIPTION:
+The Application Charge resource represents a one-time charge that an app creates for a merchant. This is used for apps that need to bill merchants for specific features, upgrades, or services on a non-recurring basis.
+
+PURPOSE:
+- Implement one-time purchases within your app
+- Charge merchants for premium features or add-ons
+- Bill for setup fees or activation costs
+- Handle pay-per-use functionality
+
+KEY FIELDS:
+- id: Unique identifier for the charge
+- name: Name/description of the charge shown to merchant
+- api_client_id: ID of the app that created the charge
+- price: Amount to charge (as string, e.g., "19.99")
+- status: Current status (pending, accepted, active, declined, expired)
+- return_url: URL to redirect after merchant accepts/declines
+- test: Whether this is a test charge
+- created_at: When the charge was created
+- updated_at: When the charge was last updated
+- confirmation_url: URL for merchant to accept the charge
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific application charge by ID
+- List All: Get all application charges
+- Create: Create a new one-time charge
+
+CHARGE WORKFLOW:
+1. App creates an ApplicationCharge with name, price, and return_url
+2. Shopify returns a confirmation_url
+3. App redirects merchant to confirmation_url
+4. Merchant accepts or declines the charge
+5. Merchant is redirected back to return_url
+6. App checks charge status to verify acceptance
+
+USE CASES:
+1. Premium Features: One-time unlock of premium functionality
+2. Setup Fees: Initial configuration charges
+3. Add-ons: Additional modules or extensions
+4. Credits: Purchase of app credits or tokens

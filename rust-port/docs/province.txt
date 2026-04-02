@@ -1,0 +1,52 @@
+PROVINCE RESOURCE
+=================
+
+DESCRIPTION:
+The Province resource represents states, provinces, or regions within a country. Provinces are used for shipping zones, tax calculations, and address validation.
+
+PURPOSE:
+- Define regional subdivisions
+- Support shipping configurations
+- Enable tax by region
+- Validate addresses
+
+KEY FIELDS:
+- id: Unique identifier
+- country_id: Parent country
+- code: Province/state code (CA, NY, ON)
+- name: Full province name
+- tax: Province tax rate
+- tax_name: Tax display name
+- tax_type: null, normal, or harmonized
+- tax_percentage: Tax rate percentage
+- shipping_zone_id: Associated shipping zone
+
+TAX TYPES:
+- null: No special tax
+- normal: Standard provincial tax
+- harmonized: Combined federal/provincial
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific province
+- List All: Get provinces for a country
+- Count: Count provinces
+- Update: Modify province tax settings
+
+KEY NOTES:
+- Provinces belong to countries
+- Used for regional shipping rates
+- Tax settings affect checkout
+- Standard provinces pre-loaded
+
+PROVINCE CODES:
+Examples by country:
+- US: CA, NY, TX, FL, etc.
+- Canada: ON, QC, BC, AB, etc.
+- Australia: NSW, VIC, QLD, etc.
+
+USE CASES:
+1. Shipping Zones: Set regional rates
+2. Tax Configuration: Region-specific taxes
+3. Address Forms: Populate state dropdowns
+4. Regional Pricing: Location-based rates
+5. Compliance: Regional tax requirements

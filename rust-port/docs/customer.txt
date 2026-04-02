@@ -1,0 +1,50 @@
+CUSTOMER RESOURCE
+=================
+
+DESCRIPTION:
+The Customer resource represents a customer account in the Shopify store. It contains personal information, order history references, addresses, and marketing preferences. Customers can be created through purchases or directly via the API.
+
+PURPOSE:
+- Manage customer accounts
+- Track customer information and preferences
+- Enable personalized experiences
+- Support CRM integrations
+
+KEY FIELDS:
+- id: Unique identifier for the customer
+- email: Customer email address
+- first_name / last_name: Customer name
+- phone: Phone number
+- accepts_marketing: Email marketing consent
+- accepts_marketing_updated_at: When consent was updated
+- marketing_opt_in_level: Level of marketing consent
+- addresses: Array of saved addresses
+- default_address: Primary address
+- orders_count: Total number of orders
+- total_spent: Lifetime spend amount
+- last_order_id / last_order_name: Most recent order
+- note: Staff notes about the customer
+- tags: Comma-separated tags
+- state: Account state (disabled, invited, enabled, declined)
+- verified_email: Whether email is verified
+- tax_exempt: Tax exemption status
+- tax_exemptions: Applied tax exemptions
+- sms_marketing_consent: SMS marketing preferences
+
+AVAILABLE OPERATIONS:
+- Find: Get a customer by ID
+- List All: Get customers with filters
+- Search: Search customers by query
+- Count: Count customers
+- Create: Create a new customer
+- Update: Modify customer details
+- Delete: Remove a customer
+- Send Invite: Send account activation email
+- Account Activation URL: Get activation link
+
+USE CASES:
+1. CRM Integration: Sync with external CRM systems
+2. Marketing: Segment customers for campaigns
+3. Personalization: Customize experiences
+4. Analytics: Analyze customer behavior
+5. Support: Access customer history

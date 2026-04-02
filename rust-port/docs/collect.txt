@@ -1,0 +1,40 @@
+COLLECT RESOURCE
+================
+
+DESCRIPTION:
+The Collect resource represents the relationship between a product and a custom collection. A collect is essentially a join record that links a product to a collection, allowing products to appear in multiple collections.
+
+PURPOSE:
+- Add products to custom collections
+- Manage collection memberships
+- Control product ordering within collections
+- Remove products from collections
+
+KEY FIELDS:
+- id: Unique identifier for the collect
+- collection_id: ID of the collection
+- product_id: ID of the product
+- created_at: When the relationship was created
+- updated_at: When the relationship was modified
+- position: Product's position in the collection
+- sort_value: Value used for sorting
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific collect by ID
+- List All: Get all collects (filterable by collection or product)
+- Count: Count collects
+- Create: Add a product to a collection
+- Delete: Remove a product from a collection
+
+IMPORTANT NOTES:
+- Only used with Custom Collections, not Smart Collections
+- Smart Collections use rules to automatically include products
+- A product can belong to multiple collections
+- Position determines display order in the collection
+
+USE CASES:
+1. Collection Management: Organize products into collections
+2. Product Categorization: Assign products to categories
+3. Featured Products: Add/remove from featured collections
+4. Seasonal Collections: Manage holiday or seasonal groupings
+5. Bulk Operations: Mass-add products to collections

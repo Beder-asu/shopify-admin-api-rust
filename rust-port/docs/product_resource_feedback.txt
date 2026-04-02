@@ -1,0 +1,47 @@
+PRODUCT RESOURCE FEEDBACK RESOURCE
+===================================
+
+DESCRIPTION:
+The Product Resource Feedback resource allows apps to communicate the state of a product's data as it relates to the app's requirements. It signals whether a product is properly configured for the app's functionality.
+
+PURPOSE:
+- Report product configuration status
+- Signal missing requirements
+- Display feedback in admin
+- Guide merchant actions
+
+KEY FIELDS:
+- resource_id: Product ID
+- resource_type: Always "Product"
+- state: success or requires_action
+- messages: Feedback messages array
+- feedback_generated_at: When feedback created
+- resource_updated_at: Product last update
+- created_at: Feedback creation time
+
+FEEDBACK STATES:
+- success: Product meets requirements
+- requires_action: Issues need resolution
+
+MESSAGE STRUCTURE:
+- message: Human-readable description
+- field: Problematic field (optional)
+
+AVAILABLE OPERATIONS:
+- List All: Get feedback for a product
+- Create: Submit product feedback
+
+FEEDBACK WORKFLOW:
+1. App analyzes product data
+2. Identifies missing/invalid fields
+3. Creates feedback with issues
+4. Admin displays warnings
+5. Merchant fixes issues
+6. App updates feedback to success
+
+USE CASES:
+1. Marketplace Integration: Signal listing issues
+2. Channel Apps: Indicate publishing problems
+3. Compliance: Flag missing required data
+4. Data Quality: Highlight incomplete products
+5. User Guidance: Direct merchants to fixes

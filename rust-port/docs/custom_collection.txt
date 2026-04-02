@@ -1,0 +1,46 @@
+CUSTOM COLLECTION RESOURCE
+==========================
+
+DESCRIPTION:
+The Custom Collection resource represents a manually curated group of products. Unlike smart collections, custom collections require you to explicitly add products through collects. They offer full control over which products are included.
+
+PURPOSE:
+- Create curated product groupings
+- Build featured or promotional collections
+- Organize products by theme or season
+- Enable manual product curation
+
+KEY FIELDS:
+- id: Unique identifier for the collection
+- handle: URL-friendly slug
+- title: Collection display name
+- body_html: Collection description (HTML)
+- published_at: When the collection was published
+- sort_order: How products are sorted
+- template_suffix: Custom Liquid template
+- published_scope: "web" or "global"
+- image: Collection featured image
+- created_at / updated_at: Timestamps
+- admin_graphql_api_id: GraphQL identifier
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific custom collection
+- List All: Get all custom collections
+- Count: Count custom collections
+- Create: Create a new custom collection
+- Update: Modify collection details
+- Delete: Remove a custom collection
+
+SORT ORDER OPTIONS:
+- alpha-asc, alpha-desc: Alphabetical
+- best-selling: By sales
+- created, created-desc: By creation date
+- manual: Custom order
+- price-asc, price-desc: By price
+
+USE CASES:
+1. Featured Products: Highlight selected items
+2. Sale Collections: Manually add sale items
+3. Gift Guides: Curate themed selections
+4. New Arrivals: Manually control what's "new"
+5. Staff Picks: Showcase recommended products

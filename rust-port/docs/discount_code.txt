@@ -1,0 +1,43 @@
+DISCOUNT CODE RESOURCE
+======================
+
+DESCRIPTION:
+The Discount Code resource represents a discount code that customers can apply during checkout. Discount codes are associated with price rules, which define the discount behavior. Multiple codes can share the same price rule.
+
+PURPOSE:
+- Create redeemable discount codes
+- Track code usage
+- Enable promotional campaigns
+- Manage bulk discount codes
+
+KEY FIELDS:
+- id: Unique identifier for the discount code
+- price_rule_id: Associated price rule ID
+- code: The code customers enter (e.g., "SAVE20")
+- usage_count: How many times the code has been used
+- created_at: When the code was created
+- updated_at: When the code was modified
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific discount code
+- Lookup: Find a code by its value
+- List All: Get all codes for a price rule
+- Count: Count codes for a price rule
+- Create: Create a new discount code
+- Update: Modify a discount code
+- Delete: Remove a discount code
+- Batch Create: Create multiple codes at once
+- Batch Info: Get batch creation job status
+
+RELATIONSHIP WITH PRICE RULES:
+- Price rules define WHAT the discount does
+- Discount codes are HOW customers access it
+- One price rule can have multiple codes
+- All codes under a rule share the same behavior
+
+USE CASES:
+1. Promotional Campaigns: Create unique codes
+2. Influencer Programs: Generate codes per influencer
+3. Customer Rewards: Issue personalized codes
+4. A/B Testing: Test different code formats
+5. Bulk Generation: Create codes for events

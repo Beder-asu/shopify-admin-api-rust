@@ -1,0 +1,52 @@
+PAYOUT RESOURCE
+===============
+
+DESCRIPTION:
+The Payout resource represents a scheduled payment from Shopify to the merchant's bank account. Payouts contain the accumulated balance from sales, minus fees and refunds.
+
+PURPOSE:
+- Track money payouts
+- View payout history
+- Monitor bank transfers
+- Understand payout contents
+
+KEY FIELDS:
+- id: Unique identifier
+- amount: Payout amount
+- currency: Currency code
+- status: Payout status
+- summary: Breakdown of amounts
+
+SUMMARY FIELDS:
+- charges_gross: Total sales
+- charges_fee: Processing fees
+- charges_net: Sales minus fees
+- refunds_gross: Total refunds
+- refunds_fee: Refund fee reversals
+- adjustments_gross: Adjustments
+- adjustments_fee: Adjustment fees
+- reserved_funds_gross: Held amounts
+- reserved_funds_fee: Reserve fees
+
+PAYOUT STATUSES:
+- scheduled: Upcoming payout
+- in_transit: Being processed
+- paid: Successfully transferred
+- failed: Transfer failed
+- canceled: Payout cancelled
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific payout
+- List All: Get all payouts
+
+READ-ONLY RESOURCE:
+- Payouts created automatically by Shopify
+- Based on payout schedule settings
+- Cannot be modified via API
+
+USE CASES:
+1. Cash Flow Tracking: Monitor incoming funds
+2. Bank Reconciliation: Match deposits
+3. Financial Planning: Project cash flow
+4. Fee Analysis: Understand deductions
+5. Reporting: Payout history reports

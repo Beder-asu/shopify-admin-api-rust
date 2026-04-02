@@ -1,0 +1,33 @@
+ACCESS SCOPE RESOURCE
+=====================
+
+DESCRIPTION:
+The Access Scope resource represents the permissions that have been granted to an app through OAuth. Each access scope defines what data and actions an app can access in a Shopify store. This is a read-only resource that allows apps to verify their current permissions.
+
+PURPOSE:
+- Verify the permissions granted to your application
+- Ensure your app has the required scopes before making API calls
+- Debug permission-related issues
+- Display granted permissions to store owners
+
+KEY FIELDS:
+- handle: The scope identifier (e.g., "read_products", "write_orders")
+
+COMMON ACCESS SCOPES:
+- read_products / write_products: Access to product data
+- read_orders / write_orders: Access to order data
+- read_customers / write_customers: Access to customer data
+- read_inventory / write_inventory: Access to inventory data
+- read_content / write_content: Access to online store content
+- read_themes / write_themes: Access to theme data
+- read_shipping / write_shipping: Access to shipping data
+- read_fulfillments / write_fulfillments: Access to fulfillment data
+
+AVAILABLE OPERATIONS:
+- List all access scopes (read-only)
+
+USE CASES:
+1. Permission Verification: Check if your app has the required permissions before performing actions
+2. Onboarding: Display what permissions your app has been granted
+3. Troubleshooting: Debug why certain API calls might be failing
+4. Dynamic Feature Enabling: Enable or disable app features based on granted permissions

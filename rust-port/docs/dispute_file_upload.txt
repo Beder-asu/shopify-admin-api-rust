@@ -1,0 +1,46 @@
+DISPUTE FILE UPLOAD RESOURCE
+============================
+
+DESCRIPTION:
+The Dispute File Upload resource represents files uploaded as evidence for payment disputes. These files support the merchant's case when contesting chargebacks and can include screenshots, documents, or other supporting materials.
+
+PURPOSE:
+- Upload evidence files for disputes
+- Attach supporting documentation
+- Manage dispute evidence files
+- Support chargeback responses
+
+KEY FIELDS:
+- id: Unique identifier for the file
+- dispute_evidence_id: Associated evidence ID
+- dispute_evidence_type: Type of evidence this supports
+- file_type: MIME type of the file
+- file_size: Size of the file in bytes
+- filename: System-generated filename
+- original_filename: Original uploaded filename
+- url: URL to access the file
+- shop_id: Associated shop ID
+- created_at / updated_at: Timestamps
+
+AVAILABLE OPERATIONS:
+- Create: Upload a new evidence file
+- Delete: Remove an evidence file
+
+SUPPORTED EVIDENCE TYPES:
+- cancellation_policy_file: Cancellation policy document
+- customer_communication_file: Customer correspondence
+- refund_policy_file: Refund policy document
+- shipping_documentation_file: Shipping/tracking proof
+- uncategorized_file: Other supporting files
+
+FILE REQUIREMENTS:
+- Common formats: PDF, JPG, PNG
+- Check Shopify documentation for size limits
+- Files should clearly support your case
+
+USE CASES:
+1. Document Upload: Attach PDFs and images
+2. Communication Records: Upload email screenshots
+3. Policy Documents: Submit policy documentation
+4. Shipping Proof: Upload tracking confirmations
+5. Evidence Organization: Manage evidence files

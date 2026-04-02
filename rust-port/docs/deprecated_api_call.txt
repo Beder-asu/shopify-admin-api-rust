@@ -1,0 +1,38 @@
+DEPRECATED API CALL RESOURCE
+============================
+
+DESCRIPTION:
+The Deprecated API Call resource provides information about deprecated API calls that your application has made. It helps you identify and update deprecated endpoints before they are removed from the API.
+
+PURPOSE:
+- Identify deprecated API usage in your app
+- Plan for API version migrations
+- Prevent service disruptions
+- Stay compliant with API changes
+
+KEY FIELDS:
+- api_type: Type of API ("REST" or "Webhook")
+- description: Description of the deprecation
+- documentation_url: Link to migration documentation
+- endpoint: The deprecated endpoint being called
+- last_call_at: When the call was last made
+- migration_deadline: When the feature will be removed
+- graphql_schema_name: Related GraphQL schema (if applicable)
+- version: API version where deprecation applies
+
+AVAILABLE OPERATIONS:
+- List All: Get all deprecated API calls made by your app
+
+MIGRATION BEST PRACTICES:
+1. Regularly check for deprecated calls
+2. Review documentation for alternatives
+3. Update code before deadline
+4. Test in development environment
+5. Monitor after migration
+
+USE CASES:
+1. API Maintenance: Monitor deprecated usage
+2. Migration Planning: Schedule updates
+3. Compliance: Ensure API compatibility
+4. Health Checks: Automated deprecation monitoring
+5. Documentation: Track required code changes

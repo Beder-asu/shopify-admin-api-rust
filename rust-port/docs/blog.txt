@@ -1,0 +1,44 @@
+BLOG RESOURCE
+=============
+
+DESCRIPTION:
+The Blog resource represents a blog within a Shopify store. Blogs are containers for articles and are used to organize content marketing, news, tutorials, and other written content on the storefront.
+
+PURPOSE:
+- Create and manage blogs on the store
+- Organize articles into categories
+- Enable content marketing features
+- Configure comment settings and syndication
+
+KEY FIELDS:
+- id: Unique identifier for the blog
+- handle: URL-friendly slug (e.g., "news" -> /blogs/news)
+- title: Display name of the blog
+- commentable: Comment policy ("no", "moderate", "yes")
+- feedburner: FeedBurner URL for RSS syndication
+- feedburner_location: FeedBurner redirect location
+- tags: Tags used across all articles in the blog
+- template_suffix: Custom template suffix
+- created_at: When the blog was created
+- updated_at: When the blog was last modified
+- admin_graphql_api_id: GraphQL API identifier
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific blog by ID
+- List All: Get all blogs in the store
+- Count: Count total blogs
+- Create: Create a new blog
+- Update: Update an existing blog
+- Delete: Remove a blog
+
+COMMENT SETTINGS:
+- "no": Comments disabled
+- "moderate": Comments require approval
+- "yes": Comments auto-approved
+
+USE CASES:
+1. Multi-blog Setup: Create separate blogs for different content types
+2. Content Migration: Import blogs from other platforms
+3. Automated Management: Programmatically manage blog settings
+4. RSS Integration: Configure syndication settings
+5. Template Customization: Apply custom templates per blog

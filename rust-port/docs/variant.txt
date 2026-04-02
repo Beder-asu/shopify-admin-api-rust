@@ -1,0 +1,61 @@
+VARIANT RESOURCE
+================
+
+DESCRIPTION:
+The Variant resource represents a specific version of a product with unique attributes like size or color. Each product can have multiple variants, each with its own price, SKU, inventory, and options.
+
+PURPOSE:
+- Define product variations
+- Manage variant-specific data
+- Track inventory per variant
+- Handle variant pricing
+
+KEY FIELDS:
+- id: Unique identifier
+- product_id: Parent product
+- title: Variant title (auto-generated)
+- price: Selling price
+- compare_at_price: Original price
+- sku: Stock keeping unit
+- barcode: UPC/EAN/ISBN
+- grams: Weight in grams
+- weight: Weight value
+- weight_unit: g, kg, lb, oz
+- inventory_item_id: Inventory tracking
+- inventory_quantity: Stock count
+- old_inventory_quantity: Previous stock
+- inventory_management: shopify or null
+- inventory_policy: deny or continue
+- fulfillment_service: manual or service
+- requires_shipping: Physical product
+- taxable: Subject to tax
+- tax_code: Tax category (Plus)
+- option1/option2/option3: Option values
+- position: Display order
+- image_id: Associated image
+- presentment_prices: Multi-currency
+- created_at / updated_at: Timestamps
+- admin_graphql_api_id: GraphQL identifier
+
+INVENTORY POLICY:
+- deny: Stop selling when out of stock
+- continue: Allow overselling
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific variant
+- List All: Get variants for product
+- Count: Count variants
+- Create: Add variant to product
+- Update: Modify variant details
+- Delete: Remove a variant
+
+LIMITS:
+- Maximum 100 variants per product
+- Up to 3 options (size, color, material)
+
+USE CASES:
+1. Size/Color Options: Product variations
+2. Pricing: Variant-specific prices
+3. Inventory: Track per-variant stock
+4. SKU Management: Unique identifiers
+5. Multi-currency: International pricing

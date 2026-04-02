@@ -1,0 +1,45 @@
+CHECKOUT RESOURCE
+=================
+
+DESCRIPTION:
+The Checkout resource represents an active checkout session where a customer is in the process of completing a purchase. It contains all the information about what the customer is buying, shipping details, and payment information.
+
+PURPOSE:
+- Create and manage checkout sessions
+- Build custom checkout experiences
+- Process sales channel checkouts
+- Handle draft and headless checkouts
+
+KEY FIELDS:
+- token: Unique checkout session token
+- cart_token: Associated cart token
+- email: Customer email address
+- gateway: Selected payment gateway
+- buyer_accepts_marketing: Marketing consent
+- created_at / updated_at: Timestamps
+- landing_site: Entry URL
+- referring_site: Referral URL
+- shipping_lines: Selected shipping options
+- subtotal_price: Subtotal amount
+- total_price: Final total
+- total_tax: Tax amount
+- total_discounts: Applied discounts
+- currency: Currency code
+- line_items: Products being purchased
+- billing_address: Payment address
+- shipping_address: Delivery address
+- customer: Associated customer
+
+AVAILABLE OPERATIONS:
+- Find: Get a checkout by token
+- Create: Create a new checkout
+- Update: Update checkout details
+- Complete: Complete the checkout
+- Shipping Rates: Get available shipping rates
+
+USE CASES:
+1. Custom Checkout: Build custom checkout flows
+2. Mobile Apps: Implement mobile checkout
+3. Headless Commerce: Checkout for headless storefronts
+4. B2B Checkouts: Custom business checkout flows
+5. Subscription Setup: Initialize recurring purchases

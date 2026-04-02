@@ -1,0 +1,39 @@
+COLLECTION LISTING RESOURCE
+===========================
+
+DESCRIPTION:
+The Collection Listing resource represents collections that have been published to a sales channel app. It contains a subset of collection data specifically for sales channel applications to display and sell products.
+
+PURPOSE:
+- Access collections published to your sales channel
+- Display collection data on external platforms
+- Sync collections to marketplaces
+- Enable multi-channel collection management
+
+KEY FIELDS:
+- collection_id: ID of the collection
+- title: Collection display name
+- handle: URL-friendly slug
+- body_html: Collection description (HTML)
+- published_at: When published to the channel
+- updated_at: Last modification time
+- sort_order: Product sort order
+- image: Collection featured image
+- default_product_image: Fallback product image
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific collection listing
+- List All: Get all collection listings for your channel
+- Product IDs: Get IDs of products in the collection
+
+SALES CHANNEL CONTEXT:
+- Only shows collections published to your sales channel
+- Publishing controlled via Shopify admin or API
+- Unpublished collections won't appear here
+
+USE CASES:
+1. Marketplace Integration: Sync collections to Amazon, eBay, etc.
+2. Mobile App: Display collections in mobile apps
+3. Social Commerce: Show collections on social platforms
+4. POS Systems: Access collections for point-of-sale
+5. Wholesale Portals: Display B2B collection catalogs

@@ -1,0 +1,42 @@
+ABANDONED CHECKOUT RESOURCE
+===========================
+
+DESCRIPTION:
+The Abandoned Checkout resource represents a checkout session that a customer started but did not complete. When a customer adds items to their cart and begins the checkout process but leaves before completing the purchase, Shopify stores this information as an abandoned checkout.
+
+PURPOSE:
+- Track incomplete checkout sessions for customer recovery campaigns
+- Analyze checkout abandonment patterns
+- Enable abandoned cart email notifications
+- Recover potentially lost sales through targeted follow-ups
+
+KEY FIELDS:
+- id: Unique identifier for the abandoned checkout
+- token: Unique token for the checkout session
+- cart_token: Token identifying the associated cart
+- email: Customer's email address
+- gateway: Payment gateway that was selected
+- buyer_accepts_marketing: Whether customer opted into marketing
+- created_at: When the checkout was created
+- updated_at: When the checkout was last updated
+- landing_site: URL where the customer landed
+- referring_site: URL that referred the customer
+- subtotal_price: Subtotal before shipping and taxes
+- total_price: Total amount including all charges
+- total_tax: Total tax amount
+- currency: Currency code (e.g., USD)
+- line_items: Array of products in the checkout
+- billing_address: Customer's billing address
+- shipping_address: Customer's shipping address
+- customer: Associated customer information
+- abandoned_checkout_url: URL to recover the checkout
+
+AVAILABLE OPERATIONS:
+- List all abandoned checkouts (read-only)
+- Count abandoned checkouts
+
+USE CASES:
+1. Abandoned Cart Recovery Emails: Send automated emails to customers who abandoned their carts
+2. Analytics: Track checkout abandonment rates and identify friction points
+3. Retargeting: Use abandoned checkout data for remarketing campaigns
+4. Customer Service: Help customers complete their purchases

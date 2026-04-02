@@ -1,0 +1,48 @@
+DRAFT ORDER RESOURCE
+====================
+
+DESCRIPTION:
+The Draft Order resource represents an order that has been created but not yet completed. Draft orders are used to prepare orders for customers, create invoices, and allow manual payment processing outside the normal checkout flow.
+
+PURPOSE:
+- Create orders on behalf of customers
+- Generate invoices for payment
+- Handle B2B or wholesale orders
+- Process phone/email orders
+
+KEY FIELDS:
+- id: Unique identifier for the draft order
+- name: Draft order name (e.g., "#D1")
+- email: Customer email
+- status: "open", "invoice_sent", or "completed"
+- currency: Order currency
+- taxes_included: Whether prices include tax
+- tax_exempt: Whether order is tax exempt
+- line_items: Products/services in the order
+- shipping_address / billing_address: Addresses
+- shipping_line: Selected shipping method
+- applied_discount: Any applied discounts
+- subtotal_price / total_price / total_tax: Pricing
+- invoice_url: Link for customer to pay
+- invoice_sent_at: When invoice was sent
+- order_id: ID of converted order
+- customer: Associated customer
+- tags: Order tags
+- note: Order notes
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific draft order
+- List All: Get all draft orders
+- Count: Count draft orders
+- Create: Create a new draft order
+- Update: Modify a draft order
+- Delete: Remove a draft order
+- Complete: Convert to a real order
+- Send Invoice: Email invoice to customer
+
+USE CASES:
+1. Phone Orders: Create orders from phone calls
+2. B2B Sales: Handle wholesale transactions
+3. Custom Quotes: Prepare custom pricing
+4. Payment Links: Generate payment invoices
+5. Manual Orders: Process orders outside checkout

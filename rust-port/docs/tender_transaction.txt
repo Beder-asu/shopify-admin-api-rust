@@ -1,0 +1,57 @@
+TENDER TRANSACTION RESOURCE
+===========================
+
+DESCRIPTION:
+The Tender Transaction resource represents the movement of money during a payment. It tracks how customers paid for orders, including payments, refunds, and changes in payment method.
+
+PURPOSE:
+- Track payment methods used
+- Monitor money movement
+- Audit payment transactions
+- Report on tender types
+
+KEY FIELDS:
+- id: Unique identifier
+- order_id: Associated order
+- amount: Transaction amount
+- currency: Currency code
+- payment_method: Payment type
+- remote_reference: External reference
+- user_id: Staff member (POS)
+- test: Whether test transaction
+- processed_at: When processed
+- payment_details: Additional details
+
+PAYMENT METHODS:
+- credit_card: Card payment
+- cash: Cash payment (POS)
+- android_pay: Google Pay
+- apple_pay: Apple Pay
+- bitcoin: Bitcoin
+- shopify_pay: Shop Pay
+- amazon_pay: Amazon Pay
+- klarna: Klarna
+- paypal: PayPal
+- unknown: Other methods
+- other: Unspecified
+
+PAYMENT DETAILS:
+Contains method-specific info like:
+- Card brand and last 4 digits
+- Transaction identifiers
+- Authorization codes
+
+AVAILABLE OPERATIONS:
+- List All: Get all tender transactions
+
+READ-ONLY RESOURCE:
+- Created automatically from orders
+- Cannot be modified via API
+- Used for reporting
+
+USE CASES:
+1. Payment Reporting: Analyze methods used
+2. Reconciliation: Match with processors
+3. POS Reporting: Track in-store payments
+4. Payment Analysis: Understand customer preferences
+5. Accounting: Financial record keeping

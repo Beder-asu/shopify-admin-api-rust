@@ -1,0 +1,46 @@
+INVENTORY ITEM RESOURCE
+=======================
+
+DESCRIPTION:
+The Inventory Item resource represents the physical goods that a merchant sells. It contains information about the item's inventory tracking, cost, and other inventory-related properties separate from the product presentation.
+
+PURPOSE:
+- Track inventory quantities
+- Manage cost of goods
+- Configure inventory tracking
+- Handle inventory settings per variant
+
+KEY FIELDS:
+- id: Unique identifier
+- sku: Stock Keeping Unit
+- cost: Unit cost of the item
+- country_code_of_origin: Manufacturing country
+- province_code_of_origin: Manufacturing province
+- harmonized_system_code: HS tariff code
+- tracked: Whether inventory is tracked
+- requires_shipping: Whether shipping required
+- country_harmonized_system_codes: Country-specific HS codes
+- created_at / updated_at: Timestamps
+- admin_graphql_api_id: GraphQL identifier
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific inventory item
+- List All: Get inventory items by IDs
+- Update: Modify inventory item properties
+
+RELATIONSHIP:
+- Each product variant has exactly one inventory item
+- Inventory levels connect items to locations
+- SKU is stored on the inventory item
+
+COST TRACKING:
+- cost field stores per-unit cost
+- Used for profit calculations
+- Can be set manually or via integrations
+
+USE CASES:
+1. Cost Management: Track cost of goods sold
+2. SKU Management: Maintain SKU database
+3. Customs/Shipping: Set HS codes and origin
+4. Inventory Tracking: Enable/disable tracking
+5. Multi-location: Foundation for location inventory

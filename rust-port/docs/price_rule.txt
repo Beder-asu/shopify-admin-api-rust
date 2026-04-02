@@ -1,0 +1,60 @@
+PRICE RULE RESOURCE
+===================
+
+DESCRIPTION:
+The Price Rule resource represents the conditions and discount type for discount codes. Price rules define "buy X get Y" deals, percentage or fixed discounts, and the conditions under which they apply.
+
+PURPOSE:
+- Define discount logic
+- Set discount conditions
+- Create promotional rules
+- Enable discount codes
+
+KEY FIELDS:
+- id: Unique identifier
+- title: Internal name
+- target_type: line_item or shipping_line
+- target_selection: all, entitled, explicit
+- allocation_method: across or each
+- value_type: percentage or fixed_amount
+- value: Discount value (negative)
+- once_per_customer: Single use per customer
+- usage_limit: Total uses allowed
+- customer_selection: all or prerequisite
+- prerequisite_subtotal_range: Min cart value
+- prerequisite_quantity_range: Min quantity
+- prerequisite_shipping_price_range: Max shipping
+- entitled_product_ids: Products to discount
+- entitled_variant_ids: Variants to discount
+- entitled_collection_ids: Collections to discount
+- entitled_country_ids: Shipping destinations
+- prerequisite_product_ids: Required products
+- prerequisite_variant_ids: Required variants
+- prerequisite_collection_ids: Required collections
+- prerequisite_customer_ids: Specific customers
+- starts_at: Start date/time
+- ends_at: End date/time
+- created_at / updated_at: Timestamps
+
+VALUE TYPES:
+- percentage: e.g., -10 for 10% off
+- fixed_amount: e.g., -5 for $5 off
+
+ALLOCATION:
+- across: Split discount across items
+- each: Apply full discount to each item
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific price rule
+- List All: Get all price rules
+- Count: Count price rules
+- Create: Create a new price rule
+- Update: Modify price rule
+- Delete: Remove a price rule
+
+USE CASES:
+1. Percentage Discounts: 20% off site-wide
+2. Fixed Discounts: $10 off orders over $50
+3. BOGO Deals: Buy one get one free
+4. Free Shipping: Shipping discounts
+5. Collection Sales: Category-specific deals

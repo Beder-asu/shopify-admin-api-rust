@@ -1,0 +1,67 @@
+SMART COLLECTION RESOURCE
+=========================
+
+DESCRIPTION:
+The Smart Collection resource represents an automatically populated collection of products based on defined rules. Unlike custom collections where products are manually added, smart collections use conditions to include products.
+
+PURPOSE:
+- Create automated collections
+- Define rule-based groupings
+- Auto-organize products
+- Dynamic product sets
+
+KEY FIELDS:
+- id: Unique identifier
+- title: Collection name
+- handle: URL-friendly slug
+- body_html: Description HTML
+- published_at: When published
+- published_scope: web or global
+- template_suffix: Custom template
+- sort_order: Product sort type
+- disjunctive: AND/OR for rules
+- rules: Collection conditions
+- image: Collection image
+- created_at / updated_at: Timestamps
+- admin_graphql_api_id: GraphQL identifier
+
+RULE STRUCTURE:
+- column: Field to match
+- relation: Comparison type
+- condition: Value to match
+
+RULE COLUMNS:
+- title, type, vendor, variant_title
+- variant_compare_at_price, variant_weight
+- variant_inventory, variant_price, tag
+
+RULE RELATIONS:
+- equals, not_equals
+- contains, not_contains
+- starts_with, ends_with
+- greater_than, less_than
+
+DISJUNCTIVE:
+- false: Products must match ALL rules (AND)
+- true: Products match ANY rule (OR)
+
+SORT OPTIONS:
+- manual, best-selling, alpha-asc
+- alpha-desc, price-desc, price-asc
+- created-desc, created-asc
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific collection
+- List All: Get all smart collections
+- Count: Count smart collections
+- Create: Create new collection
+- Update: Modify collection rules
+- Delete: Remove a collection
+- Order: Set manual product order
+
+USE CASES:
+1. Sale Collections: Price < original
+2. New Arrivals: Recent products
+3. Vendor Collections: By brand
+4. Category Pages: By product type
+5. Tag-based: Using product tags

@@ -1,0 +1,53 @@
+EVENT RESOURCE
+==============
+
+DESCRIPTION:
+The Event resource represents activities that have occurred in the store. Events provide an audit trail of changes to various resources like orders, products, and other shop data.
+
+PURPOSE:
+- Track store activity history
+- Audit changes to resources
+- Monitor shop operations
+- Build activity feeds
+
+KEY FIELDS:
+- id: Unique identifier for the event
+- subject_id: ID of the affected resource
+- subject_type: Type of resource (Order, Product, etc.)
+- verb: Action performed (confirmed, paid, updated, etc.)
+- arguments: Additional action details
+- body: Full description of the event
+- message: Human-readable summary
+- description: Short description
+- author: Who performed the action
+- path: Resource path
+- created_at: When the event occurred
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific event
+- List All: Get events for the shop
+- Count: Count events
+
+COMMON SUBJECT TYPES:
+- Order: Order-related activities
+- Product: Product changes
+- Article: Blog article events
+- Page: Page modifications
+- Comment: Comment activities
+- Collection: Collection changes
+
+COMMON VERBS:
+- create: Resource created
+- destroy: Resource deleted
+- confirmed: Order confirmed
+- paid: Order paid
+- fulfilled: Order fulfilled
+- placed: Order placed
+- update: Resource updated
+
+USE CASES:
+1. Activity Feed: Display recent store activity
+2. Audit Logging: Track changes for compliance
+3. Notifications: Trigger alerts on events
+4. Analytics: Analyze activity patterns
+5. Debugging: Investigate issues

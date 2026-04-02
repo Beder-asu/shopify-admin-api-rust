@@ -1,0 +1,46 @@
+FULFILLMENT SERVICE RESOURCE
+============================
+
+DESCRIPTION:
+The Fulfillment Service resource represents a third-party service that prepares and ships orders on behalf of the merchant. It defines the configuration for external fulfillment providers like 3PLs, dropshippers, or custom warehouses.
+
+PURPOSE:
+- Register fulfillment providers
+- Configure fulfillment integration settings
+- Enable third-party fulfillment
+- Manage fulfillment service connections
+
+KEY FIELDS:
+- id: Unique identifier
+- name: Display name for the service
+- email: Contact email
+- service_name: Service identifier
+- handle: URL-friendly handle
+- callback_url: URL for fulfillment notifications
+- fulfillment_orders_opt_in: Use modern fulfillment API
+- include_pending_stock: Include pending in inventory
+- provider_id: External provider ID
+- location_id: Associated fulfillment location
+- tracking_support: Whether service provides tracking
+- inventory_management: Whether service manages inventory
+- admin_graphql_api_id: GraphQL identifier
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific fulfillment service
+- List All: Get all fulfillment services
+- Create: Register a new fulfillment service
+- Update: Modify service configuration
+- Delete: Remove a fulfillment service
+
+SERVICE TYPES:
+1. 3PL (Third-Party Logistics): External warehouses
+2. Dropshipping: Supplier-direct fulfillment
+3. Print-on-Demand: Made-to-order services
+4. Custom Fulfillment: In-house fulfillment apps
+
+USE CASES:
+1. 3PL Integration: Connect to fulfillment warehouses
+2. Dropshipping Setup: Configure supplier fulfillment
+3. Multi-location: Register fulfillment locations
+4. Custom Solutions: Build fulfillment applications
+5. Inventory Sync: Enable inventory management

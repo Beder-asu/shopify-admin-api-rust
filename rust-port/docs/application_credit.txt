@@ -1,0 +1,35 @@
+APPLICATION CREDIT RESOURCE
+===========================
+
+DESCRIPTION:
+The Application Credit resource allows apps to issue credits to merchants. Credits are deducted from the merchant's upcoming app charges, effectively giving them a discount or refund on their app subscription or usage fees.
+
+PURPOSE:
+- Issue refunds or credits to merchants
+- Provide promotional discounts
+- Compensate for service issues or downtime
+- Reward loyal customers
+
+KEY FIELDS:
+- id: Unique identifier for the credit
+- description: Description of why the credit was issued
+- amount: Credit amount (as string, e.g., "10.00")
+- test: Whether this is a test credit
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific application credit by ID
+- List All: Get all application credits
+- Create: Issue a new credit to the merchant
+
+USE CASES:
+1. Refunds: Issue partial refunds for service issues
+2. Promotional Credits: Give new merchants trial credits
+3. Loyalty Rewards: Reward long-term customers
+4. Service Compensation: Compensate for downtime or bugs
+5. Migration Incentives: Offer credits to switch from competitors
+
+IMPORTANT NOTES:
+- Credits are applied to the merchant's next invoice
+- Credits cannot exceed the app's total billing amount
+- Once created, credits cannot be deleted or modified
+- Test credits are not charged/credited in live transactions

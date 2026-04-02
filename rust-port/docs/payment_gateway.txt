@@ -1,0 +1,48 @@
+PAYMENT GATEWAY RESOURCE
+========================
+
+DESCRIPTION:
+The Payment Gateway resource represents the payment provider configurations available for a shop. It provides read-only access to see which payment methods are enabled and their settings.
+
+PURPOSE:
+- View available payment methods
+- Check gateway configurations
+- List enabled payment providers
+- Understand payment options
+
+KEY FIELDS:
+- name: Gateway display name
+- type: Gateway provider type
+- disabled: Whether gateway is inactive
+- enabled_card_brands: Accepted card types
+- processing_method: direct, offsite, etc.
+- supports_network_tokenization: Token support
+- service_name: Internal service identifier
+- attachment: Additional configuration
+- credential1-4: Gateway credentials (masked)
+
+GATEWAY TYPES:
+- direct: On-site card processing
+- offsite: Redirect to external provider
+- manual: Cash, COD, bank transfer
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific payment gateway
+- List All: Get all payment gateways
+
+READ-ONLY:
+- Gateways are configured in Shopify admin
+- API provides read access only
+- Cannot create/modify via REST API
+
+CARD BRANDS:
+- visa, mastercard, american_express
+- discover, jcb, diners_club
+- maestro, and others
+
+USE CASES:
+1. Payment Display: Show accepted methods
+2. Checkout Logic: Check available gateways
+3. Payment Routing: Determine processor
+4. App Integration: Understand payment config
+5. Reporting: Audit payment setups

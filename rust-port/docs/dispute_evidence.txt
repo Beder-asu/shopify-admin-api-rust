@@ -1,0 +1,49 @@
+DISPUTE EVIDENCE RESOURCE
+=========================
+
+DESCRIPTION:
+The Dispute Evidence resource represents the evidence submitted by a merchant to respond to a payment dispute. It contains supporting documentation and information to contest a chargeback claim.
+
+PURPOSE:
+- Submit evidence for dispute resolution
+- Provide supporting documentation
+- Contest fraudulent chargebacks
+- Manage dispute response workflow
+
+KEY FIELDS:
+- id: Unique identifier for the evidence
+- dispute_id: Associated dispute ID
+- payments_dispute_id: Payment processor dispute ID
+- access_activity_log: Customer access/activity logs
+- billing_address: Billing address used
+- cancellation_policy_disclosure: Cancellation policy shown
+- cancellation_rebuttal: Response to cancellation claim
+- customer_email_address: Customer's email
+- customer_first_name / customer_last_name: Customer name
+- product_description: Description of products/services
+- refund_policy_disclosure: Refund policy shown
+- refund_refusal_explanation: Why refund was refused
+- shipping_address: Shipping address used
+- uncategorized_text: Additional evidence text
+- fulfillments: Fulfillment/shipping details
+- dispute_evidence_files: Attached file evidence
+- submitted: Whether evidence has been submitted
+
+AVAILABLE OPERATIONS:
+- Find: Get evidence for a dispute
+- Update: Add or modify evidence
+- Submit: Submit evidence to the bank
+
+EVIDENCE TYPES:
+1. Customer Information: Email, name, communications
+2. Transaction Details: Billing, shipping addresses
+3. Product Info: Description, photos, specifications
+4. Policy Documentation: Return, cancellation policies
+5. Delivery Proof: Tracking, signatures, photos
+6. Activity Logs: Customer access and usage
+
+USE CASES:
+1. Chargeback Response: Submit evidence to contest
+2. Documentation: Organize dispute evidence
+3. Automation: Prepare evidence programmatically
+4. win Rate Improvement: Build compelling cases

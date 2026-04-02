@@ -1,0 +1,53 @@
+LOCATION RESOURCE
+=================
+
+DESCRIPTION:
+The Location resource represents a physical location where a merchant stores inventory, fulfills orders, or conducts business. Locations can be retail stores, warehouses, pop-up shops, or drop-shipping providers.
+
+PURPOSE:
+- Define physical business locations
+- Configure fulfillment locations
+- Manage inventory storage points
+- Support multi-location operations
+
+KEY FIELDS:
+- id: Unique identifier
+- name: Location name
+- address1 / address2: Street address
+- city: City name
+- province: State/province
+- province_code: Province abbreviation
+- country: Country name
+- country_code: Country ISO code
+- zip: Postal/ZIP code
+- phone: Contact phone
+- active: Whether location is active
+- legacy: Whether it's a legacy location
+- localized_country_name: Translated country
+- localized_province_name: Translated province
+- created_at / updated_at: Timestamps
+- admin_graphql_api_id: GraphQL identifier
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific location
+- List All: Get all locations
+- Count: Count locations
+- Inventory Levels: Get inventory at location
+
+LOCATION TYPES:
+- Retail Stores: Customer-facing locations
+- Warehouses: Storage and fulfillment
+- Pop-up Shops: Temporary locations
+- 3PL/Dropship: Third-party locations
+
+IMPORTANT NOTES:
+- Locations cannot be deleted via API (only deactivated)
+- Each shop has at least one location
+- Fulfillment orders are assigned to locations
+
+USE CASES:
+1. Multi-location Setup: Configure warehouses/stores
+2. Inventory Distribution: Track stock by location
+3. Fulfillment Routing: Route orders to locations
+4. Store Locator: Display retail locations
+5. Reporting: Analyze location performance

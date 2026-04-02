@@ -1,0 +1,55 @@
+PAYMENT RESOURCE
+================
+
+DESCRIPTION:
+The Payment resource represents a payment made against a checkout. It handles the monetary transaction portion of the checkout process, including authorization and capture of funds.
+
+PURPOSE:
+- Process checkout payments
+- Handle payment transactions
+- Manage payment status
+- Support custom payment flows
+
+KEY FIELDS:
+- id: Unique identifier
+- checkout: Associated checkout
+- credit_card: Card details (masked)
+- amount: Payment amount
+- currency: Currency code
+- payment_processing_error_message: Error if failed
+- transaction: Completed transaction details
+- unique_token: Idempotency token
+- test: Whether test payment
+
+CREDIT CARD FIELDS:
+- first_name / last_name: Cardholder name
+- first_digits / last_digits: Card number portions
+- brand: Card brand (visa, mastercard, etc.)
+- expiry_month / expiry_year: Expiration date
+
+TRANSACTION FIELDS:
+- amount: Charged amount
+- authorization: Authorization code
+- currency: Currency charged
+- gateway: Payment gateway
+- kind: Transaction type
+- status: Transaction status
+
+AVAILABLE OPERATIONS:
+- Find: Get payment for a checkout
+- Create: Submit a payment
+- Count: Count payments for checkout
+
+PAYMENT PROCESS:
+1. Create checkout
+2. Submit payment with payment token
+3. Payment processes through gateway
+4. Transaction created on success
+5. Order generated from checkout
+
+USE CASES:
+1. Custom Checkout: Build payment integration
+2. Payment Processing: Handle card payments
+3. Alternative Payments: Support various methods
+4. Mobile Commerce: Process mobile payments
+5. Headless Commerce: API-driven checkout

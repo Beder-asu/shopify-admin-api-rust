@@ -1,0 +1,62 @@
+USER RESOURCE
+=============
+
+DESCRIPTION:
+The User resource represents staff accounts that have access to the Shopify admin. Users can be store owners, staff members, or collaborators with various permission levels.
+
+PURPOSE:
+- Access staff information
+- Check user permissions
+- Track staff activity
+- Manage admin access
+
+KEY FIELDS:
+- id: Unique identifier
+- first_name: User's first name
+- last_name: User's last name
+- email: User email address
+- phone: Phone number
+- url: Avatar URL
+- im: Instant messenger handle
+- bio: User biography
+- receive_announcements: Email preferences
+- screen_name: Display name
+- user_type: Account type
+- account_owner: Is store owner
+- permissions: Granted permissions
+- locale: Language preference
+- tfa_enabled: Two-factor enabled
+- admin_graphql_api_id: GraphQL identifier
+
+USER TYPES:
+- regular: Standard staff
+- restricted: Limited access
+- invited: Pending invitation
+- collaborator: External collaborator
+
+PERMISSIONS:
+Various scopes like:
+- full: All access
+- orders: Order management
+- products: Product management
+- customers: Customer access
+- reports: Reporting access
+- themes: Theme access
+- plus many more granular permissions
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific user
+- List All: Get all users
+- Current: Get authenticated user
+
+READ-ONLY RESOURCE:
+- User management in Shopify admin
+- Settings > Users and permissions
+- API provides read access
+
+USE CASES:
+1. Staff Audit: Review account access
+2. Activity Tracking: Associate actions to users
+3. Personalization: Customize app experience
+4. Permission Checks: Verify user can act
+5. Reporting: Staff-level analytics

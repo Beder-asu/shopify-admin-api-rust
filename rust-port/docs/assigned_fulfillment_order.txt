@@ -1,0 +1,40 @@
+ASSIGNED FULFILLMENT ORDER RESOURCE
+====================================
+
+DESCRIPTION:
+The Assigned Fulfillment Order resource represents fulfillment orders that have been assigned to a fulfillment service or location. It's used by fulfillment apps to view which orders they need to fulfill based on their assigned locations.
+
+PURPOSE:
+- View fulfillment orders assigned to specific locations
+- Enable fulfillment apps to see their workload
+- Manage fulfillment workflow assignments
+- Track fulfillment request statuses
+
+KEY FIELDS:
+- id: Unique identifier for the fulfillment order
+- shop_id: ID of the shop
+- order_id: Associated order ID
+- assigned_location_id: ID of the assigned fulfillment location
+- request_status: Status of fulfillment request (unsubmitted, submitted, accepted, etc.)
+- status: Overall fulfillment order status
+- supported_actions: Array of actions that can be performed
+- destination: Shipping destination details
+- line_items: Items to be fulfilled
+- fulfill_at: Date when items should be fulfilled
+- assigned_location: Details of the assigned location
+
+AVAILABLE OPERATIONS:
+- List All: Get all fulfillment orders assigned to your app's locations
+
+REQUEST STATUSES:
+- unsubmitted: Not yet submitted for fulfillment
+- submitted: Request sent to fulfillment service
+- accepted: Fulfillment service accepted the request
+- rejected: Fulfillment service rejected the request
+- cancellation_requested: Merchant requested cancellation
+
+USE CASES:
+1. Fulfillment Dashboard: Display pending fulfillment orders
+2. Workload Management: View and prioritize assigned orders
+3. 3PL Integration: Sync orders with third-party logistics
+4. Warehouse Management: Route orders to appropriate warehouses

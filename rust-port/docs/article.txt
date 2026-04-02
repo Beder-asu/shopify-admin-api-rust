@@ -1,0 +1,44 @@
+ARTICLE RESOURCE
+================
+
+DESCRIPTION:
+The Article resource represents a blog post within a Shopify store's blog. Articles are used to publish content, share news, provide tutorials, and engage with customers through a store's blog section.
+
+PURPOSE:
+- Publish blog content on the store
+- Support content marketing strategies
+- SEO optimization through blog posts
+- Customer engagement and education
+
+KEY FIELDS:
+- id: Unique identifier for the article
+- title: Article title
+- blog_id: ID of the blog this article belongs to
+- author: Author name
+- user_id: ID of the Shopify user who created the article
+- body_html: Main content of the article (HTML)
+- summary_html: Article summary/excerpt (HTML)
+- handle: URL-friendly slug
+- tags: Comma-separated tags for categorization
+- image: Featured image for the article
+- created_at: When the article was created
+- published_at: When the article was published
+- updated_at: When the article was last updated
+- template_suffix: Custom template suffix
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific article from a blog
+- List All: Get all articles from a blog
+- Count: Count articles in a blog
+- Create: Create a new article
+- Update: Update an existing article
+- Delete: Remove an article
+- Authors: Get list of article authors
+- Tags: Get list of article tags
+
+USE CASES:
+1. Content Management: Create and manage blog posts programmatically
+2. Content Migration: Import articles from external systems
+3. Auto-Publishing: Schedule and publish content automatically
+4. SEO Tools: Manage meta information and tags
+5. Content Syndication: Sync content across platforms

@@ -1,0 +1,57 @@
+REFUND RESOURCE
+===============
+
+DESCRIPTION:
+The Refund resource represents money returned to a customer for all or part of an order. Refunds track the items returned, amounts refunded, and associated restocking of inventory.
+
+PURPOSE:
+- Process customer refunds
+- Track returned items
+- Manage restock decisions
+- Handle partial refunds
+
+KEY FIELDS:
+- id: Unique identifier
+- order_id: Associated order
+- note: Refund reason/notes
+- restock: Whether to restock (deprecated)
+- refund_line_items: Items being refunded
+- transactions: Payment transactions
+- order_adjustments: Order-level adjustments
+- duties: Duty refunds
+- shipping: Shipping refunds
+- return: Associated return record
+- user_id: Staff member processing
+- processed_at: When processed
+- created_at: Creation timestamp
+
+REFUND LINE ITEM FIELDS:
+- line_item_id: Original line item
+- quantity: Quantity refunded
+- restock_type: cancel, return, no_restock
+- location_id: Restock location
+- subtotal: Item subtotal
+- total_tax: Tax on items
+
+RESTOCK TYPES:
+- no_restock: Don't add back to inventory
+- cancel: Restock (never shipped)
+- return: Restock (returned items)
+
+TRANSACTION FIELDS:
+- amount: Refund amount
+- kind: refund
+- gateway: Payment method
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific refund
+- List All: Get refunds for an order
+- Create: Process a refund
+- Calculate: Preview refund amounts
+
+USE CASES:
+1. Customer Returns: Process returned items
+2. Order Cancellation: Full refunds
+3. Partial Refunds: Refund specific items
+4. Shipping Refunds: Refund shipping costs
+5. Inventory Management: Restock returned items

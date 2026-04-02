@@ -1,0 +1,39 @@
+CANCELLATION REQUEST RESOURCE
+=============================
+
+DESCRIPTION:
+The Cancellation Request resource manages requests to cancel a fulfillment order. It enables communication between merchants and fulfillment services when an order needs to be cancelled after a fulfillment request has been submitted.
+
+PURPOSE:
+- Request cancellation of pending fulfillments
+- Accept or reject cancellation requests
+- Manage fulfillment workflow exceptions
+- Enable merchant-fulfillment service communication
+
+KEY FIELDS:
+- message: Optional message explaining the cancellation reason
+
+AVAILABLE OPERATIONS:
+- Send: Submit a cancellation request for a fulfillment order
+- Accept: Fulfillment service accepts the cancellation
+- Reject: Fulfillment service rejects the cancellation
+
+WORKFLOW:
+1. Merchant submits cancellation request with optional message
+2. Fulfillment service receives the request
+3. Fulfillment service evaluates if cancellation is possible
+4. Service responds with accept (order cancelled) or reject (order proceeds)
+
+CANCELLATION SCENARIOS:
+- Customer cancelled the order
+- Inventory issue discovered
+- Fraud detected
+- Shipping address problems
+- Order modification needed
+
+USE CASES:
+1. Order Cancellation: Cancel orders before shipment
+2. Fulfillment Management: Handle last-minute changes
+3. Customer Service: Respond to customer cancellation requests
+4. Inventory Management: Cancel when items unavailable
+5. Quality Control: Stop shipments for quality issues

@@ -1,0 +1,59 @@
+SHOP RESOURCE
+=============
+
+DESCRIPTION:
+The Shop resource represents the merchant's store configuration. It contains all the core settings, contact information, and configuration for a Shopify store.
+
+PURPOSE:
+- Access store configuration
+- Read shop settings
+- Get store metadata
+- Understand store setup
+
+KEY FIELDS:
+- id: Unique identifier
+- name: Store name
+- email: Contact email
+- domain: Primary domain
+- myshopify_domain: .myshopify.com domain
+- primary_locale: Default language
+- address1/address2: Store address
+- city, province, country: Location
+- zip: Postal code
+- phone: Phone number
+- timezone: Store timezone
+- iana_timezone: IANA timezone
+- currency: Default currency
+- money_format: Money display format
+- money_with_currency_format: With currency
+- weight_unit: lb, kg, oz, g
+- plan_name: Shopify plan
+- plan_display_name: Plan display name
+- password_enabled: Storefront password
+- has_storefront: Has online store
+- has_discounts: Discounts enabled
+- has_gift_cards: Gift cards enabled
+- checkout_api_supported: Checkout API access
+- multi_location_enabled: Multi-location
+- enabled_presentment_currencies: Currencies
+- taxes_included: Prices include tax
+- tax_shipping: Tax on shipping
+- county_taxes: County tax
+- shop_owner: Owner name
+- customer_email: Customer-facing email
+- created_at / updated_at: Timestamps
+
+AVAILABLE OPERATIONS:
+- Find: Get current shop details
+
+READ-ONLY RESOURCE:
+- Shop settings configured in admin
+- API provides read access
+- Most fields cannot be modified via API
+
+USE CASES:
+1. App Configuration: Get store settings
+2. Currency/Locale: Format displays correctly
+3. Feature Detection: Check enabled features
+4. Onboarding: Understand store setup
+5. Compliance: Get store contact info

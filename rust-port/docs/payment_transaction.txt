@@ -1,0 +1,58 @@
+PAYMENT TRANSACTION RESOURCE
+============================
+
+DESCRIPTION:
+The Payment Transaction resource represents a transaction within Shopify Balance. It tracks money movement related to payouts, including sales, adjustments, refunds, and fees.
+
+PURPOSE:
+- Track balance transactions
+- View money movement details
+- Audit payout components
+- Understand financial activity
+
+KEY FIELDS:
+- id: Unique identifier
+- type: Transaction type
+- amount: Transaction amount
+- currency: Currency code
+- fee: Associated fees
+- net: Net amount after fees
+- source_id: Related source entity
+- source_type: Type of source
+- source_order_id: Related order
+- source_order_transaction_id: Related transaction
+- processed_at: When processed
+- test: Whether test transaction
+- payout_id: Associated payout
+- payout_status: Payout state
+
+TRANSACTION TYPES:
+- charge: Sale captured
+- refund: Refund processed
+- dispute: Chargeback
+- reserve: Funds held
+- adjustment: Manual adjustment
+- payout: Money disbursed
+- fee: Processing fee
+
+PAYOUT STATUSES:
+- scheduled: Will be in next payout
+- pending: Processing
+- paid: Already paid out
+- failed: Payout failed
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific payment transaction
+- List All: Get all payment transactions
+
+READ-ONLY RESOURCE:
+- Transactions are created automatically
+- Cannot modify via API
+- Query for reporting purposes
+
+USE CASES:
+1. Financial Reporting: Track all transactions
+2. Reconciliation: Match with bank statements
+3. Fee Analysis: Understand processing costs
+4. Payout Tracking: See what's included in payouts
+5. Dispute Management: Track chargebacks

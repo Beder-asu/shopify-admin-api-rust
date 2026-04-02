@@ -1,0 +1,26 @@
+[package]
+name = "shopify-graphql-api"
+version = "2026.1.0"
+edition = "2021"
+description = "Shopify Admin GraphQL API client for Rust (API version 2026-01)"
+license = "MIT"
+repository = "https://github.com/Shopify/shopify-app-js"
+keywords = ["shopify", "api", "graphql", "ecommerce"]
+categories = ["api-bindings", "web-programming"]
+
+[lib]
+name = "shopify_graphql_api"
+path = "src/lib.rs"
+
+[dependencies]
+reqwest = { version = "0.11", features = ["json"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.0", features = ["full"] }
+async-trait = "0.1"
+thiserror = "1.0"
+url = "2.5"
+
+[dev-dependencies]
+tokio-test = "0.4"
+mockito = "1.2"

@@ -1,0 +1,53 @@
+FULFILLMENT RESOURCE
+====================
+
+DESCRIPTION:
+The Fulfillment resource represents the shipment of items from an order. A fulfillment contains tracking information and details about which line items have been shipped. Orders can have multiple fulfillments for partial shipments.
+
+PURPOSE:
+- Create shipments for orders
+- Track shipping information
+- Manage partial fulfillments
+- Update tracking details
+
+KEY FIELDS:
+- id: Unique identifier for the fulfillment
+- order_id: Associated order ID
+- status: Fulfillment status
+- created_at / updated_at: Timestamps
+- location_id: Fulfillment location
+- name: Fulfillment identifier
+- service: Shipping service name
+- shipment_status: Carrier shipment status
+- tracking_company: Carrier name
+- tracking_number: Primary tracking number
+- tracking_numbers: All tracking numbers
+- tracking_url: Tracking page URL
+- tracking_urls: All tracking URLs
+- line_items: Fulfilled line items
+- receipt: Carrier receipt info
+- notify_customer: Whether to notify customer
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific fulfillment
+- List All: Get all fulfillments for an order
+- Count: Count fulfillments
+- Create: Create a new fulfillment (v1)
+- CreateV2: Create fulfillment (modern API)
+- Update Tracking: Update tracking information
+- Cancel: Cancel a fulfillment
+
+FULFILLMENT STATUSES:
+- pending: Not yet shipped
+- open: In progress
+- success: Delivered
+- cancelled: Fulfillment cancelled
+- error: Fulfillment error
+- failure: Failed to fulfill
+
+USE CASES:
+1. Order Fulfillment: Ship orders
+2. Tracking Updates: Add/update tracking
+3. Multi-location: Fulfill from different locations
+4. 3PL Integration: Connect to fulfillment services
+5. Customer Communication: Send shipping notifications

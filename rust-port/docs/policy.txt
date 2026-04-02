@@ -1,0 +1,48 @@
+POLICY RESOURCE
+===============
+
+DESCRIPTION:
+The Policy resource represents the legal policies for a shop, including refund policy, privacy policy, terms of service, shipping policy, and other legal documents.
+
+PURPOSE:
+- Access store policies
+- Display legal information
+- Ensure compliance
+- Manage policy content
+
+KEY FIELDS:
+- title: Policy name
+- body: HTML policy content
+- url: URL where policy is displayed
+- handle: URL-friendly identifier
+- created_at / updated_at: Timestamps
+
+POLICY TYPES (by handle):
+- refund-policy: Return and refund terms
+- privacy-policy: Data handling practices
+- terms-of-service: Purchase terms
+- shipping-policy: Shipping information
+- legal-notice: Legal disclaimers
+- contact-information: Contact details
+- subscription-policy: Subscription terms
+
+AVAILABLE OPERATIONS:
+- List All: Get all policies for the shop
+
+READ-ONLY RESOURCE:
+- Policies set in Shopify admin
+- Settings > Policies
+- API provides read access only
+
+POLICY URLS:
+- /policies/refund-policy
+- /policies/privacy-policy
+- /policies/terms-of-service
+- /policies/shipping-policy
+
+USE CASES:
+1. Footer Links: Display policy links
+2. Checkout: Show terms before purchase
+3. Legal Compliance: Ensure policy presence
+4. Custom Storefronts: Fetch policy content
+5. Mobile Apps: Display policies in app

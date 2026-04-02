@@ -1,0 +1,458 @@
+================================================================================
+                    SHOPIFY REST ADMIN API - RESOURCE RELATIONSHIPS
+================================================================================
+
+This document maps how all 68 Shopify REST Admin API resources connect to each
+other, organized by domain and showing parent-child relationships.
+
+================================================================================
+                              VISUAL OVERVIEW
+================================================================================
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                                  SHOP                                        │
+│                            (Central Entity)                                  │
+└─────────────┬───────────────────┬───────────────────┬───────────────────────┘
+              │                   │                   │
+    ┌─────────▼─────────┐ ┌───────▼───────┐ ┌─────────▼─────────┐
+    │     PRODUCTS      │ │    ORDERS     │ │    CUSTOMERS      │
+    │  ├─ Variant       │ │  ├─ LineItem  │ │  ├─ Address       │
+    │  ├─ Image         │ │  ├─ Transaction│ │  └─ Metafield    │
+    │  ├─ Metafield     │ │  ├─ Refund    │ └───────────────────┘
+    │  └─ Collection    │ │  ├─ Fulfillment│
+    └───────────────────┘ │  └─ Risk      │
+                          └───────────────┘
+
+================================================================================
+                         1. PRODUCT ECOSYSTEM
+================================================================================
+
+PURPOSE: Manage the product catalog - what you sell
+
+PRODUCT (Core)
+    │
+    ├──► VARIANT (1:many)
+    │       │   Each product has variants (size, color combinations)
+    │       │   - Contains: price, sku, inventory_item_id, weight
+    │       │
+    │       └──► INVENTORY_ITEM (1:1)
+    │               │   Physical goods tracking per variant
+    │               │   - Contains: cost, sku, country_of_origin
+    │               │
+    │               └──► INVENTORY_LEVEL (1:many per location)
+    │                       Stock quantity at each location
+    │                       - Contains: available, location_id
+    │
+    ├──► IMAGE (1:many)
+    │       Product photos, can be linked to specific variants
+    │       - Contains: src, alt, position, variant_ids
+    │
+    ├──► METAFIELD (1:many)
+    │       Custom data attached to products
+    │       - Contains: namespace, key, value, type
+    │
+    └──► COLLECT (many:many relationship table)
+            │   Links products to collections
+            │
+            ├──► CUSTOM_COLLECTION
+            │       Manual product groupings
+            │
+            └──► SMART_COLLECTION
+                    Auto-populated by rules/conditions
+
+COLLECTION (Read-only union of Custom + Smart)
+    │
+    └──► COLLECTION_LISTING
+            Products published to sales channels
+
+PRODUCT_LISTING
+    │   Products published to your app's channel
+    │
+    └──► PRODUCT_RESOURCE_FEEDBACK
+            App feedback on product configuration
+
+
+================================================================================
+                         2. ORDER ECOSYSTEM
+================================================================================
+
+PURPOSE: Track purchases, payments, fulfillment, and returns
+
+ORDER (Core)
+    │
+    ├──► TRANSACTION (1:many)
+    │       Payment operations (auth, capture, refund, void)
+    │       - Contains: amount, kind, status, gateway
+    │
+    ├──► REFUND (1:many)
+    │       │   Money returned to customers
+    │       │   - Contains: refund_line_items, transactions
+    │       │
+    │       └──► REFUND_LINE_ITEM
+    │               Items being refunded with quantities
+    │
+    ├──► ORDER_RISK (1:many)
+    │       Fraud risk assessments
+    │       - Contains: score, recommendation, message
+    │
+    ├──► FULFILLMENT_ORDER (1:many)
+    │       │   Units of work for fulfillment
+    │       │   - Contains: status, assigned_location_id
+    │       │
+    │       ├──► FULFILLMENT (1:many)
+    │       │       Actual shipment records
+    │       │       - Contains: tracking_number, tracking_url
+    │       │       │
+    │       │       └──► FULFILLMENT_EVENT (1:many)
+    │       │               Tracking milestones
+    │       │               - Contains: status, happened_at
+    │       │
+    │       ├──► FULFILLMENT_REQUEST
+    │       │       Requests to fulfillment services
+    │       │
+    │       ├──► CANCELLATION_REQUEST
+    │       │       Requests to cancel fulfillment
+    │       │
+    │       └──► LOCATIONS_FOR_MOVE
+    │               Valid locations to transfer fulfillment
+    │
+    ├──► EVENT (1:many)
+    │       Audit log of order changes
+    │
+    └──► METAFIELD (1:many)
+            Custom order data
+
+DRAFT_ORDER
+    │   Incomplete orders / invoices
+    │   - Converts to ORDER when completed
+    │
+    └──► (same line items structure as Order)
+
+ABANDONED_CHECKOUT
+    │   Checkouts that weren't completed
+    │   - Contains: email, line_items, recovery_url
+    │
+    └──► CHECKOUT (associated checkout data)
+
+
+================================================================================
+                         3. FULFILLMENT ECOSYSTEM  
+================================================================================
+
+PURPOSE: Get products to customers
+
+LOCATION (Core - where inventory is stored)
+    │
+    ├──► INVENTORY_LEVEL (1:many)
+    │       Stock at this location
+    │
+    ├──► FULFILLMENT_ORDER (assigned here)
+    │       Work to be done at this location
+    │
+    └──► ASSIGNED_FULFILLMENT_ORDER (1:many)
+            Orders assigned to fulfillment services at location
+
+FULFILLMENT_SERVICE
+    │   Third-party fulfillment providers (3PL, dropship)
+    │   - Contains: callback_url, inventory_management
+    │
+    └──► LOCATION (has associated location)
+
+CARRIER_SERVICE
+    │   Custom shipping rate providers
+    │   - Contains: callback_url, carrier_service_type
+    │
+    └──► SHIPPING_ZONE (used in zones)
+
+SHIPPING_ZONE
+    │   Geographic shipping regions
+    │   - Contains: countries, provinces, price_based_shipping_rates
+    │
+    ├──► COUNTRY (1:many)
+    │       │
+    │       └──► PROVINCE (1:many)
+    │               States/provinces within country
+    │
+    └──► Shipping rates and carrier services
+
+
+================================================================================
+                         4. CUSTOMER ECOSYSTEM
+================================================================================
+
+PURPOSE: Know who buys from you
+
+CUSTOMER (Core)
+    │
+    ├──► ADDRESS (1:many - via customer methods)
+    │       Shipping/billing addresses
+    │
+    ├──► ORDER (1:many)
+    │       Purchase history
+    │
+    ├──► DRAFT_ORDER (1:many)
+    │       Pending orders
+    │
+    ├──► METAFIELD (1:many)
+    │       Custom customer data (loyalty, preferences)
+    │
+    └──► GIFT_CARD (1:many - cards associated with customer)
+
+GIFT_CARD
+    │   Store credit / gift cards
+    │   - Contains: code, balance, initial_value
+    │
+    └──► GIFT_CARD_ADJUSTMENT (1:many)
+            Balance changes (reloads, uses)
+
+
+================================================================================
+                         5. PAYMENT & FINANCIAL ECOSYSTEM
+================================================================================
+
+PURPOSE: Handle money flow
+
+PAYMENT_GATEWAY (Read-only)
+    │   Configured payment providers
+    │
+    └──► TRANSACTION (processes payments)
+
+CHECKOUT
+    │   Cart ready for payment
+    │
+    └──► PAYMENT (1:many)
+            Payment attempts against checkout
+            - Contains: credit_card, transaction
+
+BALANCE
+    │   Shopify Payments account balance
+    │
+    └──► PAYOUT (1:many)
+            │   Money sent to merchant bank
+            │   - Contains: amount, status
+            │
+            └──► PAYMENT_TRANSACTION (1:many)
+                    Individual transactions in payout
+                    - Contains: type, amount, fee
+
+DISPUTE
+    │   Chargebacks and inquiries
+    │
+    ├──► DISPUTE_EVIDENCE
+    │       Evidence submitted for dispute
+    │
+    └──► DISPUTE_FILE_UPLOAD
+            Files attached to evidence
+
+TENDER_TRANSACTION
+    │   POS and external payment records
+    │   - Contains: amount, payment_method
+
+
+================================================================================
+                         6. CONTENT ECOSYSTEM
+================================================================================
+
+PURPOSE: Manage store content (blogs, pages, themes)
+
+BLOG (Core)
+    │
+    ├──► ARTICLE (1:many)
+    │       │   Blog posts
+    │       │   - Contains: title, body_html, author
+    │       │
+    │       ├──► COMMENT (1:many)
+    │       │       Reader comments on articles
+    │       │
+    │       └──► METAFIELD (1:many)
+    │               Custom article data
+    │
+    └──► METAFIELD (1:many)
+
+PAGE
+    │   Static content pages (About, Contact, FAQ)
+    │   - Contains: title, body_html, handle
+    │
+    └──► METAFIELD (1:many)
+
+THEME
+    │   Store visual templates
+    │
+    └──► ASSET (1:many)
+            Theme files (liquid, css, js, images)
+            - Contains: key, value, content_type
+
+REDIRECT
+    │   URL redirects (old URL → new URL)
+    │   - Standalone, preserves SEO
+
+SCRIPT_TAG
+    │   JavaScript loaded on storefront
+    │   - Contains: src, event, display_scope
+
+
+================================================================================
+                         7. APP BILLING ECOSYSTEM
+================================================================================
+
+PURPOSE: Charge merchants for your app
+
+APPLICATION_CHARGE
+    │   One-time app charges
+    │   - Contains: name, price, status, confirmation_url
+
+RECURRING_APPLICATION_CHARGE
+    │   Monthly subscriptions
+    │   - Contains: name, price, trial_days, capped_amount
+    │
+    └──► USAGE_CHARGE (1:many)
+            Metered billing against subscription
+            - Contains: description, price
+
+APPLICATION_CREDIT
+    │   Credits/refunds to merchants
+    │   - Contains: description, amount
+
+
+================================================================================
+                         8. DISCOUNTS & MARKETING
+================================================================================
+
+PURPOSE: Promotions and campaigns
+
+PRICE_RULE
+    │   Discount logic and conditions
+    │   - Contains: value_type, target_type, prerequisites
+    │
+    └──► DISCOUNT_CODE (1:many)
+            Codes that activate the price rule
+            - Contains: code, usage_count
+
+MARKETING_EVENT
+    │   Campaign tracking for attribution
+    │   - Contains: event_type, utm_parameters, budget
+
+
+================================================================================
+                         9. SHOP CONFIGURATION
+================================================================================
+
+PURPOSE: Store settings and access
+
+SHOP (Core - represents the store itself)
+    │
+    ├──► POLICY (1:many)
+    │       Legal policies (refund, privacy, terms)
+    │
+    ├──► CURRENCY (1:many)
+    │       Enabled currencies
+    │
+    ├──► USER (1:many)
+    │       Staff accounts with permissions
+    │
+    ├──► RESOURCE_FEEDBACK
+    │       App feedback on shop configuration
+    │
+    └──► All other resources belong to shop
+
+ACCESS_SCOPE
+    │   OAuth permissions granted to app
+    │   - Contains: handle (read_products, write_orders, etc.)
+
+STOREFRONT_ACCESS_TOKEN
+    │   Tokens for Storefront API access
+    │   - Contains: title, access_token
+
+MOBILE_PLATFORM_APPLICATION
+    │   iOS/Android app registrations
+    │   - Contains: platform, application_id, sha256_cert
+
+
+================================================================================
+                         10. EVENTS & WEBHOOKS
+================================================================================
+
+PURPOSE: React to store changes
+
+EVENT
+    │   Audit log entries for resources
+    │   - Contains: subject_type, subject_id, verb, message
+    │   - Tracks: orders, products, customers, etc.
+
+WEBHOOK
+    │   Real-time event notifications
+    │   - Contains: topic, address, format
+    │   - Topics: orders/create, products/update, app/uninstalled
+
+DEPRECATED_API_CALL
+    │   Tracks deprecated API usage
+    │   - Helps migrate to newer API versions
+
+
+================================================================================
+                    CROSS-CUTTING RELATIONSHIPS
+================================================================================
+
+METAFIELD (attaches to many resources)
+├── Product, Variant, Collection
+├── Customer, Order, Draft Order
+├── Page, Blog, Article
+├── Shop, Location
+└── Any resource needing custom data
+
+LOCATION (central to inventory & fulfillment)
+├── Inventory Levels (stock here)
+├── Fulfillment Orders (fulfilled from here)
+├── Refunds (restock to here)
+└── Transactions (POS location)
+
+CUSTOMER (links commerce together)
+├── Orders (purchase history)
+├── Draft Orders (pending)
+├── Abandoned Checkouts
+├── Addresses
+└── Gift Cards
+
+
+================================================================================
+                         RESOURCE COUNT BY DOMAIN
+================================================================================
+
+Products & Catalog:     12 resources
+Orders & Commerce:      10 resources
+Fulfillment:            10 resources
+Customers:               3 resources
+Payments & Finance:     10 resources
+Content:                 8 resources
+App Billing:             4 resources
+Marketing:               2 resources
+Shop Config:             7 resources
+Events & Webhooks:       3 resources
+─────────────────────────────────────
+TOTAL:                  68 resources (+ mod.rs)
+
+
+================================================================================
+                              KEY INSIGHTS
+================================================================================
+
+1. SHOP is the root - everything belongs to a shop
+
+2. PRODUCTS → VARIANTS → INVENTORY_ITEMS → INVENTORY_LEVELS
+   This chain connects what you sell to how much you have
+
+3. ORDERS → FULFILLMENT_ORDERS → FULFILLMENTS → FULFILLMENT_EVENTS
+   This chain tracks the lifecycle from purchase to delivery
+
+4. CUSTOMER ties together orders, addresses, and gift cards
+
+5. LOCATION is the bridge between inventory and fulfillment
+
+6. METAFIELD provides extensibility across almost all resources
+
+7. WEBHOOKS enable real-time reactions without polling
+
+8. The billing resources (APPLICATION_CHARGE, RECURRING_APPLICATION_CHARGE,
+   USAGE_CHARGE) form a complete app monetization system
+
+================================================================================

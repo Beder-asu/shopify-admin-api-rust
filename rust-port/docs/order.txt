@@ -1,0 +1,70 @@
+ORDER RESOURCE
+==============
+
+DESCRIPTION:
+The Order resource represents a customer's completed purchase. It's one of the most important resources in Shopify, containing all details about items purchased, customer information, payments, fulfillment, and more.
+
+PURPOSE:
+- Track customer purchases
+- Manage order fulfillment
+- Process payments and refunds
+- Maintain complete transaction records
+
+KEY FIELDS:
+- id: Unique identifier
+- name: Friendly order name (#1001, etc.)
+- order_number: Sequential order number
+- email: Customer email
+- phone: Customer phone
+- customer: Customer details
+- line_items: Products ordered
+- shipping_lines: Shipping methods
+- tax_lines: Applied taxes
+- discount_codes / discount_applications: Discounts
+- subtotal_price: Pre-tax, pre-shipping total
+- total_tax: Total taxes
+- total_shipping_price_set: Shipping costs
+- total_price: Final total
+- total_discounts: Total discount amount
+- financial_status: Payment status
+- fulfillment_status: Shipping status
+- shipping_address / billing_address: Addresses
+- note: Customer notes
+- note_attributes: Custom attributes
+- tags: Order tags
+- transactions: Payment transactions
+- fulfillments: Fulfillment records
+- refunds: Refund records
+- payment_gateway_names: Payment methods used
+- processing_method: How order was created
+- source_name: Sales channel source
+- currency / presentment_currency: Currencies
+- created_at / updated_at / processed_at: Timestamps
+- closed_at / cancelled_at: Completion timestamps
+- cancel_reason: Why order was cancelled
+
+FINANCIAL STATUSES:
+- pending, authorized, partially_paid
+- paid, partially_refunded, refunded, voided
+
+FULFILLMENT STATUSES:
+- null (unfulfilled), partial, fulfilled, restocked
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific order
+- List All: Get orders with filters
+- Count: Count orders
+- Create: Create a new order
+- Update: Modify order details
+- Delete: Remove an order
+- Close: Close an order
+- Open: Reopen a closed order
+- Cancel: Cancel an order
+
+USE CASES:
+1. Order Management: View and process orders
+2. Fulfillment: Track shipping status
+3. Customer Service: Handle inquiries
+4. Reporting: Analyze sales data
+5.ERP Integration: Sync with external systems
+6. Order Creation: Build custom checkout

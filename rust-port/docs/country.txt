@@ -1,0 +1,42 @@
+COUNTRY RESOURCE
+================
+
+DESCRIPTION:
+The Country resource represents a country that the store ships to. It includes tax configuration and associated provinces/states. Countries are used to define shipping zones and tax calculations.
+
+PURPOSE:
+- Configure shipping destinations
+- Set up country-specific taxes
+- Manage regional settings
+- Define shipping availability
+
+KEY FIELDS:
+- id: Unique identifier for the country
+- name: Full country name
+- code: ISO 3166-1 alpha-2 code (e.g., "US", "CA")
+- tax: Default tax rate for the country
+- tax_name: Name of the tax (e.g., "VAT", "GST")
+- provinces: Array of provinces/states with their settings
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific country by ID
+- List All: Get all shipping countries
+- Count: Count configured countries
+- Create: Add a new shipping country
+- Update: Modify country settings
+- Delete: Remove a shipping country
+
+PROVINCE FIELDS:
+- id: Province identifier
+- country_id: Parent country ID
+- name: Province name
+- code: Province code
+- tax: Province-specific tax rate
+- tax_name: Tax label
+
+USE CASES:
+1. Shipping Configuration: Set up shipping destinations
+2. Tax Management: Configure country/state tax rates
+3. International Expansion: Add new shipping regions
+4. Tax Compliance: Ensure correct tax collection
+5. Store Localization: Support multiple regions

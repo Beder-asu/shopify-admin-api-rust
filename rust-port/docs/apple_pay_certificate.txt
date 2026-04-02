@@ -1,0 +1,31 @@
+APPLE PAY CERTIFICATE RESOURCE
+==============================
+
+DESCRIPTION:
+The Apple Pay Certificate resource manages certificates required for Apple Pay integration in a Shopify store. These certificates are necessary to establish a secure connection between the store and Apple's payment services.
+
+PURPOSE:
+- Enable Apple Pay as a payment method
+- Manage certificate lifecycle (creation, renewal, deletion)
+- Maintain secure Apple Pay transactions
+- Handle certificate signing requests (CSR)
+
+KEY FIELDS:
+- id: Unique identifier for the certificate
+- status: Current status of the certificate
+- merchant_id: Apple merchant identifier
+- encoded_signed_certificate: The signed certificate data (base64 encoded)
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific Apple Pay certificate by ID
+- List All: Get all Apple Pay certificates
+- Create: Create a new Apple Pay certificate
+- Update: Update an existing certificate
+- Delete: Remove a certificate
+- CSR: Get the Certificate Signing Request for Apple
+
+USE CASES:
+1. Apple Pay Setup: Initialize Apple Pay integration for the store
+2. Certificate Renewal: Update certificates before they expire
+3. Multi-Domain Support: Manage certificates for multiple domains
+4. Troubleshooting: Verify certificate status for payment issues

@@ -1,0 +1,61 @@
+PRODUCT RESOURCE
+================
+
+DESCRIPTION:
+The Product resource represents items for sale in a Shopify store. It's a core resource containing product information, variants, images, and metadata needed to display and sell merchandise.
+
+PURPOSE:
+- Manage product catalog
+- Define items for sale
+- Organize product information
+- Support product variants
+
+KEY FIELDS:
+- id: Unique identifier
+- title: Product name
+- body_html: Description HTML
+- vendor: Product vendor/brand
+- product_type: Product category
+- handle: URL-friendly slug
+- status: active, draft, archived
+- published_at: When published
+- published_scope: web, global
+- template_suffix: Custom template
+- tags: Comma-separated tags
+- variants: Product variants array
+- options: Variant options (size, color)
+- images: Product images
+- image: Primary image
+- created_at / updated_at: Timestamps
+- admin_graphql_api_id: GraphQL identifier
+
+VARIANT FIELDS (nested):
+- id, product_id, title
+- price, compare_at_price
+- sku, barcode
+- inventory_quantity
+- weight, weight_unit
+- option1, option2, option3
+- inventory_item_id
+- fulfillment_service
+- requires_shipping, taxable
+
+PRODUCT STATUSES:
+- active: Visible for sale
+- draft: Work in progress
+- archived: No longer for sale
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific product
+- List All: Get products with filters
+- Count: Count products
+- Create: Create a new product
+- Update: Modify product details
+- Delete: Remove a product
+
+USE CASES:
+1. Product Catalog: Manage merchandise
+2. Inventory Sync: Update from external systems
+3. Bulk Operations: Mass product updates
+4. Product Import: Create products automatically
+5. E-commerce Integration: Connect sales channels

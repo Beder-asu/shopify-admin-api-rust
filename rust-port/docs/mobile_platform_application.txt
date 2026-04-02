@@ -1,0 +1,46 @@
+MOBILE PLATFORM APPLICATION RESOURCE
+====================================
+
+DESCRIPTION:
+The Mobile Platform Application resource represents a mobile app registration for iOS or Android that enables features like Shopify's Buy SDK, mobile app sales channels, and app-based authentication.
+
+PURPOSE:
+- Register mobile apps with Shopify
+- Enable iOS/Android integrations
+- Configure mobile SDK access
+- Support mobile sales channels
+
+KEY FIELDS:
+- id: Unique identifier
+- platform: ios or android
+- application_id: Bundle ID (iOS) or package name (Android)
+- sha256_cert_fingerprints: Android signing certificate fingerprints
+- enabled_universal_or_app_links: Universal/App Links enabled
+- enabled_shared_webcredentials: Shared web credentials (iOS)
+- enabled_app_clips: App Clips enabled (iOS)
+- created_at / updated_at: Timestamps
+
+iOS SPECIFIC:
+- application_id: Bundle identifier (e.g., com.company.app)
+- enabled_shared_webcredentials: Safari password sharing
+- enabled_app_clips: App Clip support
+- enabled_universal_or_app_links: Universal Links
+
+ANDROID SPECIFIC:
+- application_id: Package name (e.g., com.company.app)
+- sha256_cert_fingerprints: Signing certificate SHA256
+- enabled_universal_or_app_links: App Links
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific mobile app registration
+- List All: Get all mobile app registrations
+- Create: Register a new mobile app
+- Update: Modify app configuration
+- Delete: Remove a mobile app registration
+
+USE CASES:
+1. Mobile Commerce: Enable Buy SDK integration
+2. Universal Links: Deep link to app from store
+3. App Clips: iOS instant app experiences
+4. Native Apps: Build Shopify-integrated mobile apps
+5. Password Sharing: Enable shared web credentials

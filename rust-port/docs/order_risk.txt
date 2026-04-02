@@ -1,0 +1,52 @@
+ORDER RISK RESOURCE
+===================
+
+DESCRIPTION:
+The Order Risk resource represents fraud risk assessments for orders. Risks indicate potential fraudulent activity and help merchants make informed decisions about whether to fulfill orders.
+
+PURPOSE:
+- Assess fraud risk
+- Flag suspicious orders
+- Aid fulfillment decisions
+- Integrate fraud detection
+
+KEY FIELDS:
+- id: Unique identifier
+- order_id: Associated order
+- checkout_id: Associated checkout
+- source: Risk source/provider
+- score: Risk score (0.0 to 1.0)
+- recommendation: accept, investigate, cancel
+- display: Show to merchant (true/false)
+- cause_cancel: Should trigger cancellation
+- message: Explanation of the risk
+- merchant_message: Merchant-facing message
+
+RISK SCORES:
+- 0.0 - 0.3: Low risk (typically accept)
+- 0.3 - 0.7: Medium risk (investigate)
+- 0.7 - 1.0: High risk (consider cancelling)
+
+RECOMMENDATIONS:
+- accept: Order appears safe
+- investigate: Review before fulfilling
+- cancel: High fraud probability
+
+RISK SOURCES:
+- shopify: Shopify's fraud analysis
+- external: Third-party fraud services
+- custom: App-created risks
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific risk assessment
+- List All: Get all risks for an order
+- Create: Add a new risk assessment
+- Update: Modify risk details
+- Delete: Remove a risk assessment
+
+USE CASES:
+1. Fraud Prevention: Identify risky orders
+2. Manual Review: Flag for investigation
+3. Automated Rules: Auto-cancel high-risk
+4. Fraud Apps: Add custom risk assessments
+5. Order Processing: Inform fulfillment decisions

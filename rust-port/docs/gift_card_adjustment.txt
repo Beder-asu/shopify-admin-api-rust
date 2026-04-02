@@ -1,0 +1,46 @@
+GIFT CARD ADJUSTMENT RESOURCE
+=============================
+
+DESCRIPTION:
+The Gift Card Adjustment resource represents changes to a gift card's balance. Adjustments track additions or deductions to the gift card value, providing an audit trail of balance modifications.
+
+PURPOSE:
+- Add funds to gift cards
+- Deduct funds manually
+- Track balance changes
+- Audit gift card transactions
+
+KEY FIELDS:
+- id: Unique identifier
+- gift_card_id: Associated gift card
+- amount: Adjustment amount (positive or negative)
+- note: Reason for adjustment
+- number: Adjustment sequence number
+- api_client_id: App that made adjustment
+- user_id: User who made adjustment
+- order_transaction_id: Related order transaction
+- remote_transaction_ref: External reference
+- remote_transaction_url: Link to external transaction
+- created_at: When adjustment was made
+- processed_at: When adjustment was processed
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific adjustment
+- List All: Get all adjustments for a gift card
+- Create: Create a new balance adjustment
+
+ADJUSTMENT TYPES:
+- Positive amount: Adds to balance (reload, credit)
+- Negative amount: Deducts from balance (manual debit)
+
+AUTOMATIC ADJUSTMENTS:
+- Redemption at checkout (creates negative adjustment)
+- Gift card sale (creates initial balance)
+- Refund to gift card (positive adjustment)
+
+USE CASES:
+1. Gift Card Reloads: Add funds to existing cards
+2. Manual Corrections: Fix balance errors
+3. Promotional Credits: Add bonus funds
+4. Audit Trail: Review balance history
+5. Integration: Sync with external systems

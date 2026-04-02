@@ -1,0 +1,47 @@
+IMAGE RESOURCE
+==============
+
+DESCRIPTION:
+The Image resource represents product images in Shopify. Images are associated with products and can be linked to specific variants. Multiple images can be attached to each product.
+
+PURPOSE:
+- Manage product images
+- Associate images with variants
+- Control image display order
+- Handle image metadata
+
+KEY FIELDS:
+- id: Unique identifier
+- product_id: Associated product ID
+- position: Display order (1 = first/primary)
+- src: Image URL
+- width / height: Image dimensions in pixels
+- alt: Alternative text for accessibility/SEO
+- variant_ids: Variants using this image
+- created_at / updated_at: Timestamps
+- admin_graphql_api_id: GraphQL identifier
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific product image
+- List All: Get all images for a product
+- Count: Count images for a product
+- Create: Add a new image to a product
+- Update: Modify image properties
+- Delete: Remove an image
+
+IMAGE SOURCES:
+When creating images, you can provide:
+- src: URL to an external image
+- attachment: Base64-encoded image data
+
+IMAGE FORMATS:
+- JPEG, PNG, GIF supported
+- Shopify processes and optimizes images
+- Multiple sizes generated automatically
+
+USE CASES:
+1. Product Photography: Upload product images
+2. Variant Images: Assign images to color variants
+3. Image Reordering: Control gallery order
+4. SEO Optimization: Add alt text
+5. Bulk Upload: Programmatic image management

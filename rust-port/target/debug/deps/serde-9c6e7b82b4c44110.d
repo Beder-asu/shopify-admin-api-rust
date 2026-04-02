@@ -1,0 +1,12 @@
+c:\Users\mobed\Desktop\shopify-app-js-main\shopify-app-js-main\packages\apps\shopify-api\rest\admin\2026-01\port\target\debug\deps\serde-9c6e7b82b4c44110.d: C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\lib.rs C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\integer128.rs C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\mod.rs C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\de.rs C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\ser.rs c:\Users\mobed\Desktop\shopify-app-js-main\shopify-app-js-main\packages\apps\shopify-api\rest\admin\2026-01\port\target\debug\build\serde-a3d5cc7c79f19dbb\out/private.rs
+
+c:\Users\mobed\Desktop\shopify-app-js-main\shopify-app-js-main\packages\apps\shopify-api\rest\admin\2026-01\port\target\debug\deps\libserde-9c6e7b82b4c44110.rmeta: C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\lib.rs C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\integer128.rs C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\mod.rs C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\de.rs C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\ser.rs c:\Users\mobed\Desktop\shopify-app-js-main\shopify-app-js-main\packages\apps\shopify-api\rest\admin\2026-01\port\target\debug\build\serde-a3d5cc7c79f19dbb\out/private.rs
+
+C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\lib.rs:
+C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\integer128.rs:
+C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\mod.rs:
+C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\de.rs:
+C:\Users\mobed\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.228\src\private\ser.rs:
+c:\Users\mobed\Desktop\shopify-app-js-main\shopify-app-js-main\packages\apps\shopify-api\rest\admin\2026-01\port\target\debug\build\serde-a3d5cc7c79f19dbb\out/private.rs:
+
+# env-dep:OUT_DIR=c:\\Users\\mobed\\Desktop\\shopify-app-js-main\\shopify-app-js-main\\packages\\apps\\shopify-api\\rest\\admin\\2026-01\\port\\target\\debug\\build\\serde-a3d5cc7c79f19dbb\\out

@@ -1,0 +1,48 @@
+INVENTORY LEVEL RESOURCE
+========================
+
+DESCRIPTION:
+The Inventory Level resource represents the quantity of an inventory item available at a specific location. It connects inventory items to locations and tracks the available, incoming, and committed quantities.
+
+PURPOSE:
+- Track inventory per location
+- Adjust stock quantities
+- Manage multi-location inventory
+- Connect items to fulfillment locations
+
+KEY FIELDS:
+- inventory_item_id: Associated inventory item
+- location_id: Location holding inventory
+- available: Available quantity for sale
+- updated_at: Last modification timestamp
+- admin_graphql_api_id: GraphQL identifier
+
+AVAILABLE OPERATIONS:
+- Find: Get inventory level for item at location
+- List All: Get levels for items or locations
+- Adjust: Increase or decrease available quantity
+- Delete: Remove item from location (sets to 0)
+- Connect: Add item to a new location
+- Set: Set absolute available quantity
+
+ADJUSTMENT VS SET:
+- adjust: Relative change (+5 or -3)
+- set: Absolute value (set to exactly 100)
+
+MULTI-LOCATION:
+- Each inventory item can exist at multiple locations
+- Each location has its own available quantity
+- Sum across locations = total inventory
+
+INVENTORY STATES:
+- Available: Ready to sell
+- Committed: Reserved for orders
+- Incoming: Expected from transfers
+- On-hand: Physical stock (available + committed)
+
+USE CASES:
+1. Stock Updates: Sync inventory from external systems
+2. Multi-warehouse: Manage location-specific stock
+3. Inventory Counts: Update after physical counts
+4. Stock Transfers: Move inventory between locations
+5. Low Stock Alerts: Monitor availability

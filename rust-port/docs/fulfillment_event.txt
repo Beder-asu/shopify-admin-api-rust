@@ -1,0 +1,50 @@
+FULFILLMENT EVENT RESOURCE
+==========================
+
+DESCRIPTION:
+The Fulfillment Event resource represents tracking events for a fulfillment. These events track the shipment's journey from origin to delivery, including location updates and status changes from the carrier.
+
+PURPOSE:
+- Track shipment progress
+- Display tracking history
+- Update shipment status
+- Monitor delivery progress
+
+KEY FIELDS:
+- id: Unique identifier for the event
+- fulfillment_id: Associated fulfillment ID
+- order_id: Associated order ID
+- status: Event type/status
+- message: Event description
+- happened_at: When the event occurred
+- city / province / country / zip: Event location
+- address1: Street address if available
+- latitude / longitude: Geographic coordinates
+- estimated_delivery_at: Expected delivery time
+- created_at / updated_at: Timestamps
+- shop_id: Associated shop
+- admin_graphql_api_id: GraphQL identifier
+
+AVAILABLE OPERATIONS:
+- Find: Get a specific fulfillment event
+- List All: Get all events for a fulfillment
+- Create: Add a new tracking event
+- Delete: Remove an event
+
+EVENT STATUSES:
+- label_printed: Shipping label created
+- label_purchased: Label purchased
+- attempted_delivery: Delivery attempted
+- ready_for_pickup: Available for pickup
+- confirmed: Carrier has the package
+- in_transit: Package in transit
+- out_for_delivery: Out for delivery
+- delivered: Successfully delivered
+- failure: Delivery failed
+
+USE CASES:
+1. Tracking Display: Show tracking timeline
+2. Custom Carriers: Report custom tracking events
+3. Delivery Monitoring: Track package progress
+4. Customer Updates: Provide delivery status
+5. Analytics: Analyze shipping performance
