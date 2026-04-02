@@ -1,19 +1,38 @@
-# Shopify REST Admin API - Rust SDK
+# Shopify Admin API - Rust Ports
 
 🚧 **Work in Progress** 🚧
 
-A Rust port of the Shopify REST Admin API SDK (API version 2026-01). This is an **ongoing project** under active development. Features, APIs, and documentation are being continuously improved and expanded.
+A mono-repo containing Rust ports for both the **GraphQL** and **REST** Shopify Admin APIs (API version 2026-01). This is an **ongoing project** under active development.
 
-## Project Status
+## Project Scope
 
-This SDK is currently in development. While core functionality is implemented, we are actively working on:
-- Comprehensive test coverage
-- Additional documentation and examples
-- Performance optimizations
-- Error handling improvements
-- Community feedback integration
+This project is aimed at providing a 1-to-1, strongly typed Rust equivalent to the official Shopify framework SDKs. Because Shopify operates both REST and GraphQL APIs side-by-side, this mono-repo is split into two modular crates:
+- **`rust-port/`**: A comprehensive wrapper around the Shopify Admin **REST API**, featuring full implementations of all 73 standard endpoints (Products, Orders, Customers, Fulfillments, etc.).
+- **`graphql-port/`**: A lightweight, robust wrapper for the Shopify **GraphQL Admin API** featuring built-in cost-based rate limiting, pagination components, and strong root error handling. 
 
-Contributions, suggestions, and bug reports are welcome!
+## What is a Wrapper? (How this links to Shopify)
+
+This repository serves as an SDK (Software Development Kit) and **wrapper** around the official Shopify Admin HTTP APIs. 
+
+Under the hood, Shopify's core data exists on their servers and is accessed over the internet via HTTP URLs (e.g., `https://my-shop.myshopify.com/admin/api/2026-01/...`). To communicate with Shopify natively, developers have to manually write boilerplate code to open HTTP connections, inject authentication tokens, serialize abstract JSON strings, and manually delay their applications when server quotas are exceeded.
+
+This wrapper acts as a powerful translation layer between your Rust application and Shopify's servers to eliminate that manual labor. 
+
+**Why is it useful?**
+1. **Type Safety:** You interact with concrete Rust `structs` instead of guessing the shape of raw, untyped JSON objects. If you misspell a property, the Rust compiler will catch it before the app ever runs.
+2. **Auto-managed Networking:** Features like HTTP headers (`X-Shopify-Access-Token`), routing, and data parsing are abstracted away into clean functions.
+3. **Smart Rate Limiting:** Shopify aggressively limits how fast you can make requests. This wrapper intercepts `HTTP 429 Too Many Requests` status codes and parses Shopify's GraphQL "Call Cost" metrics to dynamically pause and retry your requests—keeping your app from crashing.
+4. **Developer Velocity:** You can build complex systems exponentially faster using streamlined, native-feeling methods like `Product::find()` rather than hand-crafting convoluted HTTP requests from scratch.
+
+## 🚧 Project Status (Work In Progress)
+
+This SDK is currently under active development. While the foundation is extremely solid, there are key roadmap items remaining before v1.0:
+1. **GraphQL Schema Generation:** The GraphQL port currently requires manual struct definition for queries. We are planning to integrate `graphql_client` to auto-generate models completely safely at compile-time directly from `.graphql` files.
+2. **Partial GraphQL Payloads:** Updating the GraphQL port to return partial `data` alongside localized Field `errors` instead of failing fast.
+3. **Ergonomic Request Builders:** Migrating REST parameters away from raw structs to more fluent builder patterns (e.g., `Product::list().limit(50).send()`).
+4. **Comprehensive Test Coverage:** Expanding unit scenarios for the 73 REST endpoints.
+
+Contributions, suggestions, and bug reports are highly welcome!
 
 ## Features
 
@@ -25,15 +44,25 @@ Contributions, suggestions, and bug reports are welcome!
 
 ## Installation
 
-Add to your `Cargo.toml`:
+Depending on which API you want to use, add the respective port to your `Cargo.toml`:
 
+### REST API
 ```toml
 [dependencies]
-shopify-api = { path = "./port" }
+shopify-api = { path = "./rust-port" }
 tokio = { version = "1.0", features = ["full"] }
 ```
 
-## Quick Start
+### GraphQL API
+```toml
+[dependencies]
+shopify-graphql-api = { path = "./graphql-port" }
+tokio = { version = "1.0", features = ["full"] }
+```
+
+## Usage Examples
+
+### REST API Quick Start
 
 ```rust
 use shopify_api::{Client, Session};
@@ -70,6 +99,49 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let created = Product::create(&client, &new_product).await?;
     println!("Created product with ID: {:?}", created.id);
     
+    Ok(())
+}
+```
+
+### GraphQL API Quick Start
+
+```rust
+use shopify_graphql_api::{Session, Client, graphql::Connection, models::Product};
+use serde::Deserialize;
+
+#[derive(Deserialize, Debug)]
+struct ProductsResponse {
+    products: Connection<Product>,
+}
+
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let session = Session::new("my-shop.myshopify.com", "access_token_here");
+    let client = Client::new(session);
+    
+    let query = r#"
+        query {
+            products(first: 5) {
+                pageInfo { hasNextPage }
+                edges {
+                    node {
+                        id
+                        title
+                        vendor
+                    }
+                }
+            }
+        }
+    "#;
+
+    // Issue the strongly-typed query. Rate limiting constraints
+    // (HTTP 429 & GraphQL Cost Throttling) are handled automatically!
+    let response: ProductsResponse = client.graphql(query, None::<&()>).await?;
+    
+    for edge in response.products.edges {
+        println!("GraphQL Product: {}", edge.node.title);
+    }
+
     Ok(())
 }
 ```
