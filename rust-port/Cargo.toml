@@ -1,20 +1,18 @@
 [package]
 name = "shopify-admin-api"
-version = "2026.1.0"
+version = "1.0.0"
 edition = "2021"
-description = "Shopify Admin REST API client for Rust (API version 2026-01)"
+description = "Shopify-compatible Admin REST API SDK for Rust (API version 2026-01)"
 license = "MIT"
 repository = "https://github.com/Shopify/shopify-app-js"
-keywords = ["shopify", "api", "rest", "ecommerce"]
+keywords = ["shopify", "api", "rest", "ecommerce", "sdk"]
 categories = ["api-bindings", "web-programming"]
 
 [lib]
 name = "shopify_admin_api"
 path = "src/lib.rs"
 
-[[bin]]
-name = "shopify-admin-api"
-path = "src/main.rs"
+# main.rs stub removed (Problem 15). See examples/ for runnable demos.
 
 [dependencies]
 reqwest = { version = "0.11", features = ["json"] }
@@ -25,7 +23,18 @@ async-trait = "0.1"
 thiserror = "1.0"
 chrono = { version = "0.4", features = ["serde"] }
 url = "2.5"
+derive_builder = "0.20.2"
+
+# Auth & Crypto (OAuth HMAC validation, nonce generation, webhook verification)
+hmac = "0.12"
+sha2 = "0.10"
+hex = "0.4"
+rand = "0.8"
+uuid = { version = "1", features = ["v4"] }
+subtle = "2.5"
+base64 = "0.22"
 
 [dev-dependencies]
 tokio-test = "0.4"
 mockito = "1.2"
+dotenv = "0.15"

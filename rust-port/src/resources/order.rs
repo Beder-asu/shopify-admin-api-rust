@@ -351,6 +351,9 @@ pub struct Money {
 
 /// Parameters for listing orders
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct OrderListParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ids: Option<String>,
@@ -386,6 +389,9 @@ pub struct OrderListParams {
 
 /// Parameters for counting orders
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct OrderCountParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub created_at_min: Option<String>,
@@ -405,6 +411,9 @@ pub struct OrderCountParams {
 
 /// Parameters for cancelling an order
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct OrderCancelParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub amount: Option<String>,
@@ -446,8 +455,10 @@ impl Order {
 
     /// Find an order by ID with specific fields
     pub async fn find_with_fields(client: &Client, id: i64, fields: &str) -> Result<Option<Self>> {
-        let path = format!("orders/{}.json?fields={}", id, fields);
-        let response = client.get::<OrderWrapper>(&path).await?;
+        let path = format!("orders/{}.json", id);
+        let response = client
+            .get_with_params::<OrderWrapper, _>(&path, &crate::base::FieldsParam { fields })
+            .await?;
         Ok(Some(response.data.order))
     }
 

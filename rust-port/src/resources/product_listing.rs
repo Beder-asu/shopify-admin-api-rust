@@ -36,6 +36,9 @@ pub struct ProductListing {
 }
 
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct ProductListingParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub product_ids: Option<String>,

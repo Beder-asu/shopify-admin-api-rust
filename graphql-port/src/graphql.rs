@@ -39,23 +39,30 @@ pub struct Extensions {
     pub cost: Option<Cost>,
 }
 
-/// The response wrapper for all GraphQL queries
+/// The response envelope for all GraphQL queries.
+///
+/// `errors` and `extensions` use `#[serde(default)]` — both are `Option<_>`,
+/// so `Default = None` works without any bound on `T`.
+///
+/// `data` is also `Option<T>`. We **do not** add `#[serde(default)]` here
+/// because `Option<T>` already deserializes a missing key as `None` without
+/// requiring `T: Default`.
 #[derive(Debug, Deserialize)]
 pub struct GraphQLResponse<T> {
-    /// The actual data output mapped to the generic type
-    #[serde(skip_serializing_if = "Option::is_none")]
+    /// The actual data payload mapped to the caller's type.
     pub data: Option<T>,
-    
-    /// Array of errors returned directly by the GraphQL execution engine
-    #[serde(skip_serializing_if = "Option::is_none")]
+
+    /// Field-level errors from the GraphQL execution engine.
+    /// `None` when the response is fully successful.
+    #[serde(default)]
     pub errors: Option<Vec<GraphQLErrorDetail>>,
 
-    /// API Cost extensions
-    #[serde(skip_serializing_if = "Option::is_none")]
+    /// API cost and throttle metadata.
+    #[serde(default)]
     pub extensions: Option<Extensions>,
 }
 
-/// Common connection fields (Relay style pagination)
+/// Common connection fields (Relay-style pagination)
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct PageInfo {
     #[serde(rename = "hasNextPage")]
@@ -66,14 +73,14 @@ pub struct PageInfo {
     pub cursor: Option<String>,
 }
 
-/// Standardized Edge in a Relay Connection
+/// A single edge in a Relay-style Connection
 #[derive(Debug, Clone, Deserialize)]
 pub struct Edge<T> {
     pub cursor: String,
     pub node: T,
 }
 
-/// Standardized Connection in Relay
+/// A Relay-style Connection wrapping a list of typed nodes with pagination
 #[derive(Debug, Clone, Deserialize)]
 pub struct Connection<T> {
     pub edges: Vec<Edge<T>>,

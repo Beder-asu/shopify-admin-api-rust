@@ -30,6 +30,9 @@ pub struct Metafield {
 }
 
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct MetafieldListParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub limit: Option<i32>,
@@ -76,8 +79,35 @@ impl Metafield {
         })
     }
 
+    /// Count app-owned metafields across the whole shop.
+    ///
+    /// `GET /metafields/count.json`
     pub async fn count(client: &Client) -> Result<i64> {
         let response = client.get::<CountResponse>("metafields/count.json").await?;
+        Ok(response.data.count)
+    }
+
+    /// Count metafields attached to a specific resource.
+    ///
+    /// Problem 17 fix: mirrors the TypeScript `Metafield.count({ resource, resourceId })`.
+    ///
+    /// `GET /{resource}/{resource_id}/metafields/count.json`
+    ///
+    /// # Example
+    /// ```rust,no_run
+    /// # async fn example(client: &shopify_admin_api::client::Client) {
+    /// let count = shopify_admin_api::resources::Metafield::count_for_resource(
+    ///     client, "products", 123456,
+    /// ).await.unwrap();
+    /// # }
+    /// ```
+    pub async fn count_for_resource(
+        client: &Client,
+        resource: &str,
+        resource_id: i64,
+    ) -> Result<i64> {
+        let path = format!("{}/{}/metafields/count.json", resource, resource_id);
+        let response = client.get::<CountResponse>(&path).await?;
         Ok(response.data.count)
     }
 

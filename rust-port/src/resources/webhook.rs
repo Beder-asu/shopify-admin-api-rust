@@ -46,6 +46,9 @@ pub struct Webhook {
 
 /// Parameters for listing webhooks
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct WebhookListParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub address: Option<String>,
@@ -69,6 +72,9 @@ pub struct WebhookListParams {
 
 /// Parameters for counting webhooks
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct WebhookCountParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub address: Option<String>,
@@ -145,8 +151,10 @@ impl Webhook {
 
     /// Find a webhook by ID with specific fields
     pub async fn find_with_fields(client: &Client, id: i64, fields: &str) -> Result<Option<Self>> {
-        let path = format!("webhooks/{}.json?fields={}", id, fields);
-        let response = client.get::<WebhookWrapper>(&path).await?;
+        let path = format!("webhooks/{}.json", id);
+        let response = client
+            .get_with_params::<WebhookWrapper, _>(&path, &crate::base::FieldsParam { fields })
+            .await?;
         Ok(Some(response.data.webhook))
     }
 

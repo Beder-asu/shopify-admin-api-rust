@@ -20,6 +20,9 @@ pub struct DiscountCode {
 }
 
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct DiscountCodeListParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub batch_id: Option<i64>,

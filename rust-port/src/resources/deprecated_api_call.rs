@@ -24,7 +24,7 @@ pub struct DeprecatedApiCall {
 }
 
 #[derive(Debug, Deserialize)]
-struct DeprecatedApiCallsWrapper { data_updated_at: Option<String>, deprecated_api_calls: Vec<DeprecatedApiCall> }
+struct DeprecatedApiCallsWrapper { _data_updated_at: Option<String>, deprecated_api_calls: Vec<DeprecatedApiCall> }
 
 impl DeprecatedApiCall {
     pub async fn all(client: &Client) -> Result<FindAllResponse<Self>> {

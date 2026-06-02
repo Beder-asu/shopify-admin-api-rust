@@ -18,6 +18,9 @@ pub struct InventoryLevel {
 }
 
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct InventoryLevelListParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub inventory_item_ids: Option<String>,
@@ -30,6 +33,9 @@ pub struct InventoryLevelListParams {
 }
 
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct InventoryAdjustParams {
     pub inventory_item_id: i64,
     pub location_id: i64,
@@ -37,6 +43,9 @@ pub struct InventoryAdjustParams {
 }
 
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct InventorySetParams {
     pub inventory_item_id: i64,
     pub location_id: i64,
@@ -46,6 +55,9 @@ pub struct InventorySetParams {
 }
 
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct InventoryConnectParams {
     pub inventory_item_id: i64,
     pub location_id: i64,
@@ -54,6 +66,9 @@ pub struct InventoryConnectParams {
 }
 
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct InventoryDeleteParams {
     pub inventory_item_id: i64,
     pub location_id: i64,

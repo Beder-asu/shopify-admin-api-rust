@@ -24,6 +24,9 @@ pub struct UsageCharge {
 }
 
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct UsageChargeListParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub fields: Option<String>,

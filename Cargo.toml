@@ -1,0 +1,3 @@
+[workspace]
+members = ["rust-port", "graphql-port"]
+resolver = "2"

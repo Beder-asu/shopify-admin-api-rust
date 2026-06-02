@@ -1,16 +1,18 @@
 //! Customer resource
-//! 
+//!
 //! Represents a customer in the Shopify store.
+//! Includes `CustomerAddress` sub-resource CRUD.
 
 use crate::{
-    base::{CountResponse, FindAllResponse},
+    base::{CountResponse, FieldsParam, FindAllResponse},
     client::Client,
     error::Result,
 };
-use async_trait::async_trait;
+// Problem 18 fix: removed unused `use async_trait::async_trait`
 use serde::{Deserialize, Serialize};
 
 use super::metafield::Metafield;
+use super::order::Order;
 
 /// Customer resource
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
@@ -95,7 +97,7 @@ pub struct Customer {
     pub verified_email: Option<bool>,
 }
 
-/// Customer address
+/// Customer address (also a sub-resource with full CRUD)
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct CustomerAddress {
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -149,6 +151,8 @@ pub struct SmsMarketingConsent {
 
 /// Parameters for listing customers
 #[derive(Debug, Clone, Default, Serialize)]
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct CustomerListParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ids: Option<String>,
@@ -170,6 +174,8 @@ pub struct CustomerListParams {
 
 /// Parameters for counting customers
 #[derive(Debug, Clone, Default, Serialize)]
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct CustomerCountParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub created_at_min: Option<String>,
@@ -183,6 +189,8 @@ pub struct CustomerCountParams {
 
 /// Parameters for searching customers
 #[derive(Debug, Clone, Default, Serialize)]
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct CustomerSearchParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub query: Option<String>,
@@ -196,12 +204,15 @@ pub struct CustomerSearchParams {
 
 /// Parameters for getting customer orders
 #[derive(Debug, Clone, Default, Serialize)]
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct CustomerOrdersParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub status: Option<String>,
 }
 
-/// Wrapper for API responses
+// ── Internal wrappers ─────────────────────────────────────────────────────────
+
 #[derive(Debug, Deserialize)]
 struct CustomerWrapper {
     customer: Customer,
@@ -227,6 +238,28 @@ struct CustomerInviteResponse {
     customer_invite: serde_json::Value,
 }
 
+#[derive(Debug, Deserialize)]
+struct OrdersWrapper {
+    orders: Vec<Order>,
+}
+
+#[derive(Debug, Deserialize)]
+struct CustomerAddressWrapper {
+    customer_address: CustomerAddress,
+}
+
+#[derive(Debug, Deserialize)]
+struct CustomerAddressesWrapper {
+    addresses: Vec<CustomerAddress>,
+}
+
+#[derive(Debug, Serialize)]
+struct CustomerAddressRequest {
+    address: CustomerAddress,
+}
+
+// ── Customer impl ─────────────────────────────────────────────────────────────
+
 impl Customer {
     /// Find a customer by ID
     pub async fn find(client: &Client, id: i64) -> Result<Option<Self>> {
@@ -235,10 +268,15 @@ impl Customer {
         Ok(Some(response.data.customer))
     }
 
-    /// Find a customer by ID with specific fields
+    /// Find a customer by ID with specific fields.
+    ///
+    /// Problem 9 fix: uses `get_with_params` for proper URL encoding instead of
+    /// embedding `?fields=` directly in the path string.
     pub async fn find_with_fields(client: &Client, id: i64, fields: &str) -> Result<Option<Self>> {
-        let path = format!("customers/{}.json?fields={}", id, fields);
-        let response = client.get::<CustomerWrapper>(&path).await?;
+        let path = format!("customers/{}.json", id);
+        let response = client
+            .get_with_params::<CustomerWrapper, _>(&path, &FieldsParam { fields })
+            .await?;
         Ok(Some(response.data.customer))
     }
 
@@ -247,7 +285,7 @@ impl Customer {
         let response = client
             .get_with_params::<CustomersWrapper, _>("customers.json", &params)
             .await?;
-        
+
         Ok(FindAllResponse {
             data: response.data.customers,
             next_page: response.page_info.as_ref().and_then(|p| p.next.clone()),
@@ -263,7 +301,7 @@ impl Customer {
         Ok(response.data.count)
     }
 
-    /// Search customers
+    /// Search customers by query
     pub async fn search(client: &Client, params: CustomerSearchParams) -> Result<Vec<Self>> {
         let response = client
             .get_with_params::<CustomersWrapper, _>("customers/search.json", &params)
@@ -271,13 +309,19 @@ impl Customer {
         Ok(response.data.customers)
     }
 
-    /// Get customer's orders
-    pub async fn orders(client: &Client, id: i64, params: CustomerOrdersParams) -> Result<serde_json::Value> {
+    /// Get orders placed by this customer.
+    ///
+    /// Problem 16 fix: returns concrete `Vec<Order>` instead of `serde_json::Value`.
+    pub async fn orders(
+        client: &Client,
+        id: i64,
+        params: CustomerOrdersParams,
+    ) -> Result<Vec<Order>> {
         let path = format!("customers/{}/orders.json", id);
         let response = client
-            .get_with_params::<serde_json::Value, _>(&path, &params)
+            .get_with_params::<OrdersWrapper, _>(&path, &params)
             .await?;
-        Ok(response.data)
+        Ok(response.data.orders)
     }
 
     /// Create a new customer
@@ -304,7 +348,7 @@ impl Customer {
         Ok(response.data.customer)
     }
 
-    /// Save the customer (create or update)
+    /// Save the customer (create if new, update if existing)
     pub async fn save(client: &Client, customer: &Self) -> Result<Self> {
         if customer.id.is_some() {
             Self::update(client, customer).await
@@ -319,7 +363,7 @@ impl Customer {
         client.delete(&path).await
     }
 
-    /// Generate account activation URL
+    /// Generate an account activation URL for the customer
     pub async fn account_activation_url(client: &Client, id: i64) -> Result<String> {
         let path = format!("customers/{}/account_activation_url.json", id);
         let response = client
@@ -328,13 +372,96 @@ impl Customer {
         Ok(response.data.account_activation_url)
     }
 
-    /// Send an account invite to the customer
-    pub async fn send_invite(client: &Client, id: i64, invite: Option<serde_json::Value>) -> Result<serde_json::Value> {
+    /// Send an account invite email to the customer
+    pub async fn send_invite(
+        client: &Client,
+        id: i64,
+        invite: Option<serde_json::Value>,
+    ) -> Result<serde_json::Value> {
         let path = format!("customers/{}/send_invite.json", id);
         let body = invite.unwrap_or(serde_json::json!({}));
         let response = client
             .post::<CustomerInviteResponse, _>(&path, &body)
             .await?;
         Ok(response.data.customer_invite)
+    }
+}
+
+// ── CustomerAddress impl ──────────────────────────────────────────────────────
+//
+// Problem 12 fix: full CRUD for the nested /customers/{id}/addresses sub-resource.
+
+impl CustomerAddress {
+    /// List all addresses for a customer.
+    ///
+    /// `GET /customers/{customer_id}/addresses.json`
+    pub async fn all(client: &Client, customer_id: i64) -> Result<Vec<Self>> {
+        let path = format!("customers/{}/addresses.json", customer_id);
+        let response = client.get::<CustomerAddressesWrapper>(&path).await?;
+        Ok(response.data.addresses)
+    }
+
+    /// Retrieve a single address.
+    ///
+    /// `GET /customers/{customer_id}/addresses/{address_id}.json`
+    pub async fn find(client: &Client, customer_id: i64, id: i64) -> Result<Option<Self>> {
+        let path = format!("customers/{}/addresses/{}.json", customer_id, id);
+        let response = client.get::<CustomerAddressWrapper>(&path).await?;
+        Ok(Some(response.data.customer_address))
+    }
+
+    /// Create a new address for a customer.
+    ///
+    /// `POST /customers/{customer_id}/addresses.json`
+    pub async fn create(client: &Client, customer_id: i64, address: &Self) -> Result<Self> {
+        let path = format!("customers/{}/addresses.json", customer_id);
+        let request = CustomerAddressRequest {
+            address: address.clone(),
+        };
+        let response = client
+            .post::<CustomerAddressWrapper, _>(&path, &request)
+            .await?;
+        Ok(response.data.customer_address)
+    }
+
+    /// Update an existing address.
+    ///
+    /// `PUT /customers/{customer_id}/addresses/{address_id}.json`
+    pub async fn update(client: &Client, customer_id: i64, address: &Self) -> Result<Self> {
+        let id = address.id.ok_or_else(|| {
+            crate::ShopifyError::ValidationError(
+                "Address ID is required for update".to_string(),
+            )
+        })?;
+        let path = format!("customers/{}/addresses/{}.json", customer_id, id);
+        let request = CustomerAddressRequest {
+            address: address.clone(),
+        };
+        let response = client
+            .put::<CustomerAddressWrapper, _>(&path, &request)
+            .await?;
+        Ok(response.data.customer_address)
+    }
+
+    /// Delete an address.
+    ///
+    /// `DELETE /customers/{customer_id}/addresses/{address_id}.json`
+    pub async fn delete(client: &Client, customer_id: i64, id: i64) -> Result<()> {
+        let path = format!("customers/{}/addresses/{}.json", customer_id, id);
+        client.delete(&path).await
+    }
+
+    /// Set an address as the customer's default.
+    ///
+    /// `PUT /customers/{customer_id}/addresses/{address_id}/default.json`
+    pub async fn set_default(client: &Client, customer_id: i64, id: i64) -> Result<Self> {
+        let path = format!(
+            "customers/{}/addresses/{}/default.json",
+            customer_id, id
+        );
+        let response = client
+            .put::<CustomerAddressWrapper, _>(&path, &serde_json::json!({}))
+            .await?;
+        Ok(response.data.customer_address)
     }
 }

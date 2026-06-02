@@ -8,3 +8,6 @@ target/
 .vscode/
 *.swp
 *.pdb
+
+# Environment secrets
+.env

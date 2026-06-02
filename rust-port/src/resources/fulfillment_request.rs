@@ -19,10 +19,7 @@ pub struct FulfillmentRequestLineItem {
     pub quantity: Option<i32>,
 }
 
-#[derive(Debug, Deserialize)]
-struct OriginalFulfillmentOrderWrapper { original_fulfillment_order: serde_json::Value }
-#[derive(Debug, Deserialize)]
-struct FulfillmentOrderWrapper { fulfillment_order: serde_json::Value }
+
 
 impl FulfillmentRequest {
     pub async fn send(client: &Client, fulfillment_order_id: i64, request: &Self) -> Result<serde_json::Value> {

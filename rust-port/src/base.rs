@@ -49,6 +49,15 @@ pub struct CountResponse {
     pub count: i64,
 }
 
+/// Query parameter struct for `find_with_fields` calls.
+///
+/// Used internally by resource implementations to pass the `fields` filter
+/// to `Client::get_with_params` safely (proper URL encoding, not string embedding).
+#[derive(Debug, Serialize)]
+pub struct FieldsParam<'a> {
+    pub fields: &'a str,
+}
+
 /// Paginated response containing multiple resources
 #[derive(Debug, Clone)]
 pub struct FindAllResponse<T> {

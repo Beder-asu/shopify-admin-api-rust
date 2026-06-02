@@ -1,59 +1,46 @@
-//! Shopify Admin GraphQL API Client for Rust
-//! 
-//! This crate provides a type-safe Rust client for the Shopify Admin GraphQL API (version 2026-01).
-//! 
+//! Shopify Admin GraphQL API SDK for Rust
+//!
+//! Provides a type-safe, idiomatic Rust client for the Shopify Admin GraphQL API
+//! with automatic rate-limit retries (both HTTP 429 and GraphQL-level Throttled),
+//! Relay-style Connection support, and strongly-typed domain models.
+//!
 //! # Example
-//! 
+//!
 //! ```rust,no_run
-//! use shopify_graphql_api::{Session, Client, graphql::Connection, models::Product};
+//! use shopify_graphql_api::{Session, Client};
+//! use shopify_graphql_api::graphql::Connection;
+//! use shopify_graphql_api::models::Product;
 //! use serde::Deserialize;
-//! 
+//!
 //! #[derive(Deserialize, Debug)]
 //! struct ProductsResponse {
 //!     products: Connection<Product>,
 //! }
-//! 
+//!
 //! #[tokio::main]
 //! async fn main() -> Result<(), Box<dyn std::error::Error>> {
-//!     let session = Session::new("my-shop.myshopify.com", "access_token");
+//!     let session = Session::new("my-store.myplatform.com", "shpat_xxx")
+//!         .with_api_version("2026-01");
 //!     let client = Client::new(session);
-//!     
-//!     // Issue a raw GraphQL Query using the strongly-typed Product model
-//!     let query = r#"
-//!         query {
-//!             products(first: 10) {
-//!                 pageInfo {
-//!                     hasNextPage
-//!                     hasPreviousPage
-//!                 }
-//!                 edges {
-//!                     cursor
-//!                     node {
-//!                         id
-//!                         title
-//!                         handle
-//!                     }
-//!                 }
-//!             }
-//!         }
-//!     "#;
-//! 
-//!     let response: ProductsResponse = client.graphql(query, None::<&()>).await?;
-//!     println!("First product: {}", response.products.edges[0].node.title);
-//! 
+//!
+//!     let data = client.graphql_data::<ProductsResponse, _>(
+//!         "query { products(first: 10) { edges { cursor node { id title } } pageInfo { hasNextPage } } }",
+//!         None::<&()>,
+//!     ).await?;
+//!
+//!     println!("First product: {:?}", data.products.edges[0].node.title);
 //!     Ok(())
 //! }
 //! ```
 
-pub mod error;
-pub mod session;
+#![deny(unsafe_code)]
+
 pub mod client;
+pub mod error;
 pub mod graphql;
 pub mod models;
+pub mod session;
 
-pub use error::*;
-pub use session::Session;
 pub use client::Client;
-
-/// API Version constant
-pub const API_VERSION: &str = "2026-01";
+pub use error::{GraphQLErrorDetail, Result, ShopifyError};
+pub use session::Session;

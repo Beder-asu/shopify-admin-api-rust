@@ -143,6 +143,9 @@ pub struct FulfillmentOrderLineItem {
 
 /// Parameters for listing fulfillments
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct FulfillmentListParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub created_at_min: Option<String>,
@@ -162,6 +165,9 @@ pub struct FulfillmentListParams {
 
 /// Parameters for counting fulfillments
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct FulfillmentCountParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub created_at_min: Option<String>,
@@ -175,6 +181,9 @@ pub struct FulfillmentCountParams {
 
 /// Parameters for updating tracking
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct UpdateTrackingParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub notify_customer: Option<bool>,
@@ -213,8 +222,10 @@ impl Fulfillment {
         id: i64,
         fields: &str,
     ) -> Result<Option<Self>> {
-        let path = format!("orders/{}/fulfillments/{}.json?fields={}", order_id, id, fields);
-        let response = client.get::<FulfillmentWrapper>(&path).await?;
+        let path = format!("orders/{}/fulfillments/{}.json", order_id, id);
+        let response = client
+            .get_with_params::<FulfillmentWrapper, _>(&path, &crate::base::FieldsParam { fields })
+            .await?;
         Ok(Some(response.data.fulfillment))
     }
 

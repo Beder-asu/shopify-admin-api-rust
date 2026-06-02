@@ -30,6 +30,9 @@ pub struct AssignedFulfillmentOrder {
 }
 
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct AssignedFulfillmentOrderListParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub assignment_status: Option<String>,

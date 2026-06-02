@@ -1,6 +1,6 @@
 [package]
 name = "shopify-graphql-api"
-version = "2026.1.0"
+version = "1.0.0"
 edition = "2021"
 description = "Shopify Admin GraphQL API client for Rust (API version 2026-01)"
 license = "MIT"
@@ -24,3 +24,4 @@ url = "2.5"
 [dev-dependencies]
 tokio-test = "0.4"
 mockito = "1.2"
+dotenv = "0.15"

@@ -88,6 +88,9 @@ pub struct ProductOption {
 
 /// Parameters for listing products
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct ProductListParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ids: Option<String>,
@@ -129,6 +132,9 @@ pub struct ProductListParams {
 
 /// Parameters for counting products
 #[derive(Debug, Clone, Default, Serialize)]
+
+#[derive(derive_builder::Builder)]
+#[builder(setter(into, strip_option), default)]
 pub struct ProductCountParams {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub vendor: Option<String>,
@@ -178,8 +184,10 @@ impl Product {
 
     /// Find a product by ID with specific fields
     pub async fn find_with_fields(client: &Client, id: i64, fields: &str) -> Result<Option<Self>> {
-        let path = format!("products/{}.json?fields={}", id, fields);
-        let response = client.get::<ProductWrapper>(&path).await?;
+        let path = format!("products/{}.json", id);
+        let response = client
+            .get_with_params::<ProductWrapper, _>(&path, &crate::base::FieldsParam { fields })
+            .await?;
         Ok(Some(response.data.product))
     }
 
