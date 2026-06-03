@@ -139,9 +139,17 @@ impl Client {
     // ── HTTP Methods ────────────────────────────────────────────────────────────
 
     /// `GET {base_url}/{path}` with automatic 429 retry.
+    /// 
+    /// RUST TIP: `<T: DeserializeOwned>` is a Generic constraint. It means "this method works 
+    /// for any type `T`, as long as `T` implements the `DeserializeOwned` trait (from serde)."
+    /// This allows us to parse any JSON response directly into the expected struct!
     pub async fn get<T: DeserializeOwned>(&self, path: &str) -> Result<ApiResponse<T>> {
         let url = self.url(path);
         let req = self.http_client.get(&url).headers(self.build_headers());
+        
+        // RUST TIP: `.await` pauses this function until the future resolves.
+        // The `?` operator is a shortcut for error handling. If `send_with_retry` returns 
+        // an `Err`, the `?` will immediately return that `Err` from the current function!
         let response = self.send_with_retry(req).await?;
 
         let status = response.status().as_u16();

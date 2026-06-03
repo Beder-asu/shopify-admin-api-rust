@@ -3,6 +3,10 @@
 use thiserror::Error;
 
 /// Result type alias for Shopify API operations
+/// 
+/// RUST TIP: `Result<T, E>` is Rust's way of handling errors instead of exceptions (`try/catch`).
+/// It is an enum that is either `Ok(T)` (success) or `Err(E)` (failure).
+/// Here we create an alias `Result<T>` that hardcodes `ShopifyError` as the error type `E`.
 pub type Result<T> = std::result::Result<T, ShopifyError>;
 
 /// Source location of a GraphQL error (line and column in the query).
@@ -25,6 +29,11 @@ pub struct GraphQLErrorDetail {
 }
 
 /// Errors that can occur when interacting with the Shopify API.
+/// 
+/// RUST TIP: `enum` in Rust is much more powerful than in TypeScript. An enum variant can 
+/// hold data (like `Unauthorized(String)` or `RateLimited { retry_after: u64 }`).
+/// The `#[derive(Error)]` macro comes from the `thiserror` crate and automatically 
+/// implements the standard `std::error::Error` trait for this enum.
 #[derive(Error, Debug)]
 pub enum ShopifyError {
     // ── Network / HTTP ─────────────────────────────────────────────────────────

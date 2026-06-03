@@ -10,9 +10,15 @@ use serde::{Deserialize, Serialize};
 /// User information for online (per-user) sessions.
 ///
 /// Present only when `is_online == true`.
+/// 
+/// RUST TIP: `#[derive(...)]` is a macro that automatically generates boilerplate code 
+/// for this struct. Here it implements traits like `Debug` (so we can print it), 
+/// `Clone` (so we can duplicate it), and `Serialize`/`Deserialize` (to convert it to/from JSON).
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct OnlineAccessInfo {
     /// Seconds until the online token expires.
+    /// RUST TIP: `Option<T>` is an enum that can be either `Some(T)` or `None`.
+    /// Rust doesn't have `null` or `undefined`, so `Option` is how you represent optional values.
     pub expires_in: Option<i64>,
     /// Scopes granted to the associated user.
     pub associated_user_scope: Option<String>,
@@ -73,11 +79,18 @@ pub struct Session {
     pub online_access_info: Option<OnlineAccessInfo>,
 }
 
+/// RUST TIP: `impl Session` is where we define methods for the `Session` struct.
+/// It's the Rust equivalent of a `class` body in TypeScript containing methods.
 impl Session {
     /// Create a new offline (app-wide) session shell.
     ///
     /// `access_token` and `scope` must be populated after the OAuth callback.
+    /// 
+    /// RUST TIP: `impl Into<String>` allows the function to accept anything that 
+    /// can be converted into a `String` (like a string literal `&str` or a `String` object).
+    /// This makes the function much easier to call.
     pub fn new_offline(shop: impl Into<String>, state: impl Into<String>) -> Self {
+        // `.into()` performs the conversion into an owned `String`
         let shop = shop.into();
         let id = Self::offline_id(&shop);
         Self {
