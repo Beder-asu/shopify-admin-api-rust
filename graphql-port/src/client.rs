@@ -51,6 +51,15 @@ impl Client {
         }
     }
 
+    /// Override the default 30-second HTTP request timeout.
+    pub fn with_timeout(mut self, timeout: Duration) -> Self {
+        self.http_client = reqwest::Client::builder()
+            .timeout(timeout)
+            .build()
+            .expect("Failed to create HTTP client");
+        self
+    }
+
     /// Build the full GraphQL endpoint URL for this session.
     fn graphql_url(&self) -> String {
         format!(

@@ -112,23 +112,15 @@ impl Client {
             .unwrap_or(DEFAULT_RETRY_SECS)
     }
 
-    // ── HTTP Methods ────────────────────────────────────────────────────────────
-
-    /// `GET {base_url}/{path}` with automatic 429 retry.
-    pub async fn get<T: DeserializeOwned>(&self, path: &str) -> Result<ApiResponse<T>> {
-        let url = self.url(path);
+    /// Execute a request with automatic 429 retry.
+    async fn send_with_retry(&self, req: reqwest::RequestBuilder) -> Result<reqwest::Response> {
         let mut retries = 0u32;
         loop {
-            let response = self
-                .http_client
-                .get(&url)
-                .headers(self.build_headers())
-                .send()
-                .await?;
+            let req_clone = req.try_clone().expect("Request body must be cloneable for retry");
+            let response = req_clone.send().await?;
 
             let status = response.status().as_u16();
 
-            // Problem 8 fix: retry on 429 up to MAX_RETRIES, parsing Retry-After header
             if status == 429 {
                 if retries >= MAX_RETRIES {
                     let retry_after = Self::retry_after(response.headers()) as u64;
@@ -140,15 +132,27 @@ impl Client {
                 continue;
             }
 
-            let page_info = Self::parse_page_info(response.headers());
-            let body = response.text().await?;
+            return Ok(response);
+        }
+    }
 
-            return if status >= 200 && status < 300 {
-                let data: T = serde_json::from_str(&body)?;
-                Ok(ApiResponse { data, page_info })
-            } else {
-                Err(ShopifyError::from_response(status, &body))
-            };
+    // ── HTTP Methods ────────────────────────────────────────────────────────────
+
+    /// `GET {base_url}/{path}` with automatic 429 retry.
+    pub async fn get<T: DeserializeOwned>(&self, path: &str) -> Result<ApiResponse<T>> {
+        let url = self.url(path);
+        let req = self.http_client.get(&url).headers(self.build_headers());
+        let response = self.send_with_retry(req).await?;
+
+        let status = response.status().as_u16();
+        let page_info = Self::parse_page_info(response.headers());
+        let body = response.text().await?;
+
+        if status >= 200 && status < 300 {
+            let data: T = serde_json::from_str(&body)?;
+            Ok(ApiResponse { data, page_info })
+        } else {
+            Err(ShopifyError::from_response(status, &body))
         }
     }
 
@@ -159,38 +163,22 @@ impl Client {
         params: &P,
     ) -> Result<ApiResponse<T>> {
         let url = self.url(path);
-        let mut retries = 0u32;
-        loop {
-            let response = self
-                .http_client
-                .get(&url)
-                .headers(self.build_headers())
-                .query(params)
-                .send()
-                .await?;
+        let req = self
+            .http_client
+            .get(&url)
+            .headers(self.build_headers())
+            .query(params);
+        let response = self.send_with_retry(req).await?;
 
-            let status = response.status().as_u16();
+        let status = response.status().as_u16();
+        let page_info = Self::parse_page_info(response.headers());
+        let body = response.text().await?;
 
-            if status == 429 {
-                if retries >= MAX_RETRIES {
-                    let retry_after = Self::retry_after(response.headers()) as u64;
-                    return Err(ShopifyError::RateLimited { retry_after });
-                }
-                let wait = Self::retry_after(response.headers());
-                retries += 1;
-                sleep(Duration::from_secs_f64(wait)).await;
-                continue;
-            }
-
-            let page_info = Self::parse_page_info(response.headers());
-            let body = response.text().await?;
-
-            return if status >= 200 && status < 300 {
-                let data: T = serde_json::from_str(&body)?;
-                Ok(ApiResponse { data, page_info })
-            } else {
-                Err(ShopifyError::from_response(status, &body))
-            };
+        if status >= 200 && status < 300 {
+            let data: T = serde_json::from_str(&body)?;
+            Ok(ApiResponse { data, page_info })
+        } else {
+            Err(ShopifyError::from_response(status, &body))
         }
     }
 
@@ -201,38 +189,22 @@ impl Client {
         body: &B,
     ) -> Result<ApiResponse<T>> {
         let url = self.url(path);
-        let mut retries = 0u32;
-        loop {
-            let response = self
-                .http_client
-                .post(&url)
-                .headers(self.build_headers())
-                .json(body)
-                .send()
-                .await?;
+        let req = self
+            .http_client
+            .post(&url)
+            .headers(self.build_headers())
+            .json(body);
+        let response = self.send_with_retry(req).await?;
 
-            let status = response.status().as_u16();
+        let status = response.status().as_u16();
+        let page_info = Self::parse_page_info(response.headers());
+        let body_text = response.text().await?;
 
-            if status == 429 {
-                if retries >= MAX_RETRIES {
-                    let retry_after = Self::retry_after(response.headers()) as u64;
-                    return Err(ShopifyError::RateLimited { retry_after });
-                }
-                let wait = Self::retry_after(response.headers());
-                retries += 1;
-                sleep(Duration::from_secs_f64(wait)).await;
-                continue;
-            }
-
-            let page_info = Self::parse_page_info(response.headers());
-            let body_text = response.text().await?;
-
-            return if status >= 200 && status < 300 {
-                let data: T = serde_json::from_str(&body_text)?;
-                Ok(ApiResponse { data, page_info })
-            } else {
-                Err(ShopifyError::from_response(status, &body_text))
-            };
+        if status >= 200 && status < 300 {
+            let data: T = serde_json::from_str(&body_text)?;
+            Ok(ApiResponse { data, page_info })
+        } else {
+            Err(ShopifyError::from_response(status, &body_text))
         }
     }
 
@@ -243,107 +215,58 @@ impl Client {
         body: &B,
     ) -> Result<ApiResponse<T>> {
         let url = self.url(path);
-        let mut retries = 0u32;
-        loop {
-            let response = self
-                .http_client
-                .put(&url)
-                .headers(self.build_headers())
-                .json(body)
-                .send()
-                .await?;
+        let req = self
+            .http_client
+            .put(&url)
+            .headers(self.build_headers())
+            .json(body);
+        let response = self.send_with_retry(req).await?;
 
-            let status = response.status().as_u16();
+        let status = response.status().as_u16();
+        let page_info = Self::parse_page_info(response.headers());
+        let body_text = response.text().await?;
 
-            if status == 429 {
-                if retries >= MAX_RETRIES {
-                    let retry_after = Self::retry_after(response.headers()) as u64;
-                    return Err(ShopifyError::RateLimited { retry_after });
-                }
-                let wait = Self::retry_after(response.headers());
-                retries += 1;
-                sleep(Duration::from_secs_f64(wait)).await;
-                continue;
-            }
-
-            let page_info = Self::parse_page_info(response.headers());
-            let body_text = response.text().await?;
-
-            return if status >= 200 && status < 300 {
-                let data: T = serde_json::from_str(&body_text)?;
-                Ok(ApiResponse { data, page_info })
-            } else {
-                Err(ShopifyError::from_response(status, &body_text))
-            };
+        if status >= 200 && status < 300 {
+            let data: T = serde_json::from_str(&body_text)?;
+            Ok(ApiResponse { data, page_info })
+        } else {
+            Err(ShopifyError::from_response(status, &body_text))
         }
     }
 
     /// `DELETE {base_url}/{path}` with automatic 429 retry.
     pub async fn delete(&self, path: &str) -> Result<()> {
         let url = self.url(path);
-        let mut retries = 0u32;
-        loop {
-            let response = self
-                .http_client
-                .delete(&url)
-                .headers(self.build_headers())
-                .send()
-                .await?;
+        let req = self.http_client.delete(&url).headers(self.build_headers());
+        let response = self.send_with_retry(req).await?;
 
-            let status = response.status().as_u16();
+        let status = response.status().as_u16();
 
-            if status == 429 {
-                if retries >= MAX_RETRIES {
-                    let retry_after = Self::retry_after(response.headers()) as u64;
-                    return Err(ShopifyError::RateLimited { retry_after });
-                }
-                let wait = Self::retry_after(response.headers());
-                retries += 1;
-                sleep(Duration::from_secs_f64(wait)).await;
-                continue;
-            }
-
-            return if status >= 200 && status < 300 {
-                Ok(())
-            } else {
-                let body = response.text().await?;
-                Err(ShopifyError::from_response(status, &body))
-            };
+        if status >= 200 && status < 300 {
+            Ok(())
+        } else {
+            let body = response.text().await?;
+            Err(ShopifyError::from_response(status, &body))
         }
     }
 
     /// `DELETE {base_url}/{path}?{params}` with automatic 429 retry.
     pub async fn delete_with_params<P: Serialize>(&self, path: &str, params: &P) -> Result<()> {
         let url = self.url(path);
-        let mut retries = 0u32;
-        loop {
-            let response = self
-                .http_client
-                .delete(&url)
-                .headers(self.build_headers())
-                .query(params)
-                .send()
-                .await?;
+        let req = self
+            .http_client
+            .delete(&url)
+            .headers(self.build_headers())
+            .query(params);
+        let response = self.send_with_retry(req).await?;
 
-            let status = response.status().as_u16();
+        let status = response.status().as_u16();
 
-            if status == 429 {
-                if retries >= MAX_RETRIES {
-                    let retry_after = Self::retry_after(response.headers()) as u64;
-                    return Err(ShopifyError::RateLimited { retry_after });
-                }
-                let wait = Self::retry_after(response.headers());
-                retries += 1;
-                sleep(Duration::from_secs_f64(wait)).await;
-                continue;
-            }
-
-            return if status >= 200 && status < 300 {
-                Ok(())
-            } else {
-                let body = response.text().await?;
-                Err(ShopifyError::from_response(status, &body))
-            };
+        if status >= 200 && status < 300 {
+            Ok(())
+        } else {
+            let body = response.text().await?;
+            Err(ShopifyError::from_response(status, &body))
         }
     }
 }
