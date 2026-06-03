@@ -1,0 +1,25 @@
+query ShopDetails {
+  shop {
+    id
+    name
+    myshopifyDomain
+    plan {
+      displayName
+      partnerDevelopment
+      shopifyPlus
+    }
+  }
+}
+
+mutation ProductCreate($input: ProductInput!) {
+  productCreate(input: $input) {
+    product {
+      id
+      title
+    }
+    userErrors {
+      field
+      message
+    }
+  }
+}

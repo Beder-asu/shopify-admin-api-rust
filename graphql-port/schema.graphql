@@ -1,0 +1,74 @@
+type Query {
+  shop: Shop!
+  orders(first: Int!): OrderConnection!
+}
+
+type Shop {
+  id: ID!
+  name: String!
+  myshopifyDomain: String!
+  plan: Plan!
+}
+
+type Plan {
+  displayName: String!
+  partnerDevelopment: Boolean!
+  shopifyPlus: Boolean!
+}
+
+type OrderConnection {
+  edges: [OrderEdge!]!
+  pageInfo: PageInfo!
+}
+
+type OrderEdge {
+  cursor: String!
+  node: Order!
+}
+
+type Order {
+  id: ID!
+  name: String!
+  email: String
+  displayFinancialStatus: FinancialStatus
+}
+
+enum FinancialStatus {
+  AUTHORIZED
+  EXPIRED
+  PAID
+  PARTIALLY_PAID
+  PARTIALLY_REFUNDED
+  PENDING
+  REFUNDED
+  VOIDED
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+input ProductInput {
+  title: String!
+  vendor: String
+}
+
+type ProductCreatePayload {
+  product: Product
+  userErrors: [UserError!]!
+}
+
+type Product {
+  id: ID!
+  title: String!
+}
+
+type UserError {
+  field: [String!]
+  message: String!
+}
+
+type Mutation {
+  productCreate(input: ProductInput!): ProductCreatePayload!
+}

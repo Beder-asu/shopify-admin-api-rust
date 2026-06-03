@@ -36,6 +36,7 @@
 #![deny(unsafe_code)]
 
 pub mod client;
+pub mod generated;
 pub mod graphql;
 pub mod models;
 
