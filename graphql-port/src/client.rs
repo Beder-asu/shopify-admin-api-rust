@@ -62,9 +62,14 @@ impl Client {
 
     /// Build the full GraphQL endpoint URL for this session.
     fn graphql_url(&self) -> String {
+        let scheme = if self.session.shop.contains("127.0.0.1") || self.session.shop.contains("localhost") {
+            "http"
+        } else {
+            "https"
+        };
         format!(
-            "https://{}/admin/api/{}/graphql.json",
-            self.session.shop, self.api_version
+            "{}://{}/admin/api/{}/graphql.json",
+            scheme, self.session.shop, self.api_version
         )
     }
 
