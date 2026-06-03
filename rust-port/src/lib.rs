@@ -47,17 +47,13 @@
 // ── Core modules ────────────────────────────────────────────────────────────────
 pub mod base;
 pub mod client;
-pub mod config;
-pub mod error;
 pub mod logger;
 pub mod resources;
-pub mod session;
 pub mod session_manager;
 pub mod session_store;
 
 // ── Feature modules ─────────────────────────────────────────────────────────────
-pub mod auth;
-pub mod webhooks;
+pub use shopify_core::{auth, config, error, session, webhooks};
 
 // ── Top-level entry point ────────────────────────────────────────────────────────
 pub mod shopify;
@@ -65,9 +61,9 @@ pub mod shopify;
 // ── Re-exports (public API surface) ─────────────────────────────────────────────
 pub use base::{CountParams, CountResponse, FieldsParam, FindAllResponse, ListParams};
 pub use client::{ApiResponse, Client, PageInfo};
-pub use config::{Config, ConfigParams, LogConfig, LogLevel, Scheme};
-pub use error::{Result, ShopifyError};
-pub use session::Session;
+pub use shopify_core::config::{Config, ConfigParams, LogConfig, LogLevel, Scheme};
+pub use shopify_core::error::{Result, ShopifyError};
+pub use shopify_core::session::Session;
 pub use session_store::{MemorySessionStore, SessionStore};
 pub use shopify::ShopifyApp;
-pub use auth::AuthScopes;
+pub use shopify_core::auth::AuthScopes;

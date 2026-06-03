@@ -29,8 +29,9 @@ let _ = dotenv::from_path(env_path);
     let host_domain = store_url.replace("https://", "").replace("http://", "").replace("/", "");
 
     // 2. Initialize the Session and Client
-    let session = Session::new(&host_domain, &access_token).with_api_version("2026-01");
-    let client = Client::new(session);
+    let mut session = Session::new_offline(&host_domain, "live_test_state");
+    session.access_token = Some(access_token);
+    let client = Client::new(session, "2026-01");
 
     println!("Attempting live GraphQL connection to Shopify at {}...", host_domain);
 

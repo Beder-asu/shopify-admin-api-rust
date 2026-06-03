@@ -1394,10 +1394,30 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2",
+ "shopify-core",
  "subtle",
  "thiserror",
  "tokio",
  "tokio-test",
+ "url",
+ "uuid",
+]
+
+[[package]]
+name = "shopify-core"
+version = "0.1.0"
+dependencies = [
+ "base64 0.22.1",
+ "chrono",
+ "hex",
+ "hmac",
+ "rand 0.8.6",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "sha2",
+ "subtle",
+ "thiserror",
  "url",
  "uuid",
 ]
@@ -1412,6 +1432,7 @@ dependencies = [
  "reqwest",
  "serde",
  "serde_json",
+ "shopify-core",
  "thiserror",
  "tokio",
  "tokio-test",

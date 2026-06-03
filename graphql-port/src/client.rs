@@ -4,11 +4,9 @@
 //! `Session::graphql_url()` which reads `api_version` from the session.
 //! The 429 retry loop reads the `Retry-After` header (Problem 8 mirror for graphql-port).
 
-use crate::{
-    error::{Result, ShopifyError},
-    graphql::{GraphQLRequest, GraphQLResponse},
-    session::Session,
-};
+use crate::graphql::{GraphQLRequest, GraphQLResponse};
+use shopify_core::error::{Result, ShopifyError};
+use shopify_core::session::Session;
 use reqwest::header::{HeaderMap, HeaderValue, CONTENT_TYPE};
 use serde::{de::DeserializeOwned, Serialize};
 use std::time::Duration;
@@ -33,12 +31,14 @@ const MAX_RETRIES: u32 = 3;
 pub struct Client {
     /// The authenticated session used to build request URLs and headers.
     pub session: Session,
+    /// API version to use for GraphQL requests.
+    pub api_version: String,
     http_client: reqwest::Client,
 }
 
 impl Client {
     /// Create a new `Client` with the given [`Session`].
-    pub fn new(session: Session) -> Self {
+    pub fn new(session: Session, api_version: impl Into<String>) -> Self {
         let http_client = reqwest::Client::builder()
             .timeout(Duration::from_secs(30))
             .build()
@@ -46,15 +46,24 @@ impl Client {
 
         Self {
             session,
+            api_version: api_version.into(),
             http_client,
         }
+    }
+
+    /// Build the full GraphQL endpoint URL for this session.
+    fn graphql_url(&self) -> String {
+        format!(
+            "https://{}/admin/api/{}/graphql.json",
+            self.session.shop, self.api_version
+        )
     }
 
     fn build_headers(&self) -> HeaderMap {
         let mut headers = HeaderMap::new();
         headers.insert(
             "X-Shopify-Access-Token",
-            HeaderValue::from_str(&self.session.access_token)
+            HeaderValue::from_str(self.session.access_token.as_deref().unwrap_or(""))
                 .unwrap_or_else(|_| HeaderValue::from_static("")),
         );
         headers.insert(CONTENT_TYPE, HeaderValue::from_static("application/json"));
@@ -81,7 +90,7 @@ impl Client {
         query: &str,
         variables: Option<&V>,
     ) -> Result<GraphQLResponse<T>> {
-        let url = self.session.graphql_url();
+        let url = self.graphql_url();
         let mut retries = 0u32;
 
         loop {
@@ -115,7 +124,7 @@ impl Client {
 
                 // GraphQL-level Throttled error — retry with cost-based backoff
                 if let Some(errs) = &gql_response.errors {
-                    let is_throttled = errs.iter().any(|e| {
+                    let is_throttled = errs.iter().any(|e: &shopify_core::error::GraphQLErrorDetail| {
                         e.message.to_lowercase().contains("throttled")
                     });
                     if is_throttled && retries < MAX_RETRIES {

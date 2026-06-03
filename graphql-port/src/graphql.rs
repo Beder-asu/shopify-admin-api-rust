@@ -1,7 +1,7 @@
 //! Core data structures for GraphQL interactions
 
 use serde::{Deserialize, Serialize};
-use crate::error::GraphQLErrorDetail;
+use shopify_core::error::GraphQLErrorDetail;
 
 /// The request body structure for Shopify GraphQL calls
 #[derive(Debug, Serialize)]

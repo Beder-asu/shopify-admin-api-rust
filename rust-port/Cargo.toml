@@ -15,6 +15,7 @@ path = "src/lib.rs"
 # main.rs stub removed (Problem 15). See examples/ for runnable demos.
 
 [dependencies]
+shopify-core = { path = "../shopify-core" }
 reqwest = { version = "0.11", features = ["json"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"

@@ -36,11 +36,9 @@
 #![deny(unsafe_code)]
 
 pub mod client;
-pub mod error;
 pub mod graphql;
 pub mod models;
-pub mod session;
 
 pub use client::Client;
-pub use error::{GraphQLErrorDetail, Result, ShopifyError};
-pub use session::Session;
+pub use shopify_core::error::{Result, ShopifyError};
+pub use shopify_core::session::Session;
