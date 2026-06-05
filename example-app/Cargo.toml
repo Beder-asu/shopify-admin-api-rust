@@ -1,0 +1,15 @@
+[package]
+name = "example-app"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+axum = "0.7"
+tokio = { version = "1.36", features = ["full"] }
+dotenv = "0.15"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+shopify-core = { path = "../shopify-core" }
+shopify-admin-api = { path = "../rust-port" }
+shopify-graphql-api = { path = "../graphql-port" }
