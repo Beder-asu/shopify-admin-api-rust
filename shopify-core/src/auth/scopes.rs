@@ -20,7 +20,7 @@ impl AuthScopes {
     /// Parse a comma-separated (or space-separated) scope string.
     ///
     /// ```
-    /// use shopify_admin_api::auth::scopes::AuthScopes;
+    /// use shopify_core::auth::scopes::AuthScopes;
     /// let s = AuthScopes::new("read_products,write_orders");
     /// ```
     pub fn new(raw: impl AsRef<str>) -> Self {

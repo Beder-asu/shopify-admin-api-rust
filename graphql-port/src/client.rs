@@ -22,9 +22,8 @@ const MAX_RETRIES: u32 = 3;
 /// use shopify_graphql_api::{Client, Session};
 ///
 /// # async fn example() {
-/// let session = Session::new("my-shop.myplatform.com", "shpat_xxx")
-///     .with_api_version("2026-01");
-/// let client = Client::new(session);
+/// let session = Session::new_offline("my-shop.myplatform.com", "shpat_xxx");
+/// let client = Client::new(session, "2026-01");
 /// # }
 /// ```
 #[derive(Debug, Clone)]

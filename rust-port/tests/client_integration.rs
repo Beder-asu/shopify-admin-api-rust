@@ -1,6 +1,6 @@
 use mockito::Server;
 use serde_json::{json, Value};
-use shopify_admin_api::{Client, ConfigParams, MemorySessionStore, Session, ShopifyApp};
+use shopify_admin_api::{ConfigParams, MemorySessionStore, Session, ShopifyApp};
 
 #[tokio::test]
 async fn test_client_handles_200_ok() -> Result<(), Box<dyn std::error::Error>> {

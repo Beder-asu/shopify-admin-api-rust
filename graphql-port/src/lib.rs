@@ -19,9 +19,9 @@
 //!
 //! #[tokio::main]
 //! async fn main() -> Result<(), Box<dyn std::error::Error>> {
-//!     let session = Session::new("my-store.myplatform.com", "shpat_xxx")
-//!         .with_api_version("2026-01");
-//!     let client = Client::new(session);
+//!     let mut session = Session::new_offline("my-store.myplatform.com", "state");
+//!     session.access_token = Some("shpat_xxx".to_string());
+//!     let client = Client::new(session, "2026-01");
 //!
 //!     let data = client.graphql_data::<ProductsResponse, _>(
 //!         "query { products(first: 10) { edges { cursor node { id title } } pageInfo { hasNextPage } } }",
