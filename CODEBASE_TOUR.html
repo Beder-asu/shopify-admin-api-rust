@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopify Rust SDK: Deep Dive Codebase Tour</title>
+    <!-- Syntax Highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg: #0d1117;
+            --sidebar-bg: #161b22;
+            --text: #c9d1d9;
+            --accent: #58a6ff;
+            --border: #30363d;
+            --code-bg: #010409;
+            --hover: #21262d;
+            --success: #238636;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar */
+        nav {
+            width: 300px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border);
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-header {
+            padding: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            background: #1f2428;
+            color: white;
+        }
+
+        .tree-item {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border);
+            transition: background 0.2s;
+            text-decoration: none;
+            color: var(--text);
+            display: block;
+        }
+
+        .tree-item:hover {
+            background-color: var(--hover);
+            color: var(--accent);
+        }
+
+        .tree-folder {
+            font-weight: bold;
+            color: var(--accent);
+            padding: 15px 20px 5px 20px;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .tree-file {
+            padding-left: 35px;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 0.9rem;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 60px;
+            scroll-behavior: smooth;
+        }
+
+        h1 { color: #ffffff; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
+        h2 { color: var(--accent); margin-top: 40px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+        h3 { color: #79c0ff; margin-top: 30px; }
+        p { line-height: 1.6; }
+        
+        .ts-vs-rust {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .ts-vs-rust > div {
+            flex: 1;
+            background: var(--code-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 15px;
+        }
+        .ts-vs-rust h4 {
+            margin-top: 0;
+            color: #ff7b72;
+            text-align: center;
+        }
+        .ts-vs-rust > div:nth-child(2) h4 {
+            color: var(--success);
+        }
+
+        .note {
+            background-color: rgba(88, 166, 255, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        code { font-family: Consolas, "Courier New", monospace; }
+        pre { border-radius: 6px; border: 1px solid var(--border); }
+        
+        .section-container { margin-bottom: 80px; }
+        
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<nav>
+    <div class="nav-header">🦀 SDK Low-Level Tour</div>
+    
+    <div class="tree-folder">1. shopify-core</div>
+    <a href="#core-session" class="tree-item tree-file">session.rs</a>
+    <a href="#core-scopes" class="tree-item tree-file">auth/scopes.rs</a>
+    <a href="#core-crypto" class="tree-item tree-file">crypto.rs</a>
+    <a href="#core-error" class="tree-item tree-file">error.rs</a>
+
+    <div class="tree-folder">2. graphql-port</div>
+    <a href="#graphql-client" class="tree-item tree-file">client.rs</a>
+    <a href="#graphql-types" class="tree-item tree-file">graphql.rs / models.rs</a>
+    <a href="#graphql-generated" class="tree-item tree-file">generated.rs</a>
+
+    <div class="tree-folder">3. rust-port (REST)</div>
+    <a href="#rest-client" class="tree-item tree-file">client.rs</a>
+    <a href="#rest-config" class="tree-item tree-file">config.rs</a>
+    <a href="#rest-shopify" class="tree-item tree-file">shopify.rs</a>
+</nav>
+
+<main>
+    <h1>The TS ➔ Rust Translation Guide</h1>
+    <p>This is a low-level, module-by-module breakdown of how the Shopify Typescript SDK was manually ported into idiomatic Rust. It explains the purpose of every file, how data flows through the application, and why specific Rust paradigms were chosen to replace TS patterns.</p>
+
+    <!-- CORE: SESSION -->
+    <div id="core-session" class="section-container">
+        <h2>1. shopify-core/src/session.rs</h2>
+        <p>This module replaces the TS <code>Session</code> class. In TS, a Session is a stateful object. In Rust, we split it into a pure data struct (<code>Session</code>) and its implementation block (<code>impl Session</code>).</p>
+        
+        <div class="ts-vs-rust">
+            <div>
+                <h4>TypeScript (Class)</h4>
+                <pre><code class="language-typescript">export class Session {
+  public id: string;
+  public shop: string;
+  public state: string;
+  public isOnline: boolean;
+  public scope?: string;
+  
+  constructor(params) { ... }
+  public isActive(scopes): boolean { ... }
+  public toPropertyArray(): Property[] { ... }
+}</code></pre>
+            </div>
+            <div>
+                <h4>Rust (Struct + Impl)</h4>
+                <pre><code class="language-rust">#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Session {
+    pub id: String,
+    pub shop: String,
+    pub state: String,
+    pub is_online: bool,
+    pub scope: Option&lt;String&gt;,
+}
+
+impl Session {
+    pub fn new_offline(...) -> Self { ... }
+    pub fn is_active(&self, req_scopes: &AuthScopes) -> bool { ... }
+    pub fn to_property_array(&self) -> Vec&lt;(String, String)&gt; { ... }
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="note">
+            <strong>Low-level implementation detail:</strong> 
+            Notice how TS <code>scope?: string</code> becomes Rust <code>Option&lt;String&gt;</code>. In <code>to_property_array</code>, we match the exact TS tuple format by returning a <code>Vec&lt;(String, String)&gt;</code>. This makes it a 1-to-1 drop-in for Redis/Postgres storage adapters that expect key-value pairs.
+        </div>
+    </div>
+
+    <!-- CORE: SCOPES -->
+    <div id="core-scopes" class="section-container">
+        <h2>1. shopify-core/src/auth/scopes.rs</h2>
+        <p>This module replaces the TS <code>AuthScopes</code> string manipulator. Shopify scopes are comma-separated strings (e.g. <code>"read_products,write_orders"</code>). The complexity comes from the fact that <code>write_x</code> implicitly grants <code>read_x</code>.</p>
+        
+        <h3>The <code>BTreeSet</code> choice</h3>
+        <p>In TS, scopes were split into arrays. In Rust, we parse the comma-separated string into a <code>BTreeSet&lt;String&gt;</code>. We chose <code>BTreeSet</code> over <code>HashSet</code> so that the scopes are naturally sorted alphabetically, allowing deterministic comparisons when converting back to a string.</p>
+
+        <pre><code class="language-rust">pub fn has(&self, required: &AuthScopes) -> bool {
+    required.scopes.iter().all(|scope| {
+        self.scopes.contains(scope) || self.implied_by(scope)
+    })
+}
+
+fn implied_by(&self, scope: &str) -> bool {
+    if let Some(resource) = scope.strip_prefix("read_") {
+        self.scopes.contains(&format!("write_{}", resource))
+    } else { false }
+}</code></pre>
+    </div>
+
+    <!-- CORE: CRYPTO -->
+    <div id="core-crypto" class="section-container">
+        <h2>1. shopify-core/src/crypto.rs</h2>
+        <p>This replaces the TS `crypto` utilities used to verify Shopify Webhooks and OAuth callbacks.</p>
+        <p>We use the <code>hmac</code> and <code>sha2</code> crates. The most critical function is <code>validate_hmac</code>, which calculates a SHA256 HMAC of the raw request body using your app's `API_SECRET_KEY` and compares it to the <code>X-Shopify-Hmac-Sha256</code> header.</p>
+        <div class="note">
+            <strong>Security detail:</strong> We strictly use <code>subtle::ConstantTimeEq</code> to prevent timing attacks. In TS, you would use <code>crypto.timingSafeEqual</code>. In Rust, the <code>hmac</code> crate handles this automatically when you call <code>mac.verify_slice(...)</code>.
+        </div>
+    </div>
+
+    <!-- CORE: ERROR -->
+    <div id="core-error" class="section-container">
+        <h2>1. shopify-core/src/error.rs</h2>
+        <p>Instead of throwing custom Error classes like <code>ShopifyError extends Error</code>, we define a comprehensive enum using the <code>thiserror</code> macro.</p>
+        <p>The <code>ShopifyError::from_response(status, body)</code> function is the central parser that maps raw HTTP 4xx/5xx status codes directly to Rust types like <code>Unauthorized(String)</code>, <code>RateLimited { retry_after: u64 }</code>, and <code>GraphQLError(Vec&lt;GraphQLErrorDetail&gt;)</code>.</p>
+    </div>
+
+    <hr style="border-color: var(--border); margin: 60px 0;">
+
+    <!-- GRAPHQL: CLIENT -->
+    <div id="graphql-client" class="section-container">
+        <h2>2. graphql-port/src/client.rs</h2>
+        <p>This is the heart of the modern GraphQL architecture.</p>
+        
+        <h3>The Dual-Throttle Engine</h3>
+        <p>Shopify GraphQL rate limiting is extremely complex because it throttles you at two different layers:</p>
+        <ol>
+            <li><strong>HTTP Layer (429):</strong> The HTTP request itself is rejected before reaching GraphQL.</li>
+            <li><strong>GraphQL Layer (200 OK + "Throttled" error):</strong> The HTTP request succeeds, but the GraphQL engine rejects it due to query cost.</li>
+        </ol>
+        
+        <p>Our <code>send_graphql_payload</code> function is an infinite <code>loop {}</code> that handles both. If it receives a 429, it reads the <code>Retry-After</code> HTTP header and calls <code>tokio::time::sleep</code>. If it receives a 200 OK but the JSON contains <code>errors: [{ message: "Throttled" }]</code>, it parses the GraphQL Extensions node to extract the <code>restore_rate</code> and calculates the exact mathematically optimal sleep time: <code>(1.0 / rate) + 0.5</code> seconds.</p>
+
+        <pre><code class="language-rust">if is_throttled && retries < MAX_RETRIES {
+    retries += 1;
+    let sleep_time = gql_response.extensions
+        .as_ref().and_then(|ext| ext.cost.as_ref())
+        .map(|cost| {
+            let rate = cost.throttle_status.restore_rate.max(1.0);
+            Duration::from_secs_f64((1.0 / rate) + 0.5) // Auto-calculate sleep!
+        }).unwrap_or(Duration::from_secs(2));
+    sleep(sleep_time).await;
+    continue;
+}</code></pre>
+    </div>
+
+    <!-- GRAPHQL: TYPES -->
+    <div id="graphql-types" class="section-container">
+        <h2>2. graphql-port/src/graphql.rs & models.rs</h2>
+        <p>Because GraphQL uses Relay-style pagination, these files define the reusable wrappers:</p>
+        <pre><code class="language-rust">pub struct Connection&lt;T&gt; { pub edges: Vec&lt;Edge&lt;T&gt;&gt;, pub page_info: PageInfo }
+pub struct Edge&lt;T&gt; { pub cursor: String, pub node: T }</code></pre>
+        <p>These generic bounds allow developers to easily deserialize deeply nested Shopify pagination trees without writing massive boilerplate structs.</p>
+    </div>
+
+    <!-- GRAPHQL: GENERATED -->
+    <div id="graphql-generated" class="section-container">
+        <h2>2. graphql-port/src/generated.rs</h2>
+        <p>This replaces Apollo Client codegen. We use the <code>graphql_client</code> crate. By pointing it to <code>schema.graphql</code> and <code>queries.graphql</code>, it executes a procedural macro at <strong>compile time</strong> to generate exact Rust structs for the Request and Response.</p>
+        <p>When you call <code>client.send_query(shop_details::Variables)</code>, the compiler enforces that you are passing the exact variables required by your <code>.graphql</code> file, and returns a fully typed <code>shop_details::ResponseData</code>.</p>
+    </div>
+
+    <hr style="border-color: var(--border); margin: 60px 0;">
+
+    <!-- REST: CLIENT -->
+    <div id="rest-client" class="section-container">
+        <h2>3. rust-port/src/client.rs</h2>
+        <p>The legacy REST client. It uses <code>reqwest</code> to perform GET, POST, PUT, DELETE.</p>
+        <p>It utilizes the <code>serde::de::DeserializeOwned</code> trait bound everywhere. This means the JSON returned from <code>response.text()</code> is fed directly into <code>serde_json::from_str::&lt;T&gt;(&body)</code>.</p>
+        <p>Like the GraphQL client, it features a <code>send_with_retry</code> function that loops on HTTP 429 statuses, extracting the <code>Retry-After</code> header.</p>
+    </div>
+
+    <!-- REST: CONFIG & SHOPIFY -->
+    <div id="rest-config" class="section-container">
+        <h2>3. rust-port/src/config.rs & shopify.rs</h2>
+        <p>These modules represent the app initialization phase. In TS, you call <code>shopifyApi({ apiKey: '...', scopes: [...] })</code>. In Rust, you initialize a <code>ConfigParams</code> struct, which is validated and converted into an immutable, thread-safe <code>Config</code> struct.</p>
+        <p>The <code>ShopifyApp</code> struct acts as the central factory. It holds an <code>Arc&lt;Config&gt;</code> (Atomic Reference Counted pointer). When you call <code>app.rest_client(&session)</code>, it creates a lightweight clone of the configuration pointer and pairs it with the Session's access token to instantiate a <code>Client</code>.</p>
+    </div>
+
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-rust.min.js"></script>
+</body>
+</html>
